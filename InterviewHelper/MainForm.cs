@@ -4,14 +4,9 @@ using InterviewHelper.FormServices;
 using InterviewHelper.Services.Repos.Interfaces;
 using InterviewHelper.Services.Services;
 
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.DependencyInjection;
 
-using System.ComponentModel;
 using System.Data;
-using System.Windows.Forms;
-
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace InterviewHelper
 {
@@ -184,7 +179,7 @@ namespace InterviewHelper
                     InitDataGrid(filteredData);
                     dgvQuestions.Refresh();
                 }
-               _isPressed = false;
+                _isPressed = false;
             }
             else
             {
@@ -199,10 +194,10 @@ namespace InterviewHelper
         {
             if (e.KeyCode == Keys.Menu && Clipboard.ContainsText())
             {
-                _isPressed =true;
+                _isPressed = true;
                 txtSearch.Clear();
                 txtSearch.Text = Clipboard.GetText().ToLower();
-                
+
             }
             if (e.KeyCode == Keys.Right)
             {

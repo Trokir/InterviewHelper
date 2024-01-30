@@ -3,18 +3,7 @@ using InterviewHelper.FormServices;
 using InterviewHelper.Services.Repos.Interfaces;
 using InterviewHelper.Services.Services;
 
-using Microsoft.Identity.Client.NativeInterop;
-using Microsoft.VisualBasic.Devices;
-
-using System.Diagnostics.Metrics;
-
-using System.Drawing;
-using System.Media;
 using System.Runtime.InteropServices;
-using System.Threading;
-using System.Windows.Forms;
-
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace InterviewHelper.Forms
 {
@@ -43,7 +32,7 @@ namespace InterviewHelper.Forms
             this.Invoke((MethodInvoker)delegate
             {
                 cmbCategory.Items.Clear();
-                foreach (var category in _categories?? Array.Empty<Category>())
+                foreach (var category in _categories ?? Array.Empty<Category>())
                 {
                     cmbCategory.Items.Add(category);
                 }
@@ -213,10 +202,10 @@ namespace InterviewHelper.Forms
                 Directory.Delete(path);
             }
         }
-        string _filePath =string.Empty;
+        string _filePath = string.Empty;
         private void btnRec_MouseDown(object sender, MouseEventArgs e)
         {
-             _filePath = InitDirectory();
+            _filePath = InitDirectory();
             record("open new Type waveaudio Alias recsound", "", 0, 0);
             record("record recsound", "", 0, 0);
         }

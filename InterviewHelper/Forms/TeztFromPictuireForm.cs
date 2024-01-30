@@ -1,16 +1,6 @@
 ﻿using InterviewHelper.FormServices;
 using InterviewHelper.Services.Services;
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
 using Tesseract;
 
 namespace InterviewHelper.Forms
@@ -20,9 +10,9 @@ namespace InterviewHelper.Forms
         private readonly IMessageService _messageService;
         private readonly IOpenAIQuestionService _openAIQuestionService;
         public TeztFromPictuireForm(IMessageService messageService
-            ,IOpenAIQuestionService openAIQuestionService)
+            , IOpenAIQuestionService openAIQuestionService)
         {
-            _openAIQuestionService =openAIQuestionService;
+            _openAIQuestionService = openAIQuestionService;
             _messageService = messageService;
             InitializeComponent();
 
@@ -82,7 +72,7 @@ namespace InterviewHelper.Forms
             if (!string.IsNullOrWhiteSpace(txtText.Text))
             {
                 var responce = await _openAIQuestionService.GetAnswerAsync(txtText.Text);
-                txtAnswer.Text = responce??"No data";
+                txtAnswer.Text = responce ?? "No data";
             }
         }
     }
