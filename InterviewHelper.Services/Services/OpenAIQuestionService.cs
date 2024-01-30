@@ -33,7 +33,7 @@ namespace InterviewHelper.Services.Services
             //  var fullQuestion = question;
             var modelJson = new OpenAIModel
             {
-                model = "gpt-3.5-turbo-1106",
+                model = "gpt-3.5-turbo-16k",
                 messages = new Core.Models.Message[]
                {
                   new() {
