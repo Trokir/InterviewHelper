@@ -1,4 +1,5 @@
-﻿using InterviewHelper.Core.Models;
+﻿using InterviewHelper.Core.Helper;
+using InterviewHelper.Core.Models;
 using InterviewHelper.FormServices;
 using InterviewHelper.Services.Repos.Interfaces;
 using InterviewHelper.Services.Services;
@@ -146,7 +147,7 @@ namespace InterviewHelper.Forms
             var conStr = string.Empty;
             if (e.KeyCode == Keys.Menu && Clipboard.ContainsText())
             {
-                conStr = "Provide a response from an applicant for the Dotnet developer position: ";
+                conStr = $"Provide a response from an applicant for the Dotnet developer position based on this info: \n {BaseInfo.ResumeSummary()}";
                 txtQuestion.Clear();
                 txtQuestion.Text = Clipboard.GetText();
                 var answer = await _openAIQuestionService.GetAnswerAsync(Clipboard.GetText() + " " + txtComment.Text,conStr);
