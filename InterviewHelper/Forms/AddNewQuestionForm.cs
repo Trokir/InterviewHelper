@@ -156,11 +156,11 @@ namespace InterviewHelper.Forms
             }
             if (e.KeyCode == Keys.Oem3 && Clipboard.ContainsText())
             {
-                conStr = "Write a method in C#, avoiding LINQ , ordering and built-in methods if possible, no text needed," +
-                   " just code. Comment each code line Remember about optimization and algorithmic complexity:";
+                conStr = $"Write a method in {cmbLang.Text}, avoiding LINQ , ordering and built-in methods if possible, no text needed," +
+                   $" just code. Comment each code line Remember about optimization and algorithmic complexity:";
                 txtQuestion.Clear();
                 txtQuestion.Text = Clipboard.GetText();
-                var answer = await _openAIQuestionService.GetAnswerAsync(Clipboard.GetText() + " " + txtComment.Text, conStr);
+                var answer = await _openAIQuestionService.GetGeneratedCodeAsync(Clipboard.GetText() + " " + txtComment.Text, conStr);
                 txtAnswer.Clear();
                 txtAnswer.Text = answer;
             }

@@ -1,15 +1,12 @@
 ﻿
 
 using Google.Cloud.Speech.V1;
-
 using InterviewHelper.Core.Config;
 using InterviewHelper.Core.Models;
-
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-
+using Microsoft.Identity.Client;
 using NAudio.Wave;
-
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
@@ -63,7 +60,44 @@ namespace InterviewHelper.Services.Services
             return result;
         }
 
-        public async Task<string> DrawImageAsync(string message)
+       public async Task<string> GetGeneratedCodeAsync(string question, string annotation)
+        {
+
+            ///*make it UPPERCASE*/
+            var fullQuestion = $"{question} {annotation}";
+
+
+            // Construct the request payload
+            var requestData = new
+            {
+                model = "gpt-3.5-turbo-instruct",
+                prompt = fullQuestion,
+                max_tokens = 1500,
+                temperature = 0
+            };
+            var json = JsonSerializer.Serialize(requestData);
+            using var scope = _factory.CreateScope();
+            var httpClient = scope.ServiceProvider
+                                    .GetRequiredService<IHttpClientFactory>();
+            var client = httpClient.CreateClient();
+            var request = new HttpRequestMessage(HttpMethod.Post, _config.CodeGen);
+
+            request.Headers.Add("Authorization", "Bearer " + _config.ApiKey);
+
+            request.Content = new StringContent(json);
+            request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+            var response = await client.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+            string responseBody = await response.Content.ReadAsStringAsync();
+            var answerModel = JsonSerializer.Deserialize<CodeGenResponceModel>(responseBody);
+            var result = answerModel?.choices?.FirstOrDefault()?.text?? string.Empty;
+
+            return result;
+
+        }
+
+            public async Task<string> DrawImageAsync(string message)
         {
 
             var modelJson = new OpenAiDrawModel

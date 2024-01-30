@@ -6,5 +6,6 @@
         public string DefaultConnection { get; set; }
         public string ChatGptPath { get; set; }
         public string SpeachToTextPath { get; set; }
+        public string CodeGen { get; set; }
     }
 }

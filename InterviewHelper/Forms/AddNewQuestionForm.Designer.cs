@@ -37,6 +37,7 @@
             txtComment = new TextBox();
             txtAnswer = new RichTextBox();
             btnRec = new Button();
+            cmbLang = new ComboBox();
             SuspendLayout();
             // 
             // cmbCategory
@@ -135,12 +136,23 @@
             btnRec.MouseDown += btnRec_MouseDown;
             btnRec.MouseUp += btnRec_MouseUp;
             // 
+            // cmbLang
+            // 
+            cmbLang.FormattingEnabled = true;
+            cmbLang.Items.AddRange(new object[] { "Python", "Java", "JavaScript", "C", "C++", "C#", "Ruby", "Swift", "Kotlin", "TypeScript", "PHP", "HTML/CSS (technically not programming languages but essential for web development)", "R", "MATLAB", "Objective-C", "Go", "Rust", "Dart", "Scala", "Shell scripting languages (e.g., Bash)", "Groovy", "Lua", "Perl", "Haskell", "Julia", "Fortran", "COBOL", "Ada", "Lisp", "Scheme", "Prolog", "Assembly languages (e.g., x86 Assembly)", "Erlang", "Tcl", "F#", "Apex (Salesforce)", "ActionScript", "Clojure", "CoffeeScript", "Delphi", "Elm", "Hack (Facebook)", "VHDL", "Verilog", "ABAP (SAP)", "Apex (Salesforce)", "JScript", "PowerShell", "PL/SQL", "Visual Basic (VB.NET)" });
+            cmbLang.Location = new Point(39, 103);
+            cmbLang.Name = "cmbLang";
+            cmbLang.Size = new Size(121, 23);
+            cmbLang.TabIndex = 12;
+            cmbLang.Text = "C#";
+            // 
             // AddNewQuestionForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.WindowFrame;
             ClientSize = new Size(1348, 542);
+            Controls.Add(cmbLang);
             Controls.Add(btnRec);
             Controls.Add(txtAnswer);
             Controls.Add(txtComment);
@@ -169,5 +181,6 @@
         private TextBox txtComment;
         private RichTextBox txtAnswer;
         private Button btnRec;
+        private ComboBox cmbLang;
     }
 }
