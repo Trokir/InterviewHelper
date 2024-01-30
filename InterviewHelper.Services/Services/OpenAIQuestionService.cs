@@ -26,14 +26,14 @@ namespace InterviewHelper.Services.Services
             _config = options.Value;
             _factory = factory;
         }
-        public async Task<string> GetAnswerAsync(string question)
+        public async Task<string> GetAnswerAsync(string question ,string annotation)
         {
             ///*make it UPPERCASE*/
-            var fullQuestion = $"Answer briefly and in simple language, modify important words or bulletpointnames  add bulletpoints. Make the text structured: {question}:";
+            var fullQuestion = $"{question} {annotation}";
             //  var fullQuestion = question;
             var modelJson = new OpenAIModel
             {
-                model = "gpt-3.5-turbo",
+                model = "gpt-3.5-turbo-1106",
                 messages = new Core.Models.Message[]
                {
                   new() {

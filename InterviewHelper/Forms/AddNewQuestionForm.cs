@@ -82,7 +82,9 @@ namespace InterviewHelper.Forms
         {
             if (!string.IsNullOrWhiteSpace(txtQuestion.Text))
             {
-                var answer = await _openAIQuestionService.GetAnswerAsync(txtQuestion.Text + " " + txtComment.Text);
+                var annotation = $"Answer briefly and in simple language," +
+                    " modify important words or bulletpointnames  add bulletpoints. Make the text structured:";
+                var answer = await _openAIQuestionService.GetAnswerAsync(txtQuestion.Text + " " + txtComment.Text,annotation);
                 txtAnswer.Clear();
                 txtAnswer.Text = answer;
             }
@@ -99,7 +101,9 @@ namespace InterviewHelper.Forms
             {
                 if (!string.IsNullOrWhiteSpace(txtQuestion.Text))
                 {
-                    var answer = await _openAIQuestionService.GetAnswerAsync(txtQuestion.Text + " " + txtComment.Text);
+                    var annotation = $"Answer briefly and in simple language," +
+                    " modify important words or bulletpointnames  add bulletpoints. Make the text structured:";
+                    var answer = await _openAIQuestionService.GetAnswerAsync(txtQuestion.Text + " " + txtComment.Text, annotation);
                     txtAnswer.Clear();
                     txtAnswer.Text = answer;
                 }
@@ -111,7 +115,9 @@ namespace InterviewHelper.Forms
                 {
                     if (!string.IsNullOrWhiteSpace(item))
                     {
-                        var answer = await _openAIQuestionService.GetAnswerAsync(item + " " + txtComment.Text);
+                        var annotation = $"Answer briefly and in simple language," +
+                  " modify important words or bulletpointnames  add bulletpoints. Make the text structured:";
+                        var answer = await _openAIQuestionService.GetAnswerAsync(txtQuestion.Text + " " + txtComment.Text, annotation);
 
 
 
@@ -143,17 +149,17 @@ namespace InterviewHelper.Forms
                 conStr = "Provide a response from an applicant for the Dotnet developer position: ";
                 txtQuestion.Clear();
                 txtQuestion.Text = Clipboard.GetText();
-                var answer = await _openAIQuestionService.GetAnswerAsync(conStr + Clipboard.GetText() + " " + txtComment.Text);
+                var answer = await _openAIQuestionService.GetAnswerAsync(Clipboard.GetText() + " " + txtComment.Text,conStr);
                 txtAnswer.Clear();
                 txtAnswer.Text = answer;
             }
             if (e.KeyCode == Keys.Oem3 && Clipboard.ContainsText())
             {
                 conStr = "Write a method in C#, avoiding LINQ, ordering and built-in methods if possible, no text needed," +
-                   " just code. Comment each line Remember about optimization and algorithmic complexity:";
+                   " just code. Comment each code line Remember about optimization and algorithmic complexity:";
                 txtQuestion.Clear();
                 txtQuestion.Text = Clipboard.GetText();
-                var answer = await _openAIQuestionService.GetAnswerAsync(conStr + Clipboard.GetText() + " " + txtComment.Text);
+                var answer = await _openAIQuestionService.GetAnswerAsync(Clipboard.GetText() + " " + txtComment.Text, conStr);
                 txtAnswer.Clear();
                 txtAnswer.Text = answer;
             }
