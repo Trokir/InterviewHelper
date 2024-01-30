@@ -5,11 +5,11 @@ using Tesseract;
 
 namespace InterviewHelper.Forms
 {
-    public partial class TeztFromPictuireForm : Form
+    public partial class TextFromPictuireForm : Form
     {
         private readonly IMessageService _messageService;
         private readonly IOpenAIQuestionService _openAIQuestionService;
-        public TeztFromPictuireForm(IMessageService messageService
+        public TextFromPictuireForm(IMessageService messageService
             , IOpenAIQuestionService openAIQuestionService)
         {
             _openAIQuestionService = openAIQuestionService;

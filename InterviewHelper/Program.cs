@@ -63,7 +63,7 @@ namespace InterviewHelper
 
             // Add other services
             services.AddScoped<MainForm>();
-            services.AddScoped<TeztFromPictuireForm>();
+            services.AddScoped<TextFromPictuireForm>();
             services.AddScoped<AddNewCategoryForm>();
             services.AddTransient<IQuestionFormFactory, QuestionFormFactory>();
             services.AddTransient<IMessageService, MessageService>();

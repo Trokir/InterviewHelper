@@ -1,6 +1,6 @@
 ﻿namespace InterviewHelper.Forms
 {
-    partial class TeztFromPictuireForm
+    partial class TextFromPictuireForm
     {
         /// <summary>
         /// Required designer variable.

@@ -61,7 +61,7 @@ namespace InterviewHelper
 
             });
             cmbCategory.Refresh();
-            dgvQuestions.Refresh();
+           
         }
 
         private void cmbCategory_SelectedIndexChanged(object sender, EventArgs e)
@@ -97,6 +97,7 @@ namespace InterviewHelper
             txtSearch.Clear();
             dgvQuestions.DataSource = null;
             txtAnswer.Clear();
+            dgvQuestions.Refresh();
         }
 
         private void btnAddNew_Click(object sender, EventArgs e)
@@ -108,7 +109,7 @@ namespace InterviewHelper
         private void btnAddCategory_Click(object sender, EventArgs e)
         {
             var form = _serviceProvider.GetRequiredService<AddNewCategoryForm>();
-            form.ShowDialog();
+            form.Show();
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
@@ -120,13 +121,13 @@ namespace InterviewHelper
             if (model is not null)
             {
                 var form = _formFactory.CreateUpdateQuestionForm(model, _commandService, _messageService);
-                form.ShowDialog();
+                form.Show();
             }
             else
             {
                 _messageService.ShowError("The question has not been choosed", "Error");
             }
-
+            
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
@@ -147,8 +148,8 @@ namespace InterviewHelper
 
         private void btnShowPic_Click(object sender, EventArgs e)
         {
-            var form = _serviceProvider.GetRequiredService<TeztFromPictuireForm>();
-            form.ShowDialog();
+            var form = _serviceProvider.GetRequiredService<TextFromPictuireForm>();
+            form.Show();
 
         }
 

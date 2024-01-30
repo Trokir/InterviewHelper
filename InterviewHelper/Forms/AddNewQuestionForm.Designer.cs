@@ -139,7 +139,7 @@
             // cmbLang
             // 
             cmbLang.FormattingEnabled = true;
-            cmbLang.Items.AddRange(new object[] { "Python", "Java", "JavaScript", "C", "C++", "C#", "Ruby", "Swift", "Kotlin", "TypeScript", "PHP", "HTML/CSS (technically not programming languages but essential for web development)", "R", "MATLAB", "Objective-C", "Go", "Rust", "Dart", "Scala", "Shell scripting languages (e.g., Bash)", "Groovy", "Lua", "Perl", "Haskell", "Julia", "Fortran", "COBOL", "Ada", "Lisp", "Scheme", "Prolog", "Assembly languages (e.g., x86 Assembly)", "Erlang", "Tcl", "F#", "Apex (Salesforce)", "ActionScript", "Clojure", "CoffeeScript", "Delphi", "Elm", "Hack (Facebook)", "VHDL", "Verilog", "ABAP (SAP)", "Apex (Salesforce)", "JScript", "PowerShell", "PL/SQL", "Visual Basic (VB.NET)" });
+            cmbLang.Items.AddRange(new object[] { "Angular", "C", "C#", "C++", "Go", "Java", "JavaScript", "Python", "React", "Swift", "TypeScript", "Visual Basic (VB.NET)" });
             cmbLang.Location = new Point(39, 103);
             cmbLang.Name = "cmbLang";
             cmbLang.Size = new Size(121, 23);

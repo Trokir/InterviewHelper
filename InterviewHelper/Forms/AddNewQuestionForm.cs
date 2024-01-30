@@ -222,7 +222,10 @@ namespace InterviewHelper.Forms
             record($"save recsound {_filePath}", "", 0, 0);
             record("close recsound", "", 0, 0);
             var responce = await _openAIQuestionService.GetTextFromVoice(_filePath);
-            txtQuestion.Text = responce.ToString();
+
+                Clipboard.SetText(responce??" ");
+                txtQuestion.Text = responce ?? " ".ToString();
+            
             RemoveDirectory();
 
         }
