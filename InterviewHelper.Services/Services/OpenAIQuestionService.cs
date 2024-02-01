@@ -6,7 +6,7 @@ using InterviewHelper.Core.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.Identity.Client;
-using NAudio.Wave;
+
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
@@ -30,7 +30,7 @@ namespace InterviewHelper.Services.Services
             //  var fullQuestion = question;
             var modelJson = new OpenAIModel
             {
-                model = "gpt-3.5-turbo-16k",
+                model = "gpt-3.5-turbo-1106",
                 messages = new Core.Models.Message[]
                {
                   new() {

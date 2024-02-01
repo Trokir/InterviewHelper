@@ -38,6 +38,9 @@
             txtAnswer = new RichTextBox();
             btnRec = new Button();
             cmbLang = new ComboBox();
+            btnSyRecord = new Button();
+            groupBoxDevices = new GroupBox();
+            groupBoxDevices.SuspendLayout();
             SuspendLayout();
             // 
             // cmbCategory
@@ -76,7 +79,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(91, 64);
+            label3.Location = new Point(117, 66);
             label3.Name = "label3";
             label3.Size = new Size(49, 15);
             label3.TabIndex = 6;
@@ -127,9 +130,9 @@
             // 
             // btnRec
             // 
-            btnRec.Location = new Point(273, 99);
+            btnRec.Location = new Point(161, 51);
             btnRec.Name = "btnRec";
-            btnRec.Size = new Size(75, 50);
+            btnRec.Size = new Size(168, 50);
             btnRec.TabIndex = 11;
             btnRec.Text = "REC";
             btnRec.UseVisualStyleBackColor = true;
@@ -140,11 +143,33 @@
             // 
             cmbLang.FormattingEnabled = true;
             cmbLang.Items.AddRange(new object[] { "Angular", "C", "C#", "C++", "Go", "Java", "JavaScript", "Python", "React", "Swift", "TypeScript", "Visual Basic (VB.NET)" });
-            cmbLang.Location = new Point(39, 103);
+            cmbLang.Location = new Point(12, 40);
             cmbLang.Name = "cmbLang";
             cmbLang.Size = new Size(121, 23);
             cmbLang.TabIndex = 12;
             cmbLang.Text = "C#";
+            // 
+            // btnSyRecord
+            // 
+            btnSyRecord.Location = new Point(10, 51);
+            btnSyRecord.Name = "btnSyRecord";
+            btnSyRecord.Size = new Size(145, 50);
+            btnSyRecord.TabIndex = 13;
+            btnSyRecord.Text = "REC!";
+            btnSyRecord.UseVisualStyleBackColor = true;
+            btnSyRecord.MouseDown += btnSyRecord_MouseDown;
+            btnSyRecord.MouseUp += btnSyRecord_MouseUp;
+            // 
+            // groupBoxDevices
+            // 
+            groupBoxDevices.Controls.Add(btnSyRecord);
+            groupBoxDevices.Controls.Add(btnRec);
+            groupBoxDevices.Location = new Point(32, 90);
+            groupBoxDevices.Name = "groupBoxDevices";
+            groupBoxDevices.Size = new Size(336, 115);
+            groupBoxDevices.TabIndex = 14;
+            groupBoxDevices.TabStop = false;
+            groupBoxDevices.Text = "Audio";
             // 
             // AddNewQuestionForm
             // 
@@ -152,8 +177,8 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.WindowFrame;
             ClientSize = new Size(1348, 542);
+            Controls.Add(groupBoxDevices);
             Controls.Add(cmbLang);
-            Controls.Add(btnRec);
             Controls.Add(txtAnswer);
             Controls.Add(txtComment);
             Controls.Add(btnSave);
@@ -166,6 +191,7 @@
             Name = "AddNewQuestionForm";
             Text = "Add New Question";
             Load += AddNewQuestionForm_Load;
+            groupBoxDevices.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -182,5 +208,7 @@
         private RichTextBox txtAnswer;
         private Button btnRec;
         private ComboBox cmbLang;
+        private Button btnSyRecord;
+        private GroupBox groupBoxDevices;
     }
 }

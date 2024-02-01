@@ -4,7 +4,11 @@ using InterviewHelper.FormServices;
 using InterviewHelper.Services.Repos.Interfaces;
 using InterviewHelper.Services.Services;
 
+using NAudio.Wave;
+using NAudio.CoreAudioApi;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 
 namespace InterviewHelper.Forms
 {
@@ -15,6 +19,11 @@ namespace InterviewHelper.Forms
         private readonly IMessageService _messageService;
         private readonly IOpenAIQuestionService _openAIQuestionService;
         private Category _category;
+
+        private WasapiLoopbackCapture capture;
+        private WaveFileWriter writer;
+        private bool isRecording;
+
         public AddNewQuestionForm(
             IEnumerable<Category> categories,
             IUnitOfWork commandService,
@@ -85,7 +94,7 @@ namespace InterviewHelper.Forms
             {
                 var annotation = $"Answer briefly and in simple language," +
                     " modify important words or bulletpointnames  add bulletpoints. Make the text structured:";
-                var answer = await _openAIQuestionService.GetAnswerAsync(txtQuestion.Text + " " + txtComment.Text,annotation);
+                var answer = await _openAIQuestionService.GetAnswerAsync(txtQuestion.Text + " " + txtComment.Text, annotation);
                 txtAnswer.Clear();
                 txtAnswer.Text = answer;
             }
@@ -134,7 +143,7 @@ namespace InterviewHelper.Forms
                                 Answer = answer
                             };
                             await _commandService.QuestionRepository.AddAsync(newQuestion);
-
+                            Debug.WriteLine(newQuestion);
                             await Task.Delay(700);
                         }
                     }
@@ -150,7 +159,7 @@ namespace InterviewHelper.Forms
                 conStr = $"Provide a response from an applicant for the Dotnet developer position based on this info: \n {BaseInfo.ResumeSummary()}";
                 txtQuestion.Clear();
                 txtQuestion.Text = Clipboard.GetText();
-                var answer = await _openAIQuestionService.GetAnswerAsync(Clipboard.GetText() + " " + txtComment.Text,conStr);
+                var answer = await _openAIQuestionService.GetAnswerAsync(Clipboard.GetText() + " " + txtComment.Text, conStr);
                 txtAnswer.Clear();
                 txtAnswer.Text = answer;
             }
@@ -223,11 +232,79 @@ namespace InterviewHelper.Forms
             record("close recsound", "", 0, 0);
             var responce = await _openAIQuestionService.GetTextFromVoice(_filePath);
 
-                Clipboard.SetText(responce??" ");
-                txtQuestion.Text = responce ?? " ".ToString();
-            
+            Clipboard.SetText(responce ?? " ");
+            txtQuestion.Text = responce ?? " ".ToString();
+
             RemoveDirectory();
 
+        }
+
+        private void btnSyRecord_MouseDown(object sender, MouseEventArgs e)
+        {
+            // Start recording only if it is not already recording
+            if (!isRecording)
+            {
+                _filePath = InitDirectory();
+                // Get the default loopback device
+                var device = new MMDeviceEnumerator().GetDefaultAudioEndpoint(DataFlow.Render, Role.Console);
+
+                // Create a capture object
+                capture = new WasapiLoopbackCapture(device);
+
+                // Set the format to 16 bit PCM
+                capture.WaveFormat = new WaveFormat(44100, 16, 2);
+
+                // Create a writer to save the captured data
+                writer = new WaveFileWriter(_filePath, capture.WaveFormat);
+
+                // Register the event handler
+                capture.DataAvailable += Capture_DataAvailable;
+                capture.RecordingStopped += Capture_RecordingStopped;
+
+                // Start capturing
+                capture.StartRecording();
+
+                // Change the recording state
+                isRecording = true;
+            }
+        }
+
+        private void btnSyRecord_MouseUp(object sender, MouseEventArgs e)
+        {
+            // Stop recording only if it is already recording
+            if (isRecording)
+            {
+                // Stop capturing
+                capture.StopRecording();
+
+                // Dispose the capture object
+                capture.Dispose();
+                capture = null;
+
+                // Dispose the writer object
+                writer.Dispose();
+                writer = null;
+
+
+
+                // Change the recording state
+                isRecording = false;
+            }
+        }
+        private void Capture_DataAvailable(object sender, WaveInEventArgs e)
+        {
+            // Write the captured data to the file
+            writer.Write(e.Buffer, 0, e.BytesRecorded);
+        }
+
+        private async void Capture_RecordingStopped(object sender, StoppedEventArgs e)
+        {
+            var responce = await _openAIQuestionService.GetTextFromVoice(_filePath);
+
+            Clipboard.SetText(responce ?? " ");
+            txtQuestion.Text = responce ?? " ".ToString();
+
+            RemoveDirectory();
         }
     }
 }
