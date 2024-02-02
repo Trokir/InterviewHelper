@@ -1,4 +1,4 @@
-﻿namespace InterviewHelper
+﻿namespace InterviewHelper.Forms
 {
     partial class MainForm
     {

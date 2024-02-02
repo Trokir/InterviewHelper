@@ -8,7 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 using System.Data;
 
-namespace InterviewHelper
+namespace InterviewHelper.Forms
 {
 
     public partial class MainForm : Form
