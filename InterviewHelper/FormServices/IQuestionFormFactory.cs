@@ -8,7 +8,7 @@ namespace InterviewHelper.FormServices
     public interface IQuestionFormFactory
     {
         AddNewQuestionForm CreateNewQuestionForm
-            (IEnumerable<Category> categories, IUnitOfWork unitOfWork, IMessageService messageService, IOpenAIQuestionService openAIQuestionService);
+            (IEnumerable<Category> categories, IUnitOfWork unitOfWork, IMessageService messageService, IOpenAIQuestionService openAIQuestionService, IAudioRecordService audioRecordService);
         UpdateCurrentQuestionForm CreateUpdateQuestionForm
            (QuestionModel model, IUnitOfWork unitOfWork, IMessageService messageService);
         DeleteQuestionForm DeleteQuestionForm

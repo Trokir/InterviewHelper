@@ -20,12 +20,14 @@ namespace InterviewHelper
         private readonly IOpenAIQuestionService _openAIQuestionService;
         private readonly IServiceProvider _serviceProvider;
         private readonly IMessageService _messageService;
+        private readonly IAudioRecordService _audioRecordService;
         private bool _isPressed;
         public MainForm(IUnitOfWork commandService,
             IQuestionFormFactory formFactory,
             IMessageService messageService,
             IServiceProvider serviceProvider,
-            IOpenAIQuestionService openAIQuestionService)
+            IOpenAIQuestionService openAIQuestionService,
+            IAudioRecordService audioRecordService)
         {
             _commandService = commandService;
             _formFactory = formFactory;
@@ -33,7 +35,7 @@ namespace InterviewHelper
             _messageService = messageService;
             _serviceProvider = serviceProvider;
             _openAIQuestionService = openAIQuestionService;
-
+            _audioRecordService = audioRecordService;
         }
 
 
@@ -61,7 +63,7 @@ namespace InterviewHelper
 
             });
             cmbCategory.Refresh();
-           
+
         }
 
         private void cmbCategory_SelectedIndexChanged(object sender, EventArgs e)
@@ -102,7 +104,8 @@ namespace InterviewHelper
 
         private void btnAddNew_Click(object sender, EventArgs e)
         {
-            var form = _formFactory.CreateNewQuestionForm(_categories, _commandService, _messageService, _openAIQuestionService);
+            var form = _formFactory.CreateNewQuestionForm(_categories, _commandService,
+                _messageService, _openAIQuestionService, _audioRecordService);
             form.Show();
         }
 
@@ -127,7 +130,7 @@ namespace InterviewHelper
             {
                 _messageService.ShowError("The question has not been choosed", "Error");
             }
-            
+
         }
 
         private void btnDelete_Click(object sender, EventArgs e)

@@ -11,9 +11,10 @@ namespace InterviewHelper.FormServices
             IEnumerable<Category> categories,
             IUnitOfWork unitOfWork,
             IMessageService messageService,
-            IOpenAIQuestionService openAIQuestionService)
+            IOpenAIQuestionService openAIQuestionService,
+            IAudioRecordService audioRecordService)
         {
-            return new AddNewQuestionForm(categories, unitOfWork, messageService, openAIQuestionService);
+            return new AddNewQuestionForm(categories, unitOfWork, messageService, openAIQuestionService, audioRecordService);
         }
 
         public UpdateCurrentQuestionForm CreateUpdateQuestionForm(QuestionModel model, IUnitOfWork unitOfWork, IMessageService messageService)

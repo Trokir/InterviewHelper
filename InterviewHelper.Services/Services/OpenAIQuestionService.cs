@@ -1,11 +1,12 @@
 ﻿
 
 using Google.Cloud.Speech.V1;
+
 using InterviewHelper.Core.Config;
 using InterviewHelper.Core.Models;
+
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Microsoft.Identity.Client;
 
 using System.Net.Http.Headers;
 using System.Text;
@@ -23,7 +24,7 @@ namespace InterviewHelper.Services.Services
             _config = options.Value;
             _factory = factory;
         }
-        public async Task<string> GetAnswerAsync(string question ,string annotation)
+        public async Task<string> GetAnswerAsync(string question, string annotation)
         {
             ///*make it UPPERCASE*/
             var fullQuestion = $"{question} {annotation}";
@@ -60,7 +61,7 @@ namespace InterviewHelper.Services.Services
             return result;
         }
 
-       public async Task<string> GetGeneratedCodeAsync(string question, string annotation)
+        public async Task<string> GetGeneratedCodeAsync(string question, string annotation)
         {
 
             ///*make it UPPERCASE*/
@@ -91,13 +92,13 @@ namespace InterviewHelper.Services.Services
             response.EnsureSuccessStatusCode();
             string responseBody = await response.Content.ReadAsStringAsync();
             var answerModel = JsonSerializer.Deserialize<CodeGenResponceModel>(responseBody);
-            var result = answerModel?.choices?.FirstOrDefault()?.text?? string.Empty;
+            var result = answerModel?.choices?.FirstOrDefault()?.text ?? string.Empty;
 
             return result;
 
         }
 
-            public async Task<string> DrawImageAsync(string message)
+        public async Task<string> DrawImageAsync(string message)
         {
 
             var modelJson = new OpenAiDrawModel
@@ -145,12 +146,12 @@ namespace InterviewHelper.Services.Services
                 }
                 return sb.ToString();
             }
-            catch 
+            catch
             {
 
                 return "";
             }
-      
+
         }
         RecognizeResponse Recognize(string filePath, SpeechClient speechClient)
         {
@@ -160,8 +161,8 @@ namespace InterviewHelper.Services.Services
                 Encoding = RecognitionConfig.Types.AudioEncoding.Mp3,
                 SampleRateHertz = 16000, // Adjust based on your audio file
                 LanguageCode = "en-US", // Adjust based on your language
-                MaxAlternatives=1,
-                EnableSpokenPunctuation =true
+                MaxAlternatives = 1,
+                EnableSpokenPunctuation = true
             };
 
             var request = new RecognizeRequest

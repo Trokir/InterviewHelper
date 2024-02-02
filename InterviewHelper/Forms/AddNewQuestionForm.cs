@@ -4,11 +4,8 @@ using InterviewHelper.FormServices;
 using InterviewHelper.Services.Repos.Interfaces;
 using InterviewHelper.Services.Services;
 
-using NAudio.Wave;
-using NAudio.CoreAudioApi;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.Text.RegularExpressions;
 
 namespace InterviewHelper.Forms
 {
@@ -18,23 +15,22 @@ namespace InterviewHelper.Forms
         private readonly IEnumerable<Category> _categories;
         private readonly IMessageService _messageService;
         private readonly IOpenAIQuestionService _openAIQuestionService;
+        private readonly IAudioRecordService _audioRecordService;
         private Category _category;
-
-        private WasapiLoopbackCapture capture;
-        private WaveFileWriter writer;
-        private bool isRecording;
 
         public AddNewQuestionForm(
             IEnumerable<Category> categories,
             IUnitOfWork commandService,
           IMessageService messageService,
-          IOpenAIQuestionService openAIQuestionService)
+          IOpenAIQuestionService openAIQuestionService,
+          IAudioRecordService audioRecordService)
         {
             InitializeComponent();
             _categories = categories;
             _commandService = commandService;
             _messageService = messageService;
             _openAIQuestionService = openAIQuestionService;
+            _audioRecordService = audioRecordService;
         }
         private void InitializeControls()
         {
@@ -221,91 +217,53 @@ namespace InterviewHelper.Forms
         string _filePath = string.Empty;
         private void btnRec_MouseDown(object sender, MouseEventArgs e)
         {
+            btnRec.Text = "Record...";
             _filePath = InitDirectory();
-            record("open new Type waveaudio Alias recsound", "", 0, 0);
-            record("record recsound", "", 0, 0);
+            _audioRecordService.StartRecordMicrofhoneAsync();
         }
 
         private async void btnRec_MouseUp(object sender, MouseEventArgs e)
         {
-            record($"save recsound {_filePath}", "", 0, 0);
-            record("close recsound", "", 0, 0);
-            var responce = await _openAIQuestionService.GetTextFromVoice(_filePath);
+            btnRec.Text = "Saved...";
 
-            Clipboard.SetText(responce ?? " ");
-            txtQuestion.Text = responce ?? " ".ToString();
-
-            RemoveDirectory();
-
-        }
-
-        private void btnSyRecord_MouseDown(object sender, MouseEventArgs e)
-        {
-            // Start recording only if it is not already recording
-            if (!isRecording)
+            var responce = await _audioRecordService.StopRecordMicrofhoneAsync(_filePath);
+            if (!string.IsNullOrEmpty(responce))
             {
-                _filePath = InitDirectory();
-                // Get the default loopback device
-                var device = new MMDeviceEnumerator().GetDefaultAudioEndpoint(DataFlow.Render, Role.Console);
-
-                // Create a capture object
-                capture = new WasapiLoopbackCapture(device);
-
-                // Set the format to 16 bit PCM
-                capture.WaveFormat = new WaveFormat(44100, 16, 2);
-
-                // Create a writer to save the captured data
-                writer = new WaveFileWriter(_filePath, capture.WaveFormat);
-
-                // Register the event handler
-                capture.DataAvailable += Capture_DataAvailable;
-                capture.RecordingStopped += Capture_RecordingStopped;
-
-                // Start capturing
-                capture.StartRecording();
-
-                // Change the recording state
-                isRecording = true;
+                Clipboard.SetText(responce);
+                txtQuestion.Text = responce;
+                btnRec.Text = "Rec";
             }
-        }
-
-        private void btnSyRecord_MouseUp(object sender, MouseEventArgs e)
-        {
-            // Stop recording only if it is already recording
-            if (isRecording)
+            else
             {
-                // Stop capturing
-                capture.StopRecording();
-
-                // Dispose the capture object
-                capture.Dispose();
-                capture = null;
-
-                // Dispose the writer object
-                writer.Dispose();
-                writer = null;
-
-
-
-                // Change the recording state
-                isRecording = false;
+                btnRec.Text = "!!!";
             }
-        }
-        private void Capture_DataAvailable(object sender, WaveInEventArgs e)
-        {
-            // Write the captured data to the file
-            writer.Write(e.Buffer, 0, e.BytesRecorded);
-        }
-
-        private async void Capture_RecordingStopped(object sender, StoppedEventArgs e)
-        {
-            var responce = await _openAIQuestionService.GetTextFromVoice(_filePath);
-
-            Clipboard.SetText(responce ?? " ");
-            txtQuestion.Text = responce ?? " ".ToString();
-
             RemoveDirectory();
+            btnRec.Text = "Rec";
         }
+
+        private async void btnSyRecord_MouseDown(object sender, MouseEventArgs e)
+        {
+            btnSyRecord.Text = "Record..";
+            _filePath = InitDirectory();
+            await _audioRecordService.StartRecordingSpeakerAsync(_filePath);
+        }
+
+        private async void btnSyRecord_MouseUp(object sender, MouseEventArgs e)
+        {
+            btnSyRecord.Text = "Saved..";
+            var responce = await _audioRecordService.StopRecordingSpeakerAsync(_filePath);
+            if (!string.IsNullOrEmpty(responce))
+            {
+                Clipboard.SetText(responce);
+                txtQuestion.Text = responce;
+            }
+            RemoveDirectory();
+            btnSyRecord.Text = "Rec1";
+        }
+
+
+
+
     }
 }
 
