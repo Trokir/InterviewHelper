@@ -1,8 +1,11 @@
-﻿using InterviewHelper.Core.Helper;
+﻿using InterviewHelper.Core.Config;
+using InterviewHelper.Core.Helper;
 using InterviewHelper.Core.Models;
 using InterviewHelper.FormServices;
 using InterviewHelper.Services.Repos.Interfaces;
 using InterviewHelper.Services.Services;
+
+using Microsoft.Extensions.Options;
 
 using System.Diagnostics;
 using System.Runtime.InteropServices;
@@ -16,6 +19,7 @@ namespace InterviewHelper.Forms
         private readonly IMessageService _messageService;
         private readonly IOpenAIQuestionService _openAIQuestionService;
         private readonly IAudioRecordService _audioRecordService;
+        private readonly AppViewConfiguration _config;
         private Category _category;
 
         public AddNewQuestionForm(
@@ -23,9 +27,11 @@ namespace InterviewHelper.Forms
             IUnitOfWork commandService,
           IMessageService messageService,
           IOpenAIQuestionService openAIQuestionService,
-          IAudioRecordService audioRecordService)
+          IAudioRecordService audioRecordService,
+          IOptions<AppViewConfiguration> options)
         {
             InitializeComponent();
+            _config = options.Value;
             _categories = categories;
             _commandService = commandService;
             _messageService = messageService;
@@ -88,9 +94,7 @@ namespace InterviewHelper.Forms
         {
             if (!string.IsNullOrWhiteSpace(txtQuestion.Text))
             {
-                var annotation = $"Answer briefly and in simple language," +
-                    " modify important words or bulletpointnames  add bulletpoints. Make the text structured:";
-                var answer = await _openAIQuestionService.GetAnswerAsync(txtQuestion.Text + " " + txtComment.Text, annotation);
+                var answer = await _openAIQuestionService.GetAnswerAsync(txtQuestion.Text + " " + txtComment.Text, _config.BaseAnswer);
                 txtAnswer.Clear();
                 txtAnswer.Text = answer;
             }
@@ -107,9 +111,7 @@ namespace InterviewHelper.Forms
             {
                 if (!string.IsNullOrWhiteSpace(txtQuestion.Text))
                 {
-                    var annotation = $"Answer briefly and in simple language," +
-                    " modify important words or bulletpointnames  add bulletpoints. Make the text structured:";
-                    var answer = await _openAIQuestionService.GetAnswerAsync(txtQuestion.Text + " " + txtComment.Text, annotation);
+                    var answer = await _openAIQuestionService.GetAnswerAsync(txtQuestion.Text + " " + txtComment.Text, _config.BaseAnswer);
                     txtAnswer.Clear();
                     txtAnswer.Text = answer;
                 }
@@ -121,11 +123,7 @@ namespace InterviewHelper.Forms
                 {
                     if (!string.IsNullOrWhiteSpace(item))
                     {
-                        var annotation = $"Answer briefly and in simple language," +
-                  " modify important words or bulletpointnames  add bulletpoints. Make the text structured:";
-                        var answer = await _openAIQuestionService.GetAnswerAsync(txtQuestion.Text + " " + txtComment.Text, annotation);
-
-
+                        var answer = await _openAIQuestionService.GetAnswerAsync(txtQuestion.Text + " " + txtComment.Text, _config.BaseAnswer);
 
                         if (_category is not null &&
                             !string.IsNullOrWhiteSpace(answer))
@@ -152,7 +150,7 @@ namespace InterviewHelper.Forms
             var conStr = string.Empty;
             if (e.KeyCode == Keys.Menu && Clipboard.ContainsText())
             {
-                conStr = $"Provide a response from an applicant for the Dotnet developer position based on this info: \n {BaseInfo.ResumeSummary()}";
+                conStr = $"{_config.CommonAnswer} \n {BaseInfo.ResumeSummary()}";
                 txtQuestion.Clear();
                 txtQuestion.Text = Clipboard.GetText();
                 var answer = await _openAIQuestionService.GetAnswerAsync(Clipboard.GetText() + " " + txtComment.Text, conStr);
@@ -161,8 +159,7 @@ namespace InterviewHelper.Forms
             }
             if (e.KeyCode == Keys.Oem3 && Clipboard.ContainsText())
             {
-                conStr = $"Write a method in {cmbLang.Text}, avoiding LINQ , ordering and built-in methods if possible, no text needed," +
-                   $" just code. Comment each code line Remember about optimization and algorithmic complexity:";
+                conStr = $"{_config.CodingAnswer} {cmbLang.Text}";
                 txtQuestion.Clear();
                 txtQuestion.Text = Clipboard.GetText();
                 var answer = await _openAIQuestionService.GetGeneratedCodeAsync(Clipboard.GetText() + " " + txtComment.Text, conStr);
@@ -177,12 +174,9 @@ namespace InterviewHelper.Forms
         }
 
 
-        [DllImport("winmm.dll", EntryPoint = "mciSendStringA", ExactSpelling = true, CharSet = CharSet.Ansi, SetLastError = true)]
-        private static extern int record(string lpstrCommand, string lpstrReturnString, int uReturnLength, int hwndCallback);
-
         private string InitDirectory()
         {
-            var path = Path.Combine("C:\\Users\\troki\\Desktop\\tem1");
+            var path = Path.Combine(_config.TempFilePath);
             var fileName = "rec.mp3";
             var fullPath = Path.Combine(path, fileName);
             if (Directory.Exists(path))
@@ -202,7 +196,7 @@ namespace InterviewHelper.Forms
 
         private void RemoveDirectory()
         {
-            var path = Path.Combine("C:\\Users\\troki\\Desktop\\tem1");
+            var path = Path.Combine(_config.TempFilePath);
             var fileName = "rec.mp3";
             var fullPath = Path.Combine(path, fileName);
             if (Directory.Exists(path))
@@ -224,7 +218,7 @@ namespace InterviewHelper.Forms
 
         private async void btnRec_MouseUp(object sender, MouseEventArgs e)
         {
-            btnRec.Text = "Saved...";
+            btnRec.Text = "Saving...";
 
             var responce = await _audioRecordService.StopRecordMicrofhoneAsync(_filePath);
             if (!string.IsNullOrEmpty(responce))
@@ -250,7 +244,7 @@ namespace InterviewHelper.Forms
 
         private async void btnSyRecord_MouseUp(object sender, MouseEventArgs e)
         {
-            btnSyRecord.Text = "Saved..";
+            btnSyRecord.Text = "Saving..";
             var responce = await _audioRecordService.StopRecordingSpeakerAsync(_filePath);
             if (!string.IsNullOrEmpty(responce))
             {
