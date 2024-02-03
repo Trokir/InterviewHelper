@@ -1,5 +1,6 @@
 
 using InterviewHelper.Core.Config;
+using InterviewHelper.Core.Models;
 using InterviewHelper.Forms;
 using InterviewHelper.FormServices;
 using InterviewHelper.Services.Data;
@@ -54,6 +55,7 @@ namespace InterviewHelper
             services.AddSingleton(settings)
                 .AddTransient<IQuestionRepository, QuestionRepository>()
                 .AddTransient<ICategoryRepository, CategoryRepository>()
+                .AddTransient<IImageEntityRepository, ImageEntityRepository>()
                 .AddTransient<IUnitOfWork, UnitOfWork>()
                  .AddScoped<QuestionDbContext>();
             services.AddDbContext<QuestionDbContext>(opt =>
