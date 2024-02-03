@@ -5,10 +5,7 @@ using InterviewHelper.FormServices;
 using InterviewHelper.Services.Repos.Interfaces;
 using InterviewHelper.Services.Services;
 
-using Microsoft.Extensions.Options;
-
 using System.Diagnostics;
-using System.Runtime.InteropServices;
 
 namespace InterviewHelper.Forms
 {
@@ -28,10 +25,10 @@ namespace InterviewHelper.Forms
           IMessageService messageService,
           IOpenAIQuestionService openAIQuestionService,
           IAudioRecordService audioRecordService,
-          IOptions<AppViewConfiguration> options)
+          AppViewConfiguration config)
         {
             InitializeComponent();
-            _config = options.Value;
+            _config = config;
             _categories = categories;
             _commandService = commandService;
             _messageService = messageService;

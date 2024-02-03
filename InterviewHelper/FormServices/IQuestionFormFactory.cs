@@ -1,4 +1,5 @@
-﻿using InterviewHelper.Core.Models;
+﻿using InterviewHelper.Core.Config;
+using InterviewHelper.Core.Models;
 using InterviewHelper.Forms;
 using InterviewHelper.Services.Repos.Interfaces;
 using InterviewHelper.Services.Services;
@@ -8,7 +9,9 @@ namespace InterviewHelper.FormServices
     public interface IQuestionFormFactory
     {
         AddNewQuestionForm CreateNewQuestionForm
-            (IEnumerable<Category> categories, IUnitOfWork unitOfWork, IMessageService messageService, IOpenAIQuestionService openAIQuestionService, IAudioRecordService audioRecordService);
+            (IEnumerable<Category> categories, IUnitOfWork unitOfWork,
+            IMessageService messageService, IOpenAIQuestionService openAIQuestionService,
+            IAudioRecordService audioRecordService, AppViewConfiguration config);
         UpdateCurrentQuestionForm CreateUpdateQuestionForm
            (QuestionModel model, IUnitOfWork unitOfWork, IMessageService messageService);
         DeleteQuestionForm DeleteQuestionForm

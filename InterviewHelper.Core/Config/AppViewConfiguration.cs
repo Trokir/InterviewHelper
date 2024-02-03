@@ -11,5 +11,7 @@
         public string CommonAnswer { get; set; }
         public string CodingAnswer { get; set; }
         public string TempFilePath { get; set; }
+        public string WebWorkingDirectory { get; set; }
+        public string DiagramUrl { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using InterviewHelper.Core.Models;
+﻿using InterviewHelper.Core.Config;
+using InterviewHelper.Core.Models;
 using InterviewHelper.Forms;
 using InterviewHelper.Services.Repos.Interfaces;
 using InterviewHelper.Services.Services;
@@ -12,9 +13,11 @@ namespace InterviewHelper.FormServices
             IUnitOfWork unitOfWork,
             IMessageService messageService,
             IOpenAIQuestionService openAIQuestionService,
-            IAudioRecordService audioRecordService)
+            IAudioRecordService audioRecordService,
+            AppViewConfiguration config)
         {
-            return new AddNewQuestionForm(categories, unitOfWork, messageService, openAIQuestionService, audioRecordService);
+            return new AddNewQuestionForm(categories, unitOfWork, messageService,
+                openAIQuestionService, audioRecordService, config);
         }
 
         public UpdateCurrentQuestionForm CreateUpdateQuestionForm(QuestionModel model, IUnitOfWork unitOfWork, IMessageService messageService)
