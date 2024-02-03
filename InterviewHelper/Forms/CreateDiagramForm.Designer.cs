@@ -30,6 +30,7 @@
         {
             webViewDiagram = new Microsoft.Web.WebView2.WinForms.WebView2();
             panel1 = new Panel();
+            panelHidden = new Panel();
             ((System.ComponentModel.ISupportInitialize)webViewDiagram).BeginInit();
             panel1.SuspendLayout();
             SuspendLayout();
@@ -55,15 +56,23 @@
             panel1.Size = new Size(1016, 612);
             panel1.TabIndex = 1;
             // 
+            // panelHidden
+            // 
+            panelHidden.Location = new Point(12, 3);
+            panelHidden.Name = "panelHidden";
+            panelHidden.Size = new Size(175, 64);
+            panelHidden.TabIndex = 2;
+            panelHidden.MouseMove += panelHidden_MouseMove;
+            // 
             // CreateDiagramForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1075, 660);
             Controls.Add(panel1);
+            Controls.Add(panelHidden);
             Name = "CreateDiagramForm";
             Text = "CreateDiagramForm";
-            FormClosing += CreateDiagramForm_FormClosing;
             ((System.ComponentModel.ISupportInitialize)webViewDiagram).EndInit();
             panel1.ResumeLayout(false);
             ResumeLayout(false);
@@ -73,5 +82,6 @@
 
         private Microsoft.Web.WebView2.WinForms.WebView2 webViewDiagram;
         private Panel panel1;
+        private Panel panelHidden;
     }
 }
