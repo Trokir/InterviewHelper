@@ -32,6 +32,7 @@
             pcbImage = new PictureBox();
             txtInfo = new TextBox();
             groupBox1 = new GroupBox();
+            btnDelete = new Button();
             cmbFiles = new ComboBox();
             btnSave = new Button();
             panel1.SuspendLayout();
@@ -71,14 +72,27 @@
             // 
             groupBox1.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             groupBox1.BackColor = SystemColors.AppWorkspace;
+            groupBox1.Controls.Add(btnDelete);
             groupBox1.Controls.Add(cmbFiles);
             groupBox1.Controls.Add(btnSave);
+            groupBox1.Font = new Font("Segoe UI", 12F);
             groupBox1.Location = new Point(43, 435);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(979, 100);
             groupBox1.TabIndex = 2;
             groupBox1.TabStop = false;
             groupBox1.Text = "Menu";
+            // 
+            // btnDelete
+            // 
+            btnDelete.Font = new Font("Segoe UI", 12F);
+            btnDelete.Location = new Point(17, 57);
+            btnDelete.Name = "btnDelete";
+            btnDelete.Size = new Size(198, 29);
+            btnDelete.TabIndex = 2;
+            btnDelete.Text = "Delete file";
+            btnDelete.UseVisualStyleBackColor = true;
+            btnDelete.Click += btnDelete_Click;
             // 
             // cmbFiles
             // 
@@ -92,11 +106,12 @@
             // 
             // btnSave
             // 
+            btnSave.Font = new Font("Segoe UI", 12F);
             btnSave.Location = new Point(17, 22);
             btnSave.Name = "btnSave";
             btnSave.Size = new Size(198, 29);
             btnSave.TabIndex = 0;
-            btnSave.Text = "Savefile";
+            btnSave.Text = "Save file";
             btnSave.UseVisualStyleBackColor = true;
             btnSave.Click += btnSave_Click;
             // 
@@ -126,5 +141,6 @@
         private GroupBox groupBox1;
         private Button btnSave;
         private ComboBox cmbFiles;
+        private Button btnDelete;
     }
 }

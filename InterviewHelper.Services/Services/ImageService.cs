@@ -1,5 +1,6 @@
 ﻿using InterviewHelper.Core.Models;
 using InterviewHelper.Services.Data;
+using InterviewHelper.Services.Repos.Interfaces;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -16,21 +17,25 @@ namespace InterviewHelper.Services.Services
 {
     public class ImageService : IImageService
     {
-        private readonly QuestionDbContext _questionDbContext;
-
-        public ImageService(QuestionDbContext questionDbContext)
+        private readonly IImageEntityRepository _imageEntityRepository;
+        public ImageService(IImageEntityRepository imageEntityRepository)
         {
-            _questionDbContext = questionDbContext;
+            _imageEntityRepository = imageEntityRepository;
+        }
+
+        public async Task DeleteImageAsync(ImageEntity entity)
+        {
+            await _imageEntityRepository.DeleteAsync(entity);
         }
 
         public async Task<IEnumerable<ImageEntity>> GetAllEntitiesAsync()
         {
-            var result = await _questionDbContext.ImageEntities.ToListAsync();
+            var result = await _imageEntityRepository.GetAllAsync();
             return result;
         }
         public async Task<ImageEntity> GetImageEntityById(int id)
         {
-            var result = await _questionDbContext.ImageEntities.FindAsync(id);
+            var result = await _imageEntityRepository.GetByIdAsync(id);
             return result ?? new ImageEntity();
         }
         public OpenFileDialog  SelectAndSavePngFile()
@@ -56,8 +61,7 @@ namespace InterviewHelper.Services.Services
                     Content = fileContent
                 };
 
-                await _questionDbContext.ImageEntities.AddAsync(pngFile);
-                await _questionDbContext.SaveChangesAsync();
+                await _imageEntityRepository.AddAsync(pngFile);
             }
             catch (Exception ex)
             {
