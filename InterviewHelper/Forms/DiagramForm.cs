@@ -83,5 +83,18 @@ namespace InterviewHelper.Forms
             });
             cmbFiles.Refresh();
         }
+
+        private async void btnDelete_Click(object sender, EventArgs e)
+        {
+            var value = cmbFiles.SelectedItem as ImageEntity;
+            if (value != null)
+            {
+                var dialog = _messageService.ShowCustomMessage("Delete this file?", "Save", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (dialog == DialogResult.Yes)
+                {
+                    await _imageService.DeleteImageAsync(value);
+                }
+            }
+        }
     }
 }

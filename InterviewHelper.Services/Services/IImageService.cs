@@ -9,5 +9,6 @@ namespace InterviewHelper.Services.Services
         OpenFileDialog SelectAndSavePngFile();
         Task<IEnumerable<ImageEntity>> GetAllEntitiesAsync();
         Task<ImageEntity> GetImageEntityById(int id);
+        Task DeleteImageAsync(ImageEntity entity);
     }
 }
