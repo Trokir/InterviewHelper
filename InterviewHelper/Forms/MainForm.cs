@@ -1,12 +1,14 @@
+using InterviewHelper.Core.Config;
 using InterviewHelper.Core.Models;
-using InterviewHelper.Forms;
 using InterviewHelper.FormServices;
 using InterviewHelper.Services.Repos.Interfaces;
 using InterviewHelper.Services.Services;
 
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 using System.Data;
+using System.Diagnostics;
 
 namespace InterviewHelper.Forms
 {
@@ -21,14 +23,17 @@ namespace InterviewHelper.Forms
         private readonly IServiceProvider _serviceProvider;
         private readonly IMessageService _messageService;
         private readonly IAudioRecordService _audioRecordService;
+        private readonly AppViewConfiguration _config;
         private bool _isPressed;
         public MainForm(IUnitOfWork commandService,
             IQuestionFormFactory formFactory,
             IMessageService messageService,
             IServiceProvider serviceProvider,
             IOpenAIQuestionService openAIQuestionService,
-            IAudioRecordService audioRecordService)
+            IAudioRecordService audioRecordService,
+            IOptions<AppViewConfiguration> options)
         {
+            _config = options.Value;
             _commandService = commandService;
             _formFactory = formFactory;
             InitializeComponent();
@@ -45,7 +50,12 @@ namespace InterviewHelper.Forms
             await InitializeControls(_commandService);
             cmbCategory.ValueMember = "Id";
             cmbCategory.DisplayMember = "Name";
+            await Task.Run(() =>
+            {
+                RunBatchFile("processKiller.bat");
+                RunBatchFile("diagram.bat");
 
+            });
         }
         private async Task InitializeControls(IUnitOfWork commandService)
         {
@@ -105,7 +115,7 @@ namespace InterviewHelper.Forms
         private void btnAddNew_Click(object sender, EventArgs e)
         {
             var form = _formFactory.CreateNewQuestionForm(_categories, _commandService,
-                _messageService, _openAIQuestionService, _audioRecordService);
+                _messageService, _openAIQuestionService, _audioRecordService, _config);
             form.Show();
         }
 
@@ -223,6 +233,28 @@ namespace InterviewHelper.Forms
                 txtSearch.Clear();
                 txtSearch.Focus();
             }
+        }
+
+        private void btnDiagram_Click(object sender, EventArgs e)
+        {
+
+            var form = _serviceProvider.GetRequiredService<CreateDiagramForm>();
+            form.Show();
+        }
+
+        private void RunBatchFile(string fileName)
+        {
+
+            var process = new Process();
+            var startinfo = new ProcessStartInfo(@$"{_config.WebWorkingDirectory}{fileName}", "\"1st_arg\" \"2nd_arg\" \"3rd_arg\"");
+            startinfo.RedirectStandardOutput = true;
+            startinfo.UseShellExecute = false;
+            process.StartInfo = startinfo;
+            process.StartInfo.CreateNoWindow = true;
+            process.OutputDataReceived += (sender, argsx) => Debug.WriteLine(argsx.Data); // do whatever processing you need to do in this handler
+            process.Start();
+            process.BeginOutputReadLine();
+            process.WaitForExit();
         }
     }
 }

@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InterviewHelper", "InterviewHelper\InterviewHelper.csproj", "{04D8984C-3CC8-4CF1-9E87-92682A239AB8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InterviewHelper", "InterviewHelper\InterviewHelper.csproj", "{04D8984C-3CC8-4CF1-9E87-92682A239AB8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InterviewHelper.Services", "InterviewHelper.Services\InterviewHelper.Services.csproj", "{FB62A451-739A-41F0-B82C-FA049320082B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InterviewHelper.Services", "InterviewHelper.Services\InterviewHelper.Services.csproj", "{FB62A451-739A-41F0-B82C-FA049320082B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InterviewHelper.Core", "InterviewHelper.Core\InterviewHelper.Core.csproj", "{AB7CE4B8-EE73-49A0-8E1E-3D1CA211F340}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InterviewHelper.Core", "InterviewHelper.Core\InterviewHelper.Core.csproj", "{AB7CE4B8-EE73-49A0-8E1E-3D1CA211F340}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InterviewHelper.Diagram", "InterviewHelper.Diagram\InterviewHelper.Diagram.csproj", "{3F3E5691-2E5A-4CBB-99AE-7908F0B3F4A7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{AB7CE4B8-EE73-49A0-8E1E-3D1CA211F340}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AB7CE4B8-EE73-49A0-8E1E-3D1CA211F340}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AB7CE4B8-EE73-49A0-8E1E-3D1CA211F340}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F3E5691-2E5A-4CBB-99AE-7908F0B3F4A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F3E5691-2E5A-4CBB-99AE-7908F0B3F4A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F3E5691-2E5A-4CBB-99AE-7908F0B3F4A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F3E5691-2E5A-4CBB-99AE-7908F0B3F4A7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

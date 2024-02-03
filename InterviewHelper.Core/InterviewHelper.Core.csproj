@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.Management" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="tessdata\.gitmodules">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

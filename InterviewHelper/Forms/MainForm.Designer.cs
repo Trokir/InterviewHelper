@@ -43,6 +43,7 @@
             groupBox1 = new GroupBox();
             backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             txtAnswer = new RichTextBox();
+            btnDiagram = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvQuestions).BeginInit();
             groupBox1.SuspendLayout();
             SuspendLayout();
@@ -99,7 +100,7 @@
             btnUpdate.Location = new Point(172, 11);
             btnUpdate.Margin = new Padding(3, 2, 3, 2);
             btnUpdate.Name = "btnUpdate";
-            btnUpdate.Size = new Size(145, 22);
+            btnUpdate.Size = new Size(167, 22);
             btnUpdate.TabIndex = 6;
             btnUpdate.Text = "Update this";
             btnUpdate.UseVisualStyleBackColor = true;
@@ -111,7 +112,7 @@
             btnDelete.Location = new Point(172, 38);
             btnDelete.Margin = new Padding(3, 2, 3, 2);
             btnDelete.Name = "btnDelete";
-            btnDelete.Size = new Size(145, 22);
+            btnDelete.Size = new Size(167, 22);
             btnDelete.TabIndex = 7;
             btnDelete.Text = "Delete this";
             btnDelete.UseVisualStyleBackColor = true;
@@ -123,7 +124,7 @@
             btnShowPic.Location = new Point(172, 61);
             btnShowPic.Margin = new Padding(3, 2, 3, 2);
             btnShowPic.Name = "btnShowPic";
-            btnShowPic.Size = new Size(145, 22);
+            btnShowPic.Size = new Size(167, 22);
             btnShowPic.TabIndex = 8;
             btnShowPic.Text = "Picture text";
             btnShowPic.UseVisualStyleBackColor = true;
@@ -179,6 +180,7 @@
             // groupBox1
             // 
             groupBox1.BackColor = SystemColors.ControlDark;
+            groupBox1.Controls.Add(btnDiagram);
             groupBox1.Controls.Add(btnAddCategory);
             groupBox1.Controls.Add(btnAddNew);
             groupBox1.Controls.Add(btnRefresh);
@@ -189,7 +191,7 @@
             groupBox1.Margin = new Padding(3, 2, 3, 2);
             groupBox1.Name = "groupBox1";
             groupBox1.Padding = new Padding(3, 2, 3, 2);
-            groupBox1.Size = new Size(345, 87);
+            groupBox1.Size = new Size(537, 87);
             groupBox1.TabIndex = 11;
             groupBox1.TabStop = false;
             // 
@@ -204,6 +206,18 @@
             txtAnswer.Size = new Size(734, 397);
             txtAnswer.TabIndex = 12;
             txtAnswer.Text = "";
+            // 
+            // btnDiagram
+            // 
+            btnDiagram.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            btnDiagram.Location = new Point(357, 11);
+            btnDiagram.Margin = new Padding(3, 2, 3, 2);
+            btnDiagram.Name = "btnDiagram";
+            btnDiagram.Size = new Size(174, 22);
+            btnDiagram.TabIndex = 9;
+            btnDiagram.Text = "Diagram";
+            btnDiagram.UseVisualStyleBackColor = true;
+            btnDiagram.Click += btnDiagram_Click;
             // 
             // MainForm
             // 
@@ -240,5 +254,6 @@
         private GroupBox groupBox1;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private RichTextBox txtAnswer;
+        private Button btnDiagram;
     }
 }
