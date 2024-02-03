@@ -12,5 +12,6 @@ namespace InterviewHelper.Services.Data
         }
         public DbSet<Category> Categories { get; set; }
         public DbSet<QuestionModel> QuestionModels { get; set; }
+        public DbSet<ImageEntity> ImageEntities { get; set; }
     }
 }
