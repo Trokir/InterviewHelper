@@ -256,5 +256,11 @@ namespace InterviewHelper.Forms
             process.BeginOutputReadLine();
             process.WaitForExit();
         }
+
+        private void btnDiagramShow_Click(object sender, EventArgs e)
+        {
+            var form = _serviceProvider.GetRequiredService<DiagramForm>();
+            form.Show();
+        }
     }
 }

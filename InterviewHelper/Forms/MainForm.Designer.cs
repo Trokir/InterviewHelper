@@ -41,9 +41,10 @@
             txtSearch = new TextBox();
             dgvQuestions = new DataGridView();
             groupBox1 = new GroupBox();
+            btnDiagram = new Button();
             backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             txtAnswer = new RichTextBox();
-            btnDiagram = new Button();
+            btnDiagramShow = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvQuestions).BeginInit();
             groupBox1.SuspendLayout();
             SuspendLayout();
@@ -180,6 +181,7 @@
             // groupBox1
             // 
             groupBox1.BackColor = SystemColors.ControlDark;
+            groupBox1.Controls.Add(btnDiagramShow);
             groupBox1.Controls.Add(btnDiagram);
             groupBox1.Controls.Add(btnAddCategory);
             groupBox1.Controls.Add(btnAddNew);
@@ -195,6 +197,18 @@
             groupBox1.TabIndex = 11;
             groupBox1.TabStop = false;
             // 
+            // btnDiagram
+            // 
+            btnDiagram.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            btnDiagram.Location = new Point(357, 11);
+            btnDiagram.Margin = new Padding(3, 2, 3, 2);
+            btnDiagram.Name = "btnDiagram";
+            btnDiagram.Size = new Size(174, 22);
+            btnDiagram.TabIndex = 9;
+            btnDiagram.Text = "Diagram";
+            btnDiagram.UseVisualStyleBackColor = true;
+            btnDiagram.Click += btnDiagram_Click;
+            // 
             // txtAnswer
             // 
             txtAnswer.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
@@ -207,17 +221,17 @@
             txtAnswer.TabIndex = 12;
             txtAnswer.Text = "";
             // 
-            // btnDiagram
+            // btnDiagramShow
             // 
-            btnDiagram.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            btnDiagram.Location = new Point(357, 11);
-            btnDiagram.Margin = new Padding(3, 2, 3, 2);
-            btnDiagram.Name = "btnDiagram";
-            btnDiagram.Size = new Size(174, 22);
-            btnDiagram.TabIndex = 9;
-            btnDiagram.Text = "Diagram";
-            btnDiagram.UseVisualStyleBackColor = true;
-            btnDiagram.Click += btnDiagram_Click;
+            btnDiagramShow.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            btnDiagramShow.Location = new Point(357, 38);
+            btnDiagramShow.Margin = new Padding(3, 2, 3, 2);
+            btnDiagramShow.Name = "btnDiagramShow";
+            btnDiagramShow.Size = new Size(174, 22);
+            btnDiagramShow.TabIndex = 10;
+            btnDiagramShow.Text = "Show Diagram";
+            btnDiagramShow.UseVisualStyleBackColor = true;
+            btnDiagramShow.Click += btnDiagramShow_Click;
             // 
             // MainForm
             // 
@@ -255,5 +269,6 @@
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private RichTextBox txtAnswer;
         private Button btnDiagram;
+        private Button btnDiagramShow;
     }
 }

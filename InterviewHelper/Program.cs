@@ -68,9 +68,11 @@ namespace InterviewHelper
             services.AddTransient<TextFromPictuireForm>();
             services.AddTransient<AddNewCategoryForm>();
             services.AddTransient<CreateDiagramForm>();
+            services.AddTransient<DiagramForm>();
             services.AddTransient<IQuestionFormFactory, QuestionFormFactory>();
             services.AddTransient<IMessageService, MessageService>();
             services.AddTransient<IOpenAIQuestionService, OpenAIQuestionService>();
+            services.AddScoped<ImageService>();
             services.AddTransient<IAudioRecordService, AudioRecordService>();
 
 
