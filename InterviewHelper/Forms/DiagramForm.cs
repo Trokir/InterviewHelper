@@ -22,7 +22,6 @@ namespace InterviewHelper.Forms
         private readonly IMongoDbService _mongoDbService;
         private IEnumerable<PngImage> _images;
 
-        private float currentZoom = 1.0F;
 
         public DiagramForm(ImageService imageService, IMessageService messageService,
             IMongoDbService mongoDbService)
