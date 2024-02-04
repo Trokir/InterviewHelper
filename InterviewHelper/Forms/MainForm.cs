@@ -24,6 +24,7 @@ namespace InterviewHelper.Forms
         private readonly IMessageService _messageService;
         private readonly IAudioRecordService _audioRecordService;
         private readonly AppViewConfiguration _config;
+        private readonly TextEnvironment _textEnvironment;
         private bool _isPressed;
         public MainForm(IUnitOfWork commandService,
             IQuestionFormFactory formFactory,
@@ -31,7 +32,8 @@ namespace InterviewHelper.Forms
             IServiceProvider serviceProvider,
             IOpenAIQuestionService openAIQuestionService,
             IAudioRecordService audioRecordService,
-            IOptions<AppViewConfiguration> options)
+            IOptions<AppViewConfiguration> options,
+            IOptions<TextEnvironment>  textEnvironment)
         {
             _config = options.Value;
             _commandService = commandService;
@@ -41,6 +43,7 @@ namespace InterviewHelper.Forms
             _serviceProvider = serviceProvider;
             _openAIQuestionService = openAIQuestionService;
             _audioRecordService = audioRecordService;
+            _textEnvironment = textEnvironment.Value;
         }
 
 
@@ -115,7 +118,7 @@ namespace InterviewHelper.Forms
         private void btnAddNew_Click(object sender, EventArgs e)
         {
             var form = _formFactory.CreateNewQuestionForm(_categories, _commandService,
-                _messageService, _openAIQuestionService, _audioRecordService, _config);
+                _messageService, _openAIQuestionService, _audioRecordService, _config, _textEnvironment);
             form.Show();
         }
 

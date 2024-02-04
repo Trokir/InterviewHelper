@@ -7,11 +7,10 @@
         public string ChatGptPath { get; set; }
         public string SpeachToTextPath { get; set; }
         public string CodeGen { get; set; }
-        public string BaseAnswer { get; set; }
-        public string CommonAnswer { get; set; }
-        public string CodingAnswer { get; set; }
         public string TempFilePath { get; set; }
         public string WebWorkingDirectory { get; set; }
         public string DiagramUrl { get; set; }
+        public string ConnectionString { get; set; }
+        public string DatabaseName { get; set; }
     }
 }

@@ -11,7 +11,7 @@ namespace InterviewHelper.FormServices
         AddNewQuestionForm CreateNewQuestionForm
             (IEnumerable<Category> categories, IUnitOfWork unitOfWork,
             IMessageService messageService, IOpenAIQuestionService openAIQuestionService,
-            IAudioRecordService audioRecordService, AppViewConfiguration config);
+            IAudioRecordService audioRecordService, AppViewConfiguration config, TextEnvironment textEnvironment);
         UpdateCurrentQuestionForm CreateUpdateQuestionForm
            (QuestionModel model, IUnitOfWork unitOfWork, IMessageService messageService);
         DeleteQuestionForm DeleteQuestionForm

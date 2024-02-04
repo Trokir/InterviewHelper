@@ -14,10 +14,11 @@ namespace InterviewHelper.FormServices
             IMessageService messageService,
             IOpenAIQuestionService openAIQuestionService,
             IAudioRecordService audioRecordService,
-            AppViewConfiguration config)
+            AppViewConfiguration config,
+            TextEnvironment textEnvironment)
         {
             return new AddNewQuestionForm(categories, unitOfWork, messageService,
-                openAIQuestionService, audioRecordService, config);
+                openAIQuestionService, audioRecordService, config, textEnvironment);
         }
 
         public UpdateCurrentQuestionForm CreateUpdateQuestionForm(QuestionModel model, IUnitOfWork unitOfWork, IMessageService messageService)
