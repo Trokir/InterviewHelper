@@ -2,6 +2,8 @@
 using InterviewHelper.FormServices;
 using InterviewHelper.Services.Services;
 
+using MongoDB.Bson;
+
 using NAudio.Wave;
 
 using System;
@@ -32,22 +34,22 @@ namespace InterviewHelper.Forms
 
         }
 
-        
 
-        private async Task RefreshData()
+
+        private async Task RefreshData(IEnumerable<PngImage> images)
         {
 
             cmbFiles.Items.Clear();
-            _images = await _mongoDbService.GetAllImagesAsync();
+
             cmbFiles.ValueMember = "Id";
             cmbFiles.DisplayMember = "Description";
             this.Invoke((MethodInvoker)delegate
             {
 
                 cmbFiles.Items.Clear();
-                foreach (var category in _images)
+                foreach (var image in images)
                 {
-                    cmbFiles.Items.Add(category);
+                    cmbFiles.Items.Add(image);
                 }
 
             });
@@ -66,7 +68,8 @@ namespace InterviewHelper.Forms
                     string filePath = openFileDialog.FileName;
                     string fileName = Path.GetFileNameWithoutExtension(filePath);
                     await _mongoDbService.CreateImageAsync(filePath, fileName);
-                    await RefreshData();
+                    _images = await _mongoDbService.GetAllImagesAsync();
+                    await RefreshData(_images);
                 }
                 else if (dialog == DialogResult.No)
                 {
@@ -122,6 +125,25 @@ namespace InterviewHelper.Forms
                     await _mongoDbService.DeleteImageAsync(value.Id);
                 }
             }
+        }
+
+        private async void cmbFiles_TextUpdate(object sender, EventArgs e)
+        {
+            if (cmbFiles.Text.Length > 2)
+            {
+                var filter = cmbFiles.Text.Trim();
+                var filteredCollection = _images.Where(f => f.Description.Contains(filter, StringComparison.CurrentCultureIgnoreCase));
+
+                await RefreshData(filteredCollection);
+                cmbFiles.DroppedDown = true;
+            }
+            else 
+            {
+                cmbFiles.DroppedDown = false;
+                await RefreshData(_images);
+            }
+            cmbFiles.SelectionStart = cmbFiles.Text.Length;
+            cmbFiles.SelectionLength = 0;
         }
     }
 }

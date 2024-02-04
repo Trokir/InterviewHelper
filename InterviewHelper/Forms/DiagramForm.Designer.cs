@@ -103,6 +103,7 @@
             cmbFiles.Size = new Size(498, 29);
             cmbFiles.TabIndex = 1;
             cmbFiles.SelectedIndexChanged += cmbFiles_SelectedIndexChanged;
+            cmbFiles.TextUpdate += cmbFiles_TextUpdate;
             // 
             // btnSave
             // 
