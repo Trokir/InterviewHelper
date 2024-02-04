@@ -2,6 +2,8 @@
 using InterviewHelper.FormServices;
 using InterviewHelper.Services.Services;
 
+using NAudio.Wave;
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,22 +18,47 @@ namespace InterviewHelper.Forms
 {
     public partial class DiagramForm : Form
     {
-        private readonly IImageService _imageService;
         private readonly IMessageService _messageService;
+        private readonly IMongoDbService _mongoDbService;
+        private IEnumerable<PngImage> _images;
 
-        private IEnumerable<ImageEntity> _images;
-        public DiagramForm(ImageService imageService, IMessageService messageService)
+        private float currentZoom = 1.0F;
+
+        public DiagramForm(ImageService imageService, IMessageService messageService,
+            IMongoDbService mongoDbService)
         {
             InitializeComponent();
-            _imageService = imageService;
+            _mongoDbService = mongoDbService;
             _messageService = messageService;
 
+        }
+
+        
+
+        private async Task RefreshData()
+        {
+
+            cmbFiles.Items.Clear();
+            _images = await _mongoDbService.GetAllImagesAsync();
+            cmbFiles.ValueMember = "Id";
+            cmbFiles.DisplayMember = "Description";
+            this.Invoke((MethodInvoker)delegate
+            {
+
+                cmbFiles.Items.Clear();
+                foreach (var category in _images)
+                {
+                    cmbFiles.Items.Add(category);
+                }
+
+            });
+            cmbFiles.Refresh();
         }
 
         private async void btnSave_Click(object sender, EventArgs e)
         {
 
-            var openFileDialog = _imageService.SelectAndSavePngFile();
+            var openFileDialog = _mongoDbService.SelectAndSavePngFile();
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 var dialog = _messageService.ShowCustomMessage("Save this file?", "Save", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -39,7 +66,8 @@ namespace InterviewHelper.Forms
                 {
                     string filePath = openFileDialog.FileName;
                     string fileName = Path.GetFileNameWithoutExtension(filePath);
-                    await _imageService.SavePngFileContentToDb(filePath, fileName);
+                    await _mongoDbService.CreateImageAsync(filePath, fileName);
+                    await RefreshData();
                 }
                 else if (dialog == DialogResult.No)
                 {
@@ -50,27 +78,27 @@ namespace InterviewHelper.Forms
 
         private async void cmbFiles_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var value = cmbFiles.SelectedItem as ImageEntity;
+            var value = cmbFiles.SelectedItem as PngImage;
             if (value != null)
             {
-                var image = await _imageService.GetImageEntityById(value.Id);
+                var image = await _mongoDbService.GetImageByIdAsync(value.Id);
                 if (image is not null)
                 {
-                    using (var ms = new MemoryStream(image.Content))
+                    using (var ms = new MemoryStream(image.ImageData))
                     {
                         pcbImage.Image = Image.FromStream(ms);
                     }
                 }
-                txtInfo.Text = value.FileName;
+                txtInfo.Text = value.Description;
                 pcbImage.Refresh();
             }
         }
 
         private async void DiagramForm_Load(object sender, EventArgs e)
         {
-            _images = await _imageService.GetAllEntitiesAsync();
+            _images = await _mongoDbService.GetAllImagesAsync();
             cmbFiles.ValueMember = "Id";
-            cmbFiles.DisplayMember = "FileName";
+            cmbFiles.DisplayMember = "Description";
             this.Invoke((MethodInvoker)delegate
             {
 
@@ -86,13 +114,13 @@ namespace InterviewHelper.Forms
 
         private async void btnDelete_Click(object sender, EventArgs e)
         {
-            var value = cmbFiles.SelectedItem as ImageEntity;
+            var value = cmbFiles.SelectedItem as PngImage;
             if (value != null)
             {
                 var dialog = _messageService.ShowCustomMessage("Delete this file?", "Save", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (dialog == DialogResult.Yes)
                 {
-                    await _imageService.DeleteImageAsync(value);
+                    await _mongoDbService.DeleteImageAsync(value.Id);
                 }
             }
         }

@@ -17,6 +17,7 @@ namespace InterviewHelper.Forms
         private readonly IOpenAIQuestionService _openAIQuestionService;
         private readonly IAudioRecordService _audioRecordService;
         private readonly AppViewConfiguration _config;
+        private readonly TextEnvironment _textEnvironment;
         private Category _category;
 
         public AddNewQuestionForm(
@@ -25,7 +26,8 @@ namespace InterviewHelper.Forms
           IMessageService messageService,
           IOpenAIQuestionService openAIQuestionService,
           IAudioRecordService audioRecordService,
-          AppViewConfiguration config)
+          AppViewConfiguration config,
+          TextEnvironment textEnvironment)
         {
             InitializeComponent();
             _config = config;
@@ -34,6 +36,7 @@ namespace InterviewHelper.Forms
             _messageService = messageService;
             _openAIQuestionService = openAIQuestionService;
             _audioRecordService = audioRecordService;
+            _textEnvironment = textEnvironment;
         }
         private void InitializeControls()
         {
@@ -91,7 +94,7 @@ namespace InterviewHelper.Forms
         {
             if (!string.IsNullOrWhiteSpace(txtQuestion.Text))
             {
-                var answer = await _openAIQuestionService.GetAnswerAsync(txtQuestion.Text + " " + txtComment.Text, _config.BaseAnswer);
+                var answer = await _openAIQuestionService.GetAnswerAsync(txtQuestion.Text + " " + txtComment.Text, _textEnvironment.BaseAnswer);
                 txtAnswer.Clear();
                 txtAnswer.Text = answer;
             }
@@ -108,7 +111,7 @@ namespace InterviewHelper.Forms
             {
                 if (!string.IsNullOrWhiteSpace(txtQuestion.Text))
                 {
-                    var answer = await _openAIQuestionService.GetAnswerAsync(txtQuestion.Text + " " + txtComment.Text, _config.BaseAnswer);
+                    var answer = await _openAIQuestionService.GetAnswerAsync(txtQuestion.Text + " " + txtComment.Text, _textEnvironment.BaseAnswer);
                     txtAnswer.Clear();
                     txtAnswer.Text = answer;
                 }
@@ -120,7 +123,7 @@ namespace InterviewHelper.Forms
                 {
                     if (!string.IsNullOrWhiteSpace(item))
                     {
-                        var answer = await _openAIQuestionService.GetAnswerAsync(txtQuestion.Text + " " + txtComment.Text, _config.BaseAnswer);
+                        var answer = await _openAIQuestionService.GetAnswerAsync(txtQuestion.Text + " " + txtComment.Text, _textEnvironment.BaseAnswer);
 
                         if (_category is not null &&
                             !string.IsNullOrWhiteSpace(answer))
@@ -147,7 +150,7 @@ namespace InterviewHelper.Forms
             var conStr = string.Empty;
             if (e.KeyCode == Keys.Menu && Clipboard.ContainsText())
             {
-                conStr = $"{_config.CommonAnswer} \n {BaseInfo.ResumeSummary()}";
+                conStr = $"{_textEnvironment.CommonAnswer} \n {BaseInfo.ResumeSummary()}";
                 txtQuestion.Clear();
                 txtQuestion.Text = Clipboard.GetText();
                 var answer = await _openAIQuestionService.GetAnswerAsync(Clipboard.GetText() + " " + txtComment.Text, conStr);
@@ -156,7 +159,7 @@ namespace InterviewHelper.Forms
             }
             if (e.KeyCode == Keys.Oem3 && Clipboard.ContainsText())
             {
-                conStr = $"{_config.CodingAnswer} {cmbLang.Text}";
+                conStr = $"{_textEnvironment.CodingAnswer} {cmbLang.Text}";
                 txtQuestion.Clear();
                 txtQuestion.Text = Clipboard.GetText();
                 var answer = await _openAIQuestionService.GetGeneratedCodeAsync(Clipboard.GetText() + " " + txtComment.Text, conStr);
