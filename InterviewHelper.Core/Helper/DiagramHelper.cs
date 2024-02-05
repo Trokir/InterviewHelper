@@ -2,17 +2,17 @@
 {
     public static class DiagramHelper
     {
-        public static string AddInfo => "\r\nDo not use special characters between [ ] when generating Graph LR code." +
-            "Step 1 - The client sends an HTTP request to the API gateway." +
-            "\r\n\r\nStep 2 - The API gateway parses and validates the attributes in the HTTP request." +
-            "\r\n\r\nStep 3 - The API gateway performs allow-list/deny-list checks.\r\n\r\nStep 4 - " +
-            "The API gateway talks to an identity provider for authentication and authorization.\r\n\r\nStep" +
-            " 5 - The rate limiting rules are applied to the request. If it is over the limit, the request " +
-            "is rejected.\r\n\r\nSteps 6 and 7 - Now that the request has passed basic checks, the API gateway" +
-            " finds the relevant service\r\n to route to by path matching.\r\n\r\nStep 8 - The API gateway " +
-            "transforms the request into the appropriate protocol and sends it to backend microservices.\r\n\r\nSteps" +
-            " 9-12: The API gateway can handle errors properly, and deals with faults \r\nif the error" +
-            " takes a longer time to recover (circuit break). It can also leverage\r\n ELK (Elastic-Logstash-Kibana)" +
-            " stack for logging and monitoring. We sometimes cache data in the API gateway.";
+        public static string AddInfo =>
+                "Generate Graph LR code that visualizes the following process: " +
+             "1. Client sends an HTTP request to the API gateway. " +
+             "2. API gateway parses and validates the request. " +
+             "3. Allow-list/deny-list checks are performed. " +
+             "4. Authentication and authorization with an identity provider. " +
+             "5. Application of rate limiting rules and potential request rejection. " +
+             "6-7. Routing to the relevant service based on path matching. " +
+             "8. Transformation of the request for backend microservices. " +
+             "9-12. Error handling, circuit breaking, and potential use of the ELK stack for logging and monitoring, with occasional data caching at the API gateway. " +
+             "Avoid using special characters between brackets in the Graph LR code. ";
+
     }
 }
