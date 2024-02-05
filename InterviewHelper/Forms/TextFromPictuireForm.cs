@@ -71,7 +71,7 @@ namespace InterviewHelper.Forms
         {
             if (!string.IsNullOrWhiteSpace(txtText.Text))
             {
-                var responce = await _openAIQuestionService.GetAnswerAsync(txtText.Text, "");
+                var responce = await _openAIQuestionService.GetGeneratedAnswerAsync(txtText.Text, "", 0.7F);
                 txtAnswer.Text = responce ?? "No data";
             }
         }

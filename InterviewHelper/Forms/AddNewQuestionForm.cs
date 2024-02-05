@@ -94,7 +94,7 @@ namespace InterviewHelper.Forms
         {
             if (!string.IsNullOrWhiteSpace(txtQuestion.Text))
             {
-                var answer = await _openAIQuestionService.GetAnswerAsync(txtQuestion.Text + " " + txtComment.Text, _textEnvironment.BaseAnswer);
+                var answer = await _openAIQuestionService.GetGeneratedAnswerAsync(txtQuestion.Text + " " + txtComment.Text, _textEnvironment.BaseAnswer, 0.7F);
                 txtAnswer.Clear();
                 txtAnswer.Text = answer;
             }
@@ -111,19 +111,19 @@ namespace InterviewHelper.Forms
             {
                 if (!string.IsNullOrWhiteSpace(txtQuestion.Text))
                 {
-                    var answer = await _openAIQuestionService.GetAnswerAsync(txtQuestion.Text + " " + txtComment.Text, _textEnvironment.BaseAnswer);
+                    var answer = await _openAIQuestionService.GetGeneratedAnswerAsync(txtQuestion.Text + " " + txtComment.Text, _textEnvironment.BaseAnswer, 0.7F);
                     txtAnswer.Clear();
                     txtAnswer.Text = answer;
                 }
             }
-            else if (e.KeyChar == '\\')
+            else if (e.KeyChar == '+')
             {
                 var strArr = txtQuestion.Text.Split('\r', StringSplitOptions.RemoveEmptyEntries);
                 foreach (var item in strArr)
                 {
                     if (!string.IsNullOrWhiteSpace(item))
                     {
-                        var answer = await _openAIQuestionService.GetAnswerAsync(txtQuestion.Text + " " + txtComment.Text, _textEnvironment.BaseAnswer);
+                        var answer = await _openAIQuestionService.GetGeneratedAnswerAsync(txtQuestion.Text + " " + txtComment.Text, _textEnvironment.BaseAnswer, 0.7F);
 
                         if (_category is not null &&
                             !string.IsNullOrWhiteSpace(answer))
@@ -148,21 +148,21 @@ namespace InterviewHelper.Forms
         private async void txtQuestion_KeyDown(object sender, KeyEventArgs e)
         {
             var conStr = string.Empty;
-            if (e.KeyCode == Keys.Menu && Clipboard.ContainsText())
+            if (e.KeyCode == Keys.End && Clipboard.ContainsText())
             {
                 conStr = $"{_textEnvironment.CommonAnswer} \n {BaseInfo.ResumeSummary()}";
                 txtQuestion.Clear();
                 txtQuestion.Text = Clipboard.GetText();
-                var answer = await _openAIQuestionService.GetAnswerAsync(Clipboard.GetText() + " " + txtComment.Text, conStr);
+                var answer = await _openAIQuestionService.GetGeneratedAnswerAsync(Clipboard.GetText() + " " + txtComment.Text, conStr, 0.7F);
                 txtAnswer.Clear();
                 txtAnswer.Text = answer;
             }
-            if (e.KeyCode == Keys.Oem3 && Clipboard.ContainsText())
+            if (e.KeyCode == Keys.Down && Clipboard.ContainsText())
             {
                 conStr = $"{_textEnvironment.CodingAnswer} {cmbLang.Text}";
                 txtQuestion.Clear();
                 txtQuestion.Text = Clipboard.GetText();
-                var answer = await _openAIQuestionService.GetGeneratedCodeAsync(Clipboard.GetText() + " " + txtComment.Text, conStr);
+                var answer = await _openAIQuestionService.GetGeneratedAnswerAsync(Clipboard.GetText() + " " + txtComment.Text, conStr);
                 txtAnswer.Clear();
                 txtAnswer.Text = answer;
             }

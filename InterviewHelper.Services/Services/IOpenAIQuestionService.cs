@@ -2,9 +2,8 @@
 {
     public interface IOpenAIQuestionService
     {
-        Task<string> GetAnswerAsync(string question, string annotation);
+        Task<string> GetGeneratedAnswerAsync(string question, string annotation, float temperature = 0.3F);
         Task<string> DrawImageAsync(string message);
         Task<string> GetTextFromVoice(string path);
-        Task<string> GetGeneratedCodeAsync(string question, string annotation);
     }
 }

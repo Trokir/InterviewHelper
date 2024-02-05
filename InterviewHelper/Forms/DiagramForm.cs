@@ -1,20 +1,8 @@
-﻿using InterviewHelper.Core.Models;
+﻿using InterviewHelper.Core.Models.DTOs;
 using InterviewHelper.FormServices;
 using InterviewHelper.Services.Services;
 
-using MongoDB.Bson;
-
-using NAudio.Wave;
-
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace InterviewHelper.Forms
 {
@@ -137,7 +125,7 @@ namespace InterviewHelper.Forms
                 await RefreshData(filteredCollection);
                 cmbFiles.DroppedDown = true;
             }
-            else 
+            else
             {
                 cmbFiles.DroppedDown = false;
                 await RefreshData(_images);

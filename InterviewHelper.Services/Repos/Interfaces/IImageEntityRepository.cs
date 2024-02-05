@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using InterviewHelper.Core.Models.DTOs;
 
 namespace InterviewHelper.Services.Repos.Interfaces
 {
-    public interface IImageEntityRepository : IBaseRepository<Core.Models.ImageEntity>
+    public interface IImageEntityRepository : IBaseRepository<ImageEntity>
     {
     }
 }

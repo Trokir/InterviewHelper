@@ -1,15 +1,10 @@
-﻿using InterviewHelper.Core.Models;
+﻿using InterviewHelper.Core.Models.DTOs;
 using InterviewHelper.Services.Data;
 using InterviewHelper.Services.Repos.Interfaces;
 
 using Microsoft.EntityFrameworkCore;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace InterviewHelper.Services.Repos
 {

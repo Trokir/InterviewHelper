@@ -3,7 +3,7 @@
 using Google.Cloud.Speech.V1;
 
 using InterviewHelper.Core.Config;
-using InterviewHelper.Core.Models;
+using InterviewHelper.Core.Models.DTOs;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -24,21 +24,25 @@ namespace InterviewHelper.Services.Services
             _config = options.Value;
             _factory = factory;
         }
-        public async Task<string> GetAnswerAsync(string question, string annotation)
+        public async Task<string> GetGeneratedAnswerAsync(string question, string annotation, float temperature = 0.3F)
         {
-            ///*make it UPPERCASE*/
             var fullQuestion = $"{question} {annotation}";
             //  var fullQuestion = question;
-            var modelJson = new OpenAIModel
+            var modelJson = new
             {
-                model = "gpt-3.5-turbo-1106",
-                messages = new Core.Models.Message[]
-               {
-                  new() {
-                        role ="user",
+                model = "gpt-3.5-turbo",
+                messages = new[] {
+                new {
+                    role = "system",
                     content = fullQuestion
-                  }
-               }
+                }
+            },
+                temperature = temperature,
+                max_tokens = 2000,
+                top_p = 1.0,
+                frequency_penalty = 0.0,
+                presence_penalty = 0.0,
+                stop = new[] { "🍍" }
             };
             var json = JsonSerializer.Serialize(modelJson);
             using var scope = _factory.CreateScope();
@@ -55,48 +59,12 @@ namespace InterviewHelper.Services.Services
             var response = await client.SendAsync(request);
             response.EnsureSuccessStatusCode();
             string responseBody = await response.Content.ReadAsStringAsync();
-            var answerModel = JsonSerializer.Deserialize<OpenAIModelResponce>(responseBody);
-            var result = answerModel?.choices?.FirstOrDefault()?.message.content ?? string.Empty;
-
-            return result;
-        }
-
-        public async Task<string> GetGeneratedCodeAsync(string question, string annotation)
-        {
-
-            ///*make it UPPERCASE*/
-            var fullQuestion = $"{question} {annotation}";
-
-
-            // Construct the request payload
-            var requestData = new
-            {
-                model = "gpt-3.5-turbo-instruct",
-                prompt = fullQuestion,
-                max_tokens = 1500,
-                temperature = 0
-            };
-            var json = JsonSerializer.Serialize(requestData);
-            using var scope = _factory.CreateScope();
-            var httpClient = scope.ServiceProvider
-                                    .GetRequiredService<IHttpClientFactory>();
-            var client = httpClient.CreateClient();
-            var request = new HttpRequestMessage(HttpMethod.Post, _config.CodeGen);
-
-            request.Headers.Add("Authorization", "Bearer " + _config.ApiKey);
-
-            request.Content = new StringContent(json);
-            request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-
-            var response = await client.SendAsync(request);
-            response.EnsureSuccessStatusCode();
-            string responseBody = await response.Content.ReadAsStringAsync();
             var answerModel = JsonSerializer.Deserialize<CodeGenResponceModel>(responseBody);
-            var result = answerModel?.choices?.FirstOrDefault()?.text ?? string.Empty;
-
+            var result = answerModel?.choices?.FirstOrDefault()?.message.content ?? string.Empty;
             return result;
-
         }
+
+
 
         public async Task<string> DrawImageAsync(string message)
         {

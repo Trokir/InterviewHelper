@@ -1,18 +1,10 @@
 ﻿using InterviewHelper.Core.Config;
-using InterviewHelper.Core.Models;
+using InterviewHelper.Core.Models.DTOs;
 
 using Microsoft.Extensions.Options;
 
 using MongoDB.Bson;
 using MongoDB.Driver;
-
-using SharpCompress.Common;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace InterviewHelper.Services.Services
 {
@@ -47,7 +39,7 @@ namespace InterviewHelper.Services.Services
             var filter = Builders<PngImage>.Filter.Eq(image => image.Id, id);
             return await _images.Find(filter).FirstOrDefaultAsync();
         }
-      
+
         public async Task CreateImageAsync(string filePath, string fileName)
         {
             byte[] fileContent = await File.ReadAllBytesAsync(filePath);
