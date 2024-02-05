@@ -1,17 +1,5 @@
-﻿using InterviewHelper.Core.Models;
-using InterviewHelper.Services.Data;
+﻿using InterviewHelper.Core.Models.DTOs;
 using InterviewHelper.Services.Repos.Interfaces;
-
-using Microsoft.EntityFrameworkCore;
-
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Tensorflow.IO;
 
 namespace InterviewHelper.Services.Services
 {
@@ -38,7 +26,7 @@ namespace InterviewHelper.Services.Services
             var result = await _imageEntityRepository.GetByIdAsync(id);
             return result ?? new ImageEntity();
         }
-        public OpenFileDialog  SelectAndSavePngFile()
+        public OpenFileDialog SelectAndSavePngFile()
         {
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
@@ -46,7 +34,7 @@ namespace InterviewHelper.Services.Services
                 Title = "Select a PNG File"
             };
 
-           return openFileDialog;
+            return openFileDialog;
         }
 
         public async Task SavePngFileContentToDb(string filePath, string fileName)
@@ -63,7 +51,7 @@ namespace InterviewHelper.Services.Services
 
                 await _imageEntityRepository.AddAsync(pngFile);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
         }

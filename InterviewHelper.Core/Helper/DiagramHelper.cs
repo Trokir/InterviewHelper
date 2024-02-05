@@ -1,15 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Reflection.Metadata;
-using System.Reflection.PortableExecutable;
-using System.Security.Policy;
-using System.Security.Principal;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace InterviewHelper.Core.Helper
+﻿namespace InterviewHelper.Core.Helper
 {
     public static class DiagramHelper
     {

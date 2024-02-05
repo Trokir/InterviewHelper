@@ -12,7 +12,7 @@ namespace InterviewHelper.Forms
     {
         private readonly AppViewConfiguration _config;
         private readonly IMessageService _messageService;
-      
+
         public CreateDiagramForm(IOptions<AppViewConfiguration> options,
             IMessageService messageService)
         {

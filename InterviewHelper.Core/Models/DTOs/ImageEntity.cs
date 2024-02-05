@@ -1,6 +1,4 @@
-﻿
-
-namespace InterviewHelper.Core.Models
+﻿namespace InterviewHelper.Core.Models.DTOs
 {
     public class ImageEntity
     {

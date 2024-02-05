@@ -1,4 +1,5 @@
 ﻿using InterviewHelper.Core.Models;
+using InterviewHelper.Core.Models.DTOs;
 
 using Microsoft.EntityFrameworkCore;
 

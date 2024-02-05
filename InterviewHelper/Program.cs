@@ -1,6 +1,5 @@
 
 using InterviewHelper.Core.Config;
-using InterviewHelper.Core.Models;
 using InterviewHelper.Forms;
 using InterviewHelper.FormServices;
 using InterviewHelper.Services.Data;
@@ -49,15 +48,10 @@ namespace InterviewHelper
         {
             // Bind settings
             var settings = new AppViewConfiguration();
-            var env= new TextEnvironment();
 
             Configuration.GetSection("AppViewConfiguration").Bind(settings);
             _ = services.AddSingleton(Options.Create(settings));
-            Configuration.GetSection("TextEnvironment").Bind(env);
-            _ = services.AddSingleton(Options.Create(env));
-
             services.AddSingleton(settings)
-                .AddSingleton(env)
                 .AddTransient<IQuestionRepository, QuestionRepository>()
                 .AddTransient<ICategoryRepository, CategoryRepository>()
                 .AddTransient<IImageEntityRepository, ImageEntityRepository>()
@@ -79,7 +73,6 @@ namespace InterviewHelper
             services.AddTransient<IOpenAIQuestionService, OpenAIQuestionService>();
             services.AddScoped<ImageService>();
             services.AddTransient<IAudioRecordService, AudioRecordService>();
-            services.AddTransient<IMongoDbService, MongoDbService>();
 
 
         }
