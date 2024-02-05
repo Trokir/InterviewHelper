@@ -71,6 +71,7 @@ namespace InterviewHelper
             services.AddTransient<IQuestionFormFactory, QuestionFormFactory>();
             services.AddTransient<IMessageService, MessageService>();
             services.AddTransient<IOpenAIQuestionService, OpenAIQuestionService>();
+            services.AddTransient<IMongoDbService, MongoDbService>();
             services.AddScoped<ImageService>();
             services.AddTransient<IAudioRecordService, AudioRecordService>();
 
