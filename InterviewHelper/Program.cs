@@ -64,7 +64,6 @@ namespace InterviewHelper
 
             // Add other services
             services.AddScoped<MainForm>();
-            services.AddTransient<TextFromPictuireForm>();
             services.AddTransient<AddNewCategoryForm>();
             services.AddTransient<CreateDiagramForm>();
             services.AddTransient<DiagramForm>();

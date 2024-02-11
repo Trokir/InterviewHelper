@@ -1,11 +1,15 @@
 ﻿using InterviewHelper.Core.Config;
 using InterviewHelper.Core.Helper;
 using InterviewHelper.Core.Models;
+using InterviewHelper.Core.Models.DTOs;
 using InterviewHelper.FormServices;
 using InterviewHelper.Services.Repos.Interfaces;
 using InterviewHelper.Services.Services;
 
 using System.Diagnostics;
+using System.Xml.Linq;
+
+using Tesseract;
 
 namespace InterviewHelper.Forms
 {
@@ -104,7 +108,7 @@ namespace InterviewHelper.Forms
             btnSave.Enabled = true;
         }
 
-
+      
         private async void txtQuestion_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Enter)
@@ -172,7 +176,6 @@ namespace InterviewHelper.Forms
         {
             txtQuestion.Focus();
         }
-
 
         private string InitDirectory()
         {
@@ -255,9 +258,53 @@ namespace InterviewHelper.Forms
             btnSyRecord.Text = "Rec1";
         }
 
+        private void pkbPic_MouseEnter(object sender, EventArgs e)
+        {
+            if (Clipboard.ContainsImage())
+            {
+                Image image = Clipboard.GetImage();
+                pkbPic.Image = image;
 
+                SaveImageToFile(image);
+            }
+        }
 
+        private void SaveImageToFile(Image image)
+        {
+            var path = @"C:\\Users\\troki\\Desktop\\temp";
+            string filePath = Path.Combine(path, "image.jpg");
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
 
+                image.Save(filePath, System.Drawing.Imaging.ImageFormat.Png);
+                var tessPath = "D:\\Projects\\InterviewHelper\\InterviewHelper.Core\\tessdata\\";
+                using var engine = new TesseractEngine(tessPath, "eng", EngineMode.Default);
+                using var img = Pix.LoadFromFile(filePath);
+                using var page = engine.Process(img);
+                var content = page.GetText();
+                if (!string.IsNullOrEmpty(content))
+                {
+                    txtQuestion.Text = content;
+                }
+                else
+                {
+                    txtQuestion.Text = "Can't parse";
+                }
+            }
+            if (File.Exists(filePath))
+            {
+                // If file found, delete it
+                File.Delete(filePath);
+            }
+            if (Directory.Exists(path))
+            {
+                Directory.Delete(path);
+            }
+
+        }
+
+      
     }
 }
 
