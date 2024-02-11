@@ -162,13 +162,6 @@ namespace InterviewHelper.Forms
             }
         }
 
-        private void btnShowPic_Click(object sender, EventArgs e)
-        {
-            var form = _serviceProvider.GetRequiredService<TextFromPictuireForm>();
-            form.Show();
-
-        }
-
         private void dgvQuestions_SelectionChanged(object sender, EventArgs e)
         {
             var answer = dgvQuestions.CurrentRow?.Cells[3]?.Value.ToString() ?? string.Empty;

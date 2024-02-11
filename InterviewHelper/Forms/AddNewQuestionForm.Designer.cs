@@ -29,8 +29,6 @@
         private void InitializeComponent()
         {
             cmbCategory = new ComboBox();
-            label1 = new Label();
-            txtQuestion = new TextBox();
             label3 = new Label();
             btnGpt = new Button();
             btnSave = new Button();
@@ -40,50 +38,33 @@
             cmbLang = new ComboBox();
             btnSyRecord = new Button();
             groupBoxDevices = new GroupBox();
+            groupBox1 = new GroupBox();
+            backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            pkbPic = new PictureBox();
+            txtQuestion = new RichTextBox();
             groupBoxDevices.SuspendLayout();
+            groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pkbPic).BeginInit();
             SuspendLayout();
             // 
             // cmbCategory
             // 
             cmbCategory.FormattingEnabled = true;
-            cmbCategory.Location = new Point(165, 10);
+            cmbCategory.Location = new Point(15, 20);
             cmbCategory.Margin = new Padding(3, 2, 3, 2);
             cmbCategory.Name = "cmbCategory";
             cmbCategory.Size = new Size(196, 23);
             cmbCategory.TabIndex = 0;
             cmbCategory.SelectedIndexChanged += cmbCategory_SelectedIndexChanged;
             // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(23, 16);
-            label1.Name = "label1";
-            label1.Size = new Size(110, 15);
-            label1.TabIndex = 2;
-            label1.Text = "Existing Categories:";
-            // 
-            // txtQuestion
-            // 
-            txtQuestion.Font = new Font("Segoe UI", 12F);
-            txtQuestion.Location = new Point(393, 23);
-            txtQuestion.Margin = new Padding(3, 2, 3, 2);
-            txtQuestion.Multiline = true;
-            txtQuestion.Name = "txtQuestion";
-            txtQuestion.ScrollBars = ScrollBars.Both;
-            txtQuestion.Size = new Size(871, 138);
-            txtQuestion.TabIndex = 4;
-            txtQuestion.KeyDown += txtQuestion_KeyDown;
-            txtQuestion.KeyPress += txtQuestion_KeyPress;
-            txtQuestion.MouseEnter += txtQuestion_MouseEnter;
-            // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(117, 66);
+            label3.Location = new Point(30, 56);
             label3.Name = "label3";
-            label3.Size = new Size(49, 15);
+            label3.Size = new Size(36, 15);
             label3.TabIndex = 6;
-            label3.Text = "Answer:";
+            label3.Text = "Lang:";
             // 
             // btnGpt
             // 
@@ -111,7 +92,7 @@
             // 
             // txtComment
             // 
-            txtComment.Location = new Point(180, 58);
+            txtComment.Location = new Point(30, 76);
             txtComment.Margin = new Padding(3, 2, 3, 2);
             txtComment.Name = "txtComment";
             txtComment.Size = new Size(181, 23);
@@ -130,7 +111,7 @@
             // 
             // btnRec
             // 
-            btnRec.Location = new Point(161, 51);
+            btnRec.Location = new Point(162, 22);
             btnRec.Name = "btnRec";
             btnRec.Size = new Size(168, 50);
             btnRec.TabIndex = 11;
@@ -143,7 +124,7 @@
             // 
             cmbLang.FormattingEnabled = true;
             cmbLang.Items.AddRange(new object[] { "Angular", "C", "C#", "C++", "Go", "Java", "JavaScript", "Python", "React", "Swift", "TypeScript", "Visual Basic (VB.NET)" });
-            cmbLang.Location = new Point(12, 40);
+            cmbLang.Location = new Point(89, 48);
             cmbLang.Name = "cmbLang";
             cmbLang.Size = new Size(121, 23);
             cmbLang.TabIndex = 12;
@@ -151,7 +132,7 @@
             // 
             // btnSyRecord
             // 
-            btnSyRecord.Location = new Point(10, 51);
+            btnSyRecord.Location = new Point(10, 22);
             btnSyRecord.Name = "btnSyRecord";
             btnSyRecord.Size = new Size(145, 50);
             btnSyRecord.TabIndex = 13;
@@ -164,12 +145,49 @@
             // 
             groupBoxDevices.Controls.Add(btnSyRecord);
             groupBoxDevices.Controls.Add(btnRec);
-            groupBoxDevices.Location = new Point(32, 90);
+            groupBoxDevices.Location = new Point(32, 119);
             groupBoxDevices.Name = "groupBoxDevices";
-            groupBoxDevices.Size = new Size(336, 115);
+            groupBoxDevices.Size = new Size(336, 86);
             groupBoxDevices.TabIndex = 14;
             groupBoxDevices.TabStop = false;
             groupBoxDevices.Text = "Audio";
+            // 
+            // groupBox1
+            // 
+            groupBox1.Controls.Add(cmbCategory);
+            groupBox1.Controls.Add(cmbLang);
+            groupBox1.Controls.Add(txtComment);
+            groupBox1.Controls.Add(label3);
+            groupBox1.Location = new Point(142, 12);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(226, 111);
+            groupBox1.TabIndex = 15;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "input";
+            // 
+            // pkbPic
+            // 
+            pkbPic.BackColor = SystemColors.MenuHighlight;
+            pkbPic.Location = new Point(17, 23);
+            pkbPic.Name = "pkbPic";
+            pkbPic.Size = new Size(100, 88);
+            pkbPic.SizeMode = PictureBoxSizeMode.Zoom;
+            pkbPic.TabIndex = 16;
+            pkbPic.TabStop = false;
+            pkbPic.MouseEnter += pkbPic_MouseEnter;
+            // 
+            // txtQuestion
+            // 
+            txtQuestion.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            txtQuestion.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 204);
+            txtQuestion.Location = new Point(387, 17);
+            txtQuestion.Name = "txtQuestion";
+            txtQuestion.Size = new Size(877, 188);
+            txtQuestion.TabIndex = 17;
+            txtQuestion.Text = "";
+            txtQuestion.KeyDown += txtQuestion_KeyDown;
+            txtQuestion.KeyPress += txtQuestion_KeyPress;
+            txtQuestion.MouseEnter += txtQuestion_MouseEnter;
             // 
             // AddNewQuestionForm
             // 
@@ -177,30 +195,27 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.WindowFrame;
             ClientSize = new Size(1348, 542);
+            Controls.Add(txtQuestion);
+            Controls.Add(pkbPic);
+            Controls.Add(groupBox1);
             Controls.Add(groupBoxDevices);
-            Controls.Add(cmbLang);
             Controls.Add(txtAnswer);
-            Controls.Add(txtComment);
             Controls.Add(btnSave);
             Controls.Add(btnGpt);
-            Controls.Add(label3);
-            Controls.Add(txtQuestion);
-            Controls.Add(label1);
-            Controls.Add(cmbCategory);
             Margin = new Padding(3, 2, 3, 2);
             Name = "AddNewQuestionForm";
             Text = "Add New Question";
             Load += AddNewQuestionForm_Load;
             groupBoxDevices.ResumeLayout(false);
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pkbPic).EndInit();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
 
         private ComboBox cmbCategory;
-        private Label label1;
-        private TextBox txtQuestion;
         private Label label3;
         private Button btnGpt;
         private Button btnSave;
@@ -210,5 +225,9 @@
         private ComboBox cmbLang;
         private Button btnSyRecord;
         private GroupBox groupBoxDevices;
+        private GroupBox groupBox1;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private PictureBox pkbPic;
+        private RichTextBox txtQuestion;
     }
 }

@@ -37,14 +37,13 @@
             btnAddCategory = new Button();
             btnUpdate = new Button();
             btnDelete = new Button();
-            btnShowPic = new Button();
             txtSearch = new TextBox();
             dgvQuestions = new DataGridView();
             groupBox1 = new GroupBox();
+            btnDiagramShow = new Button();
             btnDiagram = new Button();
             backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             txtAnswer = new RichTextBox();
-            btnDiagramShow = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvQuestions).BeginInit();
             groupBox1.SuspendLayout();
             SuspendLayout();
@@ -119,18 +118,6 @@
             btnDelete.UseVisualStyleBackColor = true;
             btnDelete.Click += btnDelete_Click;
             // 
-            // btnShowPic
-            // 
-            btnShowPic.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            btnShowPic.Location = new Point(172, 61);
-            btnShowPic.Margin = new Padding(3, 2, 3, 2);
-            btnShowPic.Name = "btnShowPic";
-            btnShowPic.Size = new Size(167, 22);
-            btnShowPic.TabIndex = 8;
-            btnShowPic.Text = "Picture text";
-            btnShowPic.UseVisualStyleBackColor = true;
-            btnShowPic.Click += btnShowPic_Click;
-            // 
             // txtSearch
             // 
             txtSearch.BackColor = SystemColors.InactiveCaption;
@@ -186,7 +173,6 @@
             groupBox1.Controls.Add(btnAddCategory);
             groupBox1.Controls.Add(btnAddNew);
             groupBox1.Controls.Add(btnRefresh);
-            groupBox1.Controls.Add(btnShowPic);
             groupBox1.Controls.Add(btnUpdate);
             groupBox1.Controls.Add(btnDelete);
             groupBox1.Location = new Point(14, 368);
@@ -196,6 +182,18 @@
             groupBox1.Size = new Size(537, 87);
             groupBox1.TabIndex = 11;
             groupBox1.TabStop = false;
+            // 
+            // btnDiagramShow
+            // 
+            btnDiagramShow.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            btnDiagramShow.Location = new Point(357, 38);
+            btnDiagramShow.Margin = new Padding(3, 2, 3, 2);
+            btnDiagramShow.Name = "btnDiagramShow";
+            btnDiagramShow.Size = new Size(174, 22);
+            btnDiagramShow.TabIndex = 10;
+            btnDiagramShow.Text = "Show Diagram";
+            btnDiagramShow.UseVisualStyleBackColor = true;
+            btnDiagramShow.Click += btnDiagramShow_Click;
             // 
             // btnDiagram
             // 
@@ -220,18 +218,6 @@
             txtAnswer.Size = new Size(734, 397);
             txtAnswer.TabIndex = 12;
             txtAnswer.Text = "";
-            // 
-            // btnDiagramShow
-            // 
-            btnDiagramShow.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            btnDiagramShow.Location = new Point(357, 38);
-            btnDiagramShow.Margin = new Padding(3, 2, 3, 2);
-            btnDiagramShow.Name = "btnDiagramShow";
-            btnDiagramShow.Size = new Size(174, 22);
-            btnDiagramShow.TabIndex = 10;
-            btnDiagramShow.Text = "Show Diagram";
-            btnDiagramShow.UseVisualStyleBackColor = true;
-            btnDiagramShow.Click += btnDiagramShow_Click;
             // 
             // MainForm
             // 
@@ -262,7 +248,6 @@
         private Button btnAddCategory;
         private Button btnUpdate;
         private Button btnDelete;
-        private Button btnShowPic;
         private TextBox txtSearch;
         private DataGridView dgvQuestions;
         private GroupBox groupBox1;
