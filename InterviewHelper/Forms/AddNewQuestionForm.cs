@@ -121,15 +121,31 @@ namespace InterviewHelper.Forms
             {
 
                 var strArr = txtQuestion.Text.Split('\n', StringSplitOptions.RemoveEmptyEntries);
-                var poolList = await _openAIQuestionService.GetPoolOfAnswersAsync(strArr, txtComment.Text, _textEnvironment.BaseAnswer,_category);
-                
-                await _commandService.QuestionRepository.AddRangeAsync(poolList);
+                var poolList = new HashSet<QuestionModel>();
+                await foreach (var model in _openAIQuestionService.GetPoolOfAnswersAsync(strArr, txtComment.Text, _textEnvironment.BaseAnswer, _category))
+                {
+                    txtAnswer.Clear();
+                    txtAnswer.Text = $"Question: {model.Question} \n\n Answer: {model.Answer}";
+                    poolList.Add(model);
+                }
+                txtAnswer.Clear();
+                txtQuestion.Clear();
+                var dialog = _messageService.ShowCustomMessage("All answers are ready to save to DB. \n Continue?", "Sava Data", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                if (dialog == DialogResult.OK)
+                {
+                    await _commandService.QuestionRepository.AddRangeAsync(poolList);
+                }
+                else
+                {
+                    _messageService.ShowMessage("Save operation has been cancelled", "Abort");
+                }
+
             }
         }
         private async void txtQuestion_KeyDown(object sender, KeyEventArgs e)
         {
             var conStr = string.Empty;
-            if (e.KeyCode == Keys.End && Clipboard.ContainsText())
+            if (e.KeyCode == Keys.NumPad1 && Clipboard.ContainsText())
             {
                 conStr = $"{_textEnvironment.CommonAnswer} \n {BaseInfo.ResumeSummary()}";
                 txtQuestion.Clear();
@@ -138,7 +154,7 @@ namespace InterviewHelper.Forms
                 txtAnswer.Clear();
                 txtAnswer.Text = answer;
             }
-            if (e.KeyCode == Keys.Down && Clipboard.ContainsText())
+            if (e.KeyCode == Keys.NumPad2 && Clipboard.ContainsText())
             {
                 conStr = $"{_textEnvironment.CodingAnswer} {cmbLang.Text}";
                 txtQuestion.Clear();
