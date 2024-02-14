@@ -1,5 +1,6 @@
 using InterviewHelper.Core.Config;
 using InterviewHelper.Core.Models;
+using InterviewHelper.Core.Models.DTOs;
 using InterviewHelper.FormServices;
 using InterviewHelper.Services.Repos.Interfaces;
 using InterviewHelper.Services.Services;
@@ -23,8 +24,13 @@ namespace InterviewHelper.Forms
         private readonly IServiceProvider _serviceProvider;
         private readonly IMessageService _messageService;
         private readonly IAudioRecordService _audioRecordService;
+        private readonly IMongoDbService _mongoDbService;
+
+        private IEnumerable<PngImage> _images;
         private readonly AppViewConfiguration _config;
         private readonly TextEnvironment _textEnvironment;
+        private string _filePath = string.Empty;
+        private Category _category;
         private bool _isPressed;
         public MainForm(IUnitOfWork commandService,
             IQuestionFormFactory formFactory,
@@ -33,7 +39,8 @@ namespace InterviewHelper.Forms
             IOpenAIQuestionService openAIQuestionService,
             IAudioRecordService audioRecordService,
             IOptions<AppViewConfiguration> options,
-            IOptions<TextEnvironment>  textEnvironment)
+            IOptions<TextEnvironment> textEnvironment,
+            IMongoDbService mongoDbService)
         {
             _config = options.Value;
             _commandService = commandService;
@@ -44,6 +51,7 @@ namespace InterviewHelper.Forms
             _openAIQuestionService = openAIQuestionService;
             _audioRecordService = audioRecordService;
             _textEnvironment = textEnvironment.Value;
+            _mongoDbService = mongoDbService;
         }
 
 
@@ -51,14 +59,18 @@ namespace InterviewHelper.Forms
         private async void MainForm_Load(object sender, EventArgs e)
         {
             await InitializeControls(_commandService);
+            await InitDiagramForm();
             cmbCategory.ValueMember = "Id";
             cmbCategory.DisplayMember = "Name";
+            cmbxCategory.ValueMember = "Id";
+            cmbxCategory.DisplayMember = "Name";
             await Task.Run(() =>
             {
                 RunBatchFile("processKiller.bat");
                 RunBatchFile("diagram.bat");
-
+                webViewDiagram.Source = new Uri(_config.DiagramUrl);
             });
+
         }
         private async Task InitializeControls(IUnitOfWork commandService)
         {
@@ -73,7 +85,11 @@ namespace InterviewHelper.Forms
                 {
                     cmbCategory.Items.Add(category);
                 }
-
+                cmbxCategory.Items.Clear();
+                foreach (var category in _categories ?? Array.Empty<Category>())
+                {
+                    cmbxCategory.Items.Add(category);
+                }
             });
             cmbCategory.Refresh();
 
@@ -117,12 +133,7 @@ namespace InterviewHelper.Forms
             btnRefresh.Enabled = true;
         }
 
-        private void btnAddNew_Click(object sender, EventArgs e)
-        {
-            var form = _formFactory.CreateNewQuestionForm(_categories, _commandService,
-                _messageService, _openAIQuestionService, _audioRecordService, _config, _textEnvironment);
-            form.Show();
-        }
+
 
         private void btnAddCategory_Click(object sender, EventArgs e)
         {
@@ -233,12 +244,7 @@ namespace InterviewHelper.Forms
             }
         }
 
-        private void btnDiagram_Click(object sender, EventArgs e)
-        {
 
-            var form = _serviceProvider.GetRequiredService<CreateDiagramForm>();
-            form.Show();
-        }
 
         private void RunBatchFile(string fileName)
         {
@@ -255,10 +261,15 @@ namespace InterviewHelper.Forms
             process.WaitForExit();
         }
 
-        private void btnDiagramShow_Click(object sender, EventArgs e)
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var form = _serviceProvider.GetRequiredService<DiagramForm>();
-            form.Show();
+            var index = tabControl1.SelectedIndex;
+            if (tabControl1.SelectedIndex == 3)
+            {
+                webViewDiagram.Refresh();
+                webViewDiagram.Source = new Uri(_config.DiagramUrl);
+            }
+
         }
     }
 }

@@ -8,18 +8,6 @@ namespace InterviewHelper.FormServices
 {
     public class QuestionFormFactory : IQuestionFormFactory
     {
-        public AddNewQuestionForm CreateNewQuestionForm(
-            IEnumerable<Category> categories,
-            IUnitOfWork unitOfWork,
-            IMessageService messageService,
-            IOpenAIQuestionService openAIQuestionService,
-            IAudioRecordService audioRecordService,
-            AppViewConfiguration config,
-            TextEnvironment textEnvironment)
-        {
-            return new AddNewQuestionForm(categories, unitOfWork, messageService,
-                openAIQuestionService, audioRecordService, config, textEnvironment);
-        }
 
         public UpdateCurrentQuestionForm CreateUpdateQuestionForm(QuestionModel model, IUnitOfWork unitOfWork, IMessageService messageService)
         {

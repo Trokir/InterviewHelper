@@ -1,85 +1,43 @@
-﻿using InterviewHelper.Core.Config;
-using InterviewHelper.Core.Helper;
+﻿using InterviewHelper.Core.Helper;
 using InterviewHelper.Core.Models;
-using InterviewHelper.Core.Models.DTOs;
-using InterviewHelper.FormServices;
-using InterviewHelper.Services.Repos.Interfaces;
-using InterviewHelper.Services.Services;
-
-using System.Diagnostics;
-using System.Xml.Linq;
+using InterviewHelper.Forms;
 
 using Tesseract;
-
 namespace InterviewHelper.Forms
 {
-    [DebuggerDisplay($"{{{nameof(GetDebuggerDisplay)}(),nq}}")]
-    public partial class AddNewQuestionForm : Form
+    public partial class MainForm : Form
     {
-        private readonly IUnitOfWork _commandService;
-        private readonly IEnumerable<Category> _categories;
-        private readonly IMessageService _messageService;
-        private readonly IOpenAIQuestionService _openAIQuestionService;
-        private readonly IAudioRecordService _audioRecordService;
-        private readonly AppViewConfiguration _config;
-        private readonly TextEnvironment _textEnvironment;
-        private string _filePath = string.Empty;
-        private Category _category;
-
-        public AddNewQuestionForm(
-            IEnumerable<Category> categories,
-            IUnitOfWork commandService,
-          IMessageService messageService,
-          IOpenAIQuestionService openAIQuestionService,
-          IAudioRecordService audioRecordService,
-          AppViewConfiguration config,
-          TextEnvironment textEnvironment)
-        {
-            InitializeComponent();
-            _config = config;
-            _categories = categories;
-            _commandService = commandService;
-            _messageService = messageService;
-            _openAIQuestionService = openAIQuestionService;
-            _audioRecordService = audioRecordService;
-            _textEnvironment = textEnvironment;
-        }
         private void InitializeControls()
         {
 
             this.Invoke((MethodInvoker)delegate
             {
-                cmbCategory.Items.Clear();
-                foreach (var category in _categories ?? Array.Empty<Category>())
-                {
-                    cmbCategory.Items.Add(category);
-                }
+              
             });
         }
-        private void AddNewQuestionForm_Load(object sender, EventArgs e)
-        {
-            cmbCategory.ValueMember = "Id";
-            cmbCategory.DisplayMember = "Name";
-            InitializeControls();
-            btnSave.Enabled = false;
-        }
+
+      /// <summary>
+      /// 
+      /// </summary>
+      /// <param name="sender"></param>
+      /// <param name="e"></param>
         private async void btnSave_Click(object sender, EventArgs e)
         {
             if (_category is not null &&
                 !string.IsNullOrWhiteSpace(txtQuestion.Text) &&
-                !string.IsNullOrWhiteSpace(txtAnswer.Text))
+                !string.IsNullOrWhiteSpace(txtxAnswer.Text))
             {
                 var newQuestion = new QuestionModel
                 {
                     Category = _category,
                     Question = txtQuestion.Text,
-                    Answer = txtAnswer.Text
+                    Answer = txtxAnswer.Text
                 };
                 var dialog = _messageService.ShowCustomMessage("Save this question?", "Save", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (dialog == DialogResult.Yes)
                 {
                     await _commandService.QuestionRepository.AddAsync(newQuestion);
-                    txtAnswer.Clear();
+                    txtxAnswer.Clear();
                     btnSave.Enabled = false;
                 }
                 else if (dialog == DialogResult.No)
@@ -89,23 +47,43 @@ namespace InterviewHelper.Forms
 
             }
         }
-        private void cmbCategory_SelectedIndexChanged(object sender, EventArgs e)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void cmbxCategory_SelectedIndexChanged(object sender, EventArgs e)
         {
-            _category = cmbCategory.SelectedItem as Category;
+            _category = cmbxCategory.SelectedItem as Category;
         }
-        private async void btnGpt_Click(object sender, EventArgs e)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void btnxGpt_Click(object sender, EventArgs e)
         {
             if (!string.IsNullOrWhiteSpace(txtQuestion.Text))
             {
                 var answer = await _openAIQuestionService.GetGeneratedAnswerAsync(txtQuestion.Text + " " + txtComment.Text, _textEnvironment.BaseAnswer, 0.7F);
-                txtAnswer.Clear();
-                txtAnswer.Text = answer;
+                txtxAnswer.Clear();
+                txtxAnswer.Text = answer;
             }
         }
-        private void txtAnswer_TextChanged(object sender, EventArgs e)
+       /// <summary>
+       /// 
+       /// </summary>
+       /// <param name="sender"></param>
+       /// <param name="e"></param>
+        private void txtxAnswer_TextChanged(object sender, EventArgs e)
         {
             btnSave.Enabled = true;
         }
+      /// <summary>
+      /// 
+      /// </summary>
+      /// <param name="sender"></param>
+      /// <param name="e"></param>
         private async void txtQuestion_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Enter)
@@ -113,8 +91,8 @@ namespace InterviewHelper.Forms
                 if (!string.IsNullOrWhiteSpace(txtQuestion.Text))
                 {
                     var answer = await _openAIQuestionService.GetGeneratedAnswerAsync(txtQuestion.Text + " " + txtComment.Text, _textEnvironment.BaseAnswer, 0.7F);
-                    txtAnswer.Clear();
-                    txtAnswer.Text = answer;
+                    txtxAnswer.Clear();
+                    txtxAnswer.Text = answer;
                 }
             }
             else if (e.KeyChar == '+')
@@ -124,13 +102,13 @@ namespace InterviewHelper.Forms
                 var poolList = new HashSet<QuestionModel>();
                 await foreach (var model in _openAIQuestionService.GetPoolOfAnswersAsync(strArr, txtComment.Text, _textEnvironment.BaseAnswer, _category))
                 {
-                    txtAnswer.Clear();
-                    txtAnswer.Text = $"Answer: {model.Answer}";
+                    txtxAnswer.Clear();
+                    txtxAnswer.Text = $"Answer: {model.Answer}";
                     txtQuestion.Clear();
-                    txtQuestion.Text =  $"Question: {model.Question}";
+                    txtQuestion.Text = $"Question: {model.Question}";
                     poolList.Add(model);
                 }
-                txtAnswer.Clear();
+                txtxAnswer.Clear();
                 txtQuestion.Clear();
                 var dialog = _messageService.ShowCustomMessage("All answers are ready to save to DB. \n Continue?", "Sava Data", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
                 if (dialog == DialogResult.OK)
@@ -144,6 +122,11 @@ namespace InterviewHelper.Forms
 
             }
         }
+       /// <summary>
+       /// 
+       /// </summary>
+       /// <param name="sender"></param>
+       /// <param name="e"></param>
         private async void txtQuestion_KeyDown(object sender, KeyEventArgs e)
         {
             var conStr = string.Empty;
@@ -153,8 +136,8 @@ namespace InterviewHelper.Forms
                 txtQuestion.Clear();
                 txtQuestion.Text = Clipboard.GetText();
                 var answer = await _openAIQuestionService.GetGeneratedAnswerAsync(Clipboard.GetText() + " " + txtComment.Text, conStr, 0.7F);
-                txtAnswer.Clear();
-                txtAnswer.Text = answer;
+                txtxAnswer.Clear();
+                txtxAnswer.Text = answer;
             }
             if (e.KeyCode == Keys.NumPad2 && Clipboard.ContainsText())
             {
@@ -162,20 +145,35 @@ namespace InterviewHelper.Forms
                 txtQuestion.Clear();
                 txtQuestion.Text = Clipboard.GetText();
                 var answer = await _openAIQuestionService.GetGeneratedAnswerAsync(Clipboard.GetText() + " " + txtComment.Text, conStr);
-                txtAnswer.Clear();
-                txtAnswer.Text = answer;
+                txtxAnswer.Clear();
+                txtxAnswer.Text = answer;
             }
         }
+       /// <summary>
+       /// 
+       /// </summary>
+       /// <param name="sender"></param>
+       /// <param name="e"></param>
         private void txtQuestion_MouseEnter(object sender, EventArgs e)
         {
             txtQuestion.Focus();
         }
+       /// <summary>
+       /// 
+       /// </summary>
+       /// <param name="sender"></param>
+       /// <param name="e"></param>
         private void btnRec_MouseDown(object sender, MouseEventArgs e)
         {
             btnRec.Text = "Record...";
             _filePath = InitDirectory();
             _audioRecordService.StartRecordMicrofhoneAsync();
         }
+       /// <summary>
+       /// 
+       /// </summary>
+       /// <param name="sender"></param>
+       /// <param name="e"></param>
         private async void btnRec_MouseUp(object sender, MouseEventArgs e)
         {
             btnRec.Text = "Saving...";
@@ -194,12 +192,22 @@ namespace InterviewHelper.Forms
             RemoveDirectory();
             btnRec.Text = "Rec";
         }
+      /// <summary>
+      /// 
+      /// </summary>
+      /// <param name="sender"></param>
+      /// <param name="e"></param>
         private async void btnSyRecord_MouseDown(object sender, MouseEventArgs e)
         {
             btnSyRecord.Text = "Record..";
             _filePath = InitDirectory();
             await _audioRecordService.StartRecordingSpeakerAsync(_filePath);
         }
+       /// <summary>
+       /// 
+       /// </summary>
+       /// <param name="sender"></param>
+       /// <param name="e"></param>
         private async void btnSyRecord_MouseUp(object sender, MouseEventArgs e)
         {
             btnSyRecord.Text = "Saving..";
@@ -289,11 +297,5 @@ namespace InterviewHelper.Forms
             }
 
         }
-
-        private string GetDebuggerDisplay()
-        {
-            return ToString();
-        }
     }
 }
-
