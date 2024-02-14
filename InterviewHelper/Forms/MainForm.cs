@@ -271,5 +271,44 @@ namespace InterviewHelper.Forms
             }
 
         }
+
+        protected override bool ProcessCmdKey(ref System.Windows.Forms.Message msg, Keys keyData)
+        {
+            // Check if the TabControl exists and has more than one tab.
+            if (tabControl1 != null && tabControl1.TabCount > 1)
+            {
+                // Move to the next tab with the Right arrow key.
+                if (keyData == Keys.Right)
+                {
+                    int nextTabIndex = tabControl1.SelectedIndex + 1;
+                    if (nextTabIndex < tabControl1.TabCount)
+                    {
+                        tabControl1.SelectedIndex = nextTabIndex;
+                    }
+                    else
+                    {
+                        // Optional: Wrap around to the first tab.
+                        tabControl1.SelectedIndex = 0;
+                    }
+                    return true; // Indicate that the key press has been handled.
+                }
+                // Move to the previous tab with the Left arrow key.
+                else if (keyData == Keys.Left)
+                {
+                    int prevTabIndex = tabControl1.SelectedIndex - 1;
+                    if (prevTabIndex >= 0)
+                    {
+                        tabControl1.SelectedIndex = prevTabIndex;
+                    }
+                    else
+                    {
+                        // Optional: Wrap around to the last tab.
+                        tabControl1.SelectedIndex = tabControl1.TabCount - 1;
+                    }
+                    return true; // Indicate that the key press has been handled.
+                }
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
     }
 }
