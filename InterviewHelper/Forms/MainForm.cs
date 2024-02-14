@@ -107,12 +107,14 @@ namespace InterviewHelper.Forms
 
         private async void btnRefresh_Click(object sender, EventArgs e)
         {
+            btnRefresh.Enabled = false;
             await InitializeControls(_commandService);
             cmbCategory.Text = "";
             txtSearch.Clear();
             dgvQuestions.DataSource = null;
             txtAnswer.Clear();
             dgvQuestions.Refresh();
+            btnRefresh.Enabled = true;
         }
 
         private void btnAddNew_Click(object sender, EventArgs e)

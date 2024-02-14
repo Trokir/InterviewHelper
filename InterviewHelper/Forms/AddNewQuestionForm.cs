@@ -125,7 +125,9 @@ namespace InterviewHelper.Forms
                 await foreach (var model in _openAIQuestionService.GetPoolOfAnswersAsync(strArr, txtComment.Text, _textEnvironment.BaseAnswer, _category))
                 {
                     txtAnswer.Clear();
-                    txtAnswer.Text = $"Question: {model.Question} \n\n Answer: {model.Answer}";
+                    txtAnswer.Text = $"Answer: {model.Answer}";
+                    txtQuestion.Clear();
+                    txtQuestion.Text =  $"Question: {model.Question}";
                     poolList.Add(model);
                 }
                 txtAnswer.Clear();
