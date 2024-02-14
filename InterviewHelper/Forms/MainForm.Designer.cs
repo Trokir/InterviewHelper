@@ -41,7 +41,7 @@
             groupBox1 = new GroupBox();
             backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             txtAnswer = new RichTextBox();
-            tabControl1 = new TabControl();
+            mainMenutabControl = new TabControl();
             tabPage1 = new TabPage();
             tabPage2 = new TabPage();
             txtQuestion = new RichTextBox();
@@ -71,7 +71,7 @@
             panelHidden = new Panel();
             ((System.ComponentModel.ISupportInitialize)dgvQuestions).BeginInit();
             groupBox1.SuspendLayout();
-            tabControl1.SuspendLayout();
+            mainMenutabControl.SuspendLayout();
             tabPage1.SuspendLayout();
             tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pkbPic).BeginInit();
@@ -221,17 +221,17 @@
             // 
             // tabControl1
             // 
-            tabControl1.Controls.Add(tabPage1);
-            tabControl1.Controls.Add(tabPage2);
-            tabControl1.Controls.Add(tabPage3);
-            tabControl1.Controls.Add(tabPage4);
-            tabControl1.Dock = DockStyle.Fill;
-            tabControl1.Location = new Point(0, 0);
-            tabControl1.Name = "tabControl1";
-            tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(1431, 845);
-            tabControl1.TabIndex = 13;
-            tabControl1.SelectedIndexChanged += tabControl1_SelectedIndexChanged;
+            mainMenutabControl.Controls.Add(tabPage1);
+            mainMenutabControl.Controls.Add(tabPage2);
+            mainMenutabControl.Controls.Add(tabPage3);
+            mainMenutabControl.Controls.Add(tabPage4);
+            mainMenutabControl.Dock = DockStyle.Fill;
+            mainMenutabControl.Location = new Point(0, 0);
+            mainMenutabControl.Name = "tabControl1";
+            mainMenutabControl.SelectedIndex = 0;
+            mainMenutabControl.Size = new Size(1431, 845);
+            mainMenutabControl.TabIndex = 13;
+            mainMenutabControl.SelectedIndexChanged += tabControl1_SelectedIndexChanged;
             // 
             // tabPage1
             // 
@@ -546,7 +546,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1431, 845);
-            Controls.Add(tabControl1);
+            Controls.Add(mainMenutabControl);
             Margin = new Padding(3, 2, 3, 2);
             MinimizeBox = false;
             Name = "MainForm";
@@ -555,7 +555,7 @@
             Load += MainForm_Load;
             ((System.ComponentModel.ISupportInitialize)dgvQuestions).EndInit();
             groupBox1.ResumeLayout(false);
-            tabControl1.ResumeLayout(false);
+            mainMenutabControl.ResumeLayout(false);
             tabPage1.ResumeLayout(false);
             tabPage1.PerformLayout();
             tabPage2.ResumeLayout(false);
@@ -586,7 +586,7 @@
         private GroupBox groupBox1;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private RichTextBox txtAnswer;
-        private TabControl tabControl1;
+        private TabControl mainMenutabControl;
         private TabPage tabPage1;
         private TabPage tabPage2;
         private TabPage tabPage3;
