@@ -1,28 +1,15 @@
-﻿
-using InterviewHelper.Core.Models.DTOs;
-using InterviewHelper.FormServices;
-using InterviewHelper.Services.Services;
+﻿using InterviewHelper.Core.Models.DTOs;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace InterviewHelper.Forms
 {
-    public partial class DiagramForm : Form
+    public partial class MainForm:Form
     {
-        private readonly IMessageService _messageService;
-        private readonly IMongoDbService _mongoDbService;
-        private IEnumerable<PngImage> _images;
-
-
-        public DiagramForm(IMessageService messageService,
-            IMongoDbService mongoDbService)
-        {
-            InitializeComponent();
-            _mongoDbService = mongoDbService;
-            _messageService = messageService;
-
-        }
-
-
-
         private async Task RefreshData(IEnumerable<PngImage> images)
         {
 
@@ -43,7 +30,7 @@ namespace InterviewHelper.Forms
             cmbFiles.Refresh();
         }
 
-        private async void btnSave_Click(object sender, EventArgs e)
+        private async void btndSave_Click(object sender, EventArgs e)
         {
 
             var openFileDialog = _mongoDbService.SelectAndSavePngFile();
@@ -83,7 +70,7 @@ namespace InterviewHelper.Forms
             }
         }
 
-        private async void DiagramForm_Load(object sender, EventArgs e)
+        private async Task InitDiagramForm()
         {
             _images = await _mongoDbService.GetAllImagesAsync();
             cmbFiles.ValueMember = "Id";
@@ -101,7 +88,7 @@ namespace InterviewHelper.Forms
             cmbFiles.Refresh();
         }
 
-        private async void btnDelete_Click(object sender, EventArgs e)
+        private async void btndDelete_Click(object sender, EventArgs e)
         {
             var value = cmbFiles.SelectedItem as PngImage;
             if (value != null)
