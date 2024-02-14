@@ -15,6 +15,8 @@ using System.Text;
 using System.Text.Json;
 using System.Xml.Linq;
 
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
+
 namespace InterviewHelper.Services.Services
 {
     public class OpenAIQuestionService : IOpenAIQuestionService
@@ -145,7 +147,7 @@ namespace InterviewHelper.Services.Services
             return speechClient.Recognize(request);
         }
 
-        public async Task<HashSet<QuestionModel>> GetPoolOfAnswersAsync(string[] strArr,string comment, string annotation,Category category)
+        public async Task<HashSet<QuestionModel>> GetPoolOfAnswersAsync1(string[] strArr,string comment, string annotation,Category category)
         {
             var poolList = new HashSet<QuestionModel>();
             var options = new ParallelOptions()
@@ -174,6 +176,29 @@ namespace InterviewHelper.Services.Services
                 }
             });
             return poolList;
+        }
+
+        public async IAsyncEnumerable<QuestionModel> GetPoolOfAnswersAsync(string[] strArr, string comment, string annotation, Category category)
+        {
+            foreach (var item in strArr)
+            {
+                var answer = await GetGeneratedAnswerAsync($"{item} {comment}", annotation, 0.7F);
+                if (category is not null &&
+                    !string.IsNullOrWhiteSpace(answer))
+                {
+                   
+                    var newQuestion = new QuestionModel
+                    {
+                        Category = category,
+                        Question = item,
+                        Answer = answer
+                    };
+                    Debug.WriteLine(newQuestion);
+                    await Task.Delay(500);
+                    yield return newQuestion;
+                }
+                
+            }
         }
     }
 }
