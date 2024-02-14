@@ -62,9 +62,9 @@ namespace InterviewHelper.Forms
         }
         private async Task InitializeControls(IUnitOfWork commandService)
         {
-            _categories = (await commandService
-                .CategoryRepository.GetAllAsync()).OrderBy(x => x.Name);
-            _questions = _categories.SelectMany(c => c.Questions);
+            _categories = await commandService
+                .CategoryRepository.GetAllAsync();
+            _questions = _categories.OrderBy(x => x.Name).SelectMany(c => c.Questions);
             this.Invoke((MethodInvoker)delegate
             {
 

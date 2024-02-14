@@ -13,6 +13,7 @@ using Tesseract;
 
 namespace InterviewHelper.Forms
 {
+    [DebuggerDisplay($"{{{nameof(GetDebuggerDisplay)}(),nq}}")]
     public partial class AddNewQuestionForm : Form
     {
         private readonly IUnitOfWork _commandService;
@@ -22,6 +23,7 @@ namespace InterviewHelper.Forms
         private readonly IAudioRecordService _audioRecordService;
         private readonly AppViewConfiguration _config;
         private readonly TextEnvironment _textEnvironment;
+        private string _filePath = string.Empty;
         private Category _category;
 
         public AddNewQuestionForm(
@@ -61,7 +63,6 @@ namespace InterviewHelper.Forms
             InitializeControls();
             btnSave.Enabled = false;
         }
-
         private async void btnSave_Click(object sender, EventArgs e)
         {
             if (_category is not null &&
@@ -88,12 +89,10 @@ namespace InterviewHelper.Forms
 
             }
         }
-
         private void cmbCategory_SelectedIndexChanged(object sender, EventArgs e)
         {
             _category = cmbCategory.SelectedItem as Category;
         }
-
         private async void btnGpt_Click(object sender, EventArgs e)
         {
             if (!string.IsNullOrWhiteSpace(txtQuestion.Text))
@@ -107,8 +106,6 @@ namespace InterviewHelper.Forms
         {
             btnSave.Enabled = true;
         }
-
-      
         private async void txtQuestion_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Enter)
@@ -122,33 +119,13 @@ namespace InterviewHelper.Forms
             }
             else if (e.KeyChar == '+')
             {
-                var strArr = txtQuestion.Text.Split('\r', StringSplitOptions.RemoveEmptyEntries);
-                foreach (var item in strArr)
-                {
-                    if (!string.IsNullOrWhiteSpace(item))
-                    {
-                        var answer = await _openAIQuestionService.GetGeneratedAnswerAsync(txtQuestion.Text + " " + txtComment.Text, _textEnvironment.BaseAnswer, 0.7F);
 
-                        if (_category is not null &&
-                            !string.IsNullOrWhiteSpace(answer))
-                        {
-                            txtAnswer.Clear();
-                            txtAnswer.Text = answer;
-                            var newQuestion = new QuestionModel
-                            {
-                                Category = _category,
-                                Question = item,
-                                Answer = answer
-                            };
-                            await _commandService.QuestionRepository.AddAsync(newQuestion);
-                            Debug.WriteLine(newQuestion);
-                            await Task.Delay(700);
-                        }
-                    }
-                }
+                var strArr = txtQuestion.Text.Split('\n', StringSplitOptions.RemoveEmptyEntries);
+                var poolList = await _openAIQuestionService.GetPoolOfAnswersAsync(strArr, txtComment.Text, _textEnvironment.BaseAnswer,_category);
+                
+                await _commandService.QuestionRepository.AddRangeAsync(poolList);
             }
         }
-
         private async void txtQuestion_KeyDown(object sender, KeyEventArgs e)
         {
             var conStr = string.Empty;
@@ -171,10 +148,61 @@ namespace InterviewHelper.Forms
                 txtAnswer.Text = answer;
             }
         }
-
         private void txtQuestion_MouseEnter(object sender, EventArgs e)
         {
             txtQuestion.Focus();
+        }
+        private void btnRec_MouseDown(object sender, MouseEventArgs e)
+        {
+            btnRec.Text = "Record...";
+            _filePath = InitDirectory();
+            _audioRecordService.StartRecordMicrofhoneAsync();
+        }
+        private async void btnRec_MouseUp(object sender, MouseEventArgs e)
+        {
+            btnRec.Text = "Saving...";
+
+            var responce = await _audioRecordService.StopRecordMicrofhoneAsync(_filePath);
+            if (!string.IsNullOrEmpty(responce))
+            {
+                Clipboard.SetText(responce);
+                txtQuestion.Text = responce;
+                btnRec.Text = "Rec";
+            }
+            else
+            {
+                btnRec.Text = "!!!";
+            }
+            RemoveDirectory();
+            btnRec.Text = "Rec";
+        }
+        private async void btnSyRecord_MouseDown(object sender, MouseEventArgs e)
+        {
+            btnSyRecord.Text = "Record..";
+            _filePath = InitDirectory();
+            await _audioRecordService.StartRecordingSpeakerAsync(_filePath);
+        }
+        private async void btnSyRecord_MouseUp(object sender, MouseEventArgs e)
+        {
+            btnSyRecord.Text = "Saving..";
+            var responce = await _audioRecordService.StopRecordingSpeakerAsync(_filePath);
+            if (!string.IsNullOrEmpty(responce))
+            {
+                Clipboard.SetText(responce);
+                txtQuestion.Text = responce;
+            }
+            RemoveDirectory();
+            btnSyRecord.Text = "Rec1";
+        }
+        private void pkbPic_MouseEnter(object sender, EventArgs e)
+        {
+            if (Clipboard.ContainsImage())
+            {
+                Image image = Clipboard.GetImage();
+                pkbPic.Image = image;
+
+                SaveImageToFile(image);
+            }
         }
 
         private string InitDirectory()
@@ -195,8 +223,6 @@ namespace InterviewHelper.Forms
 
             return fullPath;
         }
-
-
         private void RemoveDirectory()
         {
             var path = Path.Combine(_config.TempFilePath);
@@ -211,64 +237,6 @@ namespace InterviewHelper.Forms
                 Directory.Delete(path);
             }
         }
-        string _filePath = string.Empty;
-        private void btnRec_MouseDown(object sender, MouseEventArgs e)
-        {
-            btnRec.Text = "Record...";
-            _filePath = InitDirectory();
-            _audioRecordService.StartRecordMicrofhoneAsync();
-        }
-
-        private async void btnRec_MouseUp(object sender, MouseEventArgs e)
-        {
-            btnRec.Text = "Saving...";
-
-            var responce = await _audioRecordService.StopRecordMicrofhoneAsync(_filePath);
-            if (!string.IsNullOrEmpty(responce))
-            {
-                Clipboard.SetText(responce);
-                txtQuestion.Text = responce;
-                btnRec.Text = "Rec";
-            }
-            else
-            {
-                btnRec.Text = "!!!";
-            }
-            RemoveDirectory();
-            btnRec.Text = "Rec";
-        }
-
-        private async void btnSyRecord_MouseDown(object sender, MouseEventArgs e)
-        {
-            btnSyRecord.Text = "Record..";
-            _filePath = InitDirectory();
-            await _audioRecordService.StartRecordingSpeakerAsync(_filePath);
-        }
-
-        private async void btnSyRecord_MouseUp(object sender, MouseEventArgs e)
-        {
-            btnSyRecord.Text = "Saving..";
-            var responce = await _audioRecordService.StopRecordingSpeakerAsync(_filePath);
-            if (!string.IsNullOrEmpty(responce))
-            {
-                Clipboard.SetText(responce);
-                txtQuestion.Text = responce;
-            }
-            RemoveDirectory();
-            btnSyRecord.Text = "Rec1";
-        }
-
-        private void pkbPic_MouseEnter(object sender, EventArgs e)
-        {
-            if (Clipboard.ContainsImage())
-            {
-                Image image = Clipboard.GetImage();
-                pkbPic.Image = image;
-
-                SaveImageToFile(image);
-            }
-        }
-
         private void SaveImageToFile(Image image)
         {
             var path = @"C:\\Users\\troki\\Desktop\\temp";
@@ -304,7 +272,10 @@ namespace InterviewHelper.Forms
 
         }
 
-      
+        private string GetDebuggerDisplay()
+        {
+            return ToString();
+        }
     }
 }
 

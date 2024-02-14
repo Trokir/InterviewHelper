@@ -54,7 +54,6 @@ namespace InterviewHelper
             services.AddSingleton(settings)
                 .AddTransient<IQuestionRepository, QuestionRepository>()
                 .AddTransient<ICategoryRepository, CategoryRepository>()
-                .AddTransient<IImageEntityRepository, ImageEntityRepository>()
                 .AddTransient<IUnitOfWork, UnitOfWork>()
                  .AddScoped<QuestionDbContext>();
             services.AddDbContext<QuestionDbContext>(opt =>
@@ -71,7 +70,6 @@ namespace InterviewHelper
             services.AddTransient<IMessageService, MessageService>();
             services.AddTransient<IOpenAIQuestionService, OpenAIQuestionService>();
             services.AddTransient<IMongoDbService, MongoDbService>();
-            services.AddScoped<ImageService>();
             services.AddTransient<IAudioRecordService, AudioRecordService>();
 
 

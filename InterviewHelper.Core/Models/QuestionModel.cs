@@ -9,7 +9,7 @@
 
         public override string ToString()
         {
-            return $"Category ={Category.Name};\n Question ={Question}; \n Answer ={Answer}";
+            return $"Category ={Category.Name};\n Question ={Question}; ";
         }
 
     }

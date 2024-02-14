@@ -3,14 +3,17 @@
 using Google.Cloud.Speech.V1;
 
 using InterviewHelper.Core.Config;
+using InterviewHelper.Core.Models;
 using InterviewHelper.Core.Models.DTOs;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
+using System.Diagnostics;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
+using System.Xml.Linq;
 
 namespace InterviewHelper.Services.Services
 {
@@ -140,6 +143,37 @@ namespace InterviewHelper.Services.Services
             };
 
             return speechClient.Recognize(request);
+        }
+
+        public async Task<HashSet<QuestionModel>> GetPoolOfAnswersAsync(string[] strArr,string comment, string annotation,Category category)
+        {
+            var poolList = new HashSet<QuestionModel>();
+            var options = new ParallelOptions()
+            {
+                MaxDegreeOfParallelism = 3
+            };
+
+            await Parallel.ForEachAsync(strArr, options, async (item, ct) => {
+                if (!string.IsNullOrWhiteSpace(item))
+                {
+                    var answer = await GetGeneratedAnswerAsync(item + " " + comment, annotation, 0.7F);
+                    if (category is not null &&
+                        !string.IsNullOrWhiteSpace(answer))
+                    {
+                        //txtAnswer.Clear();
+                        //txtAnswer.Text = answer;
+                        var newQuestion = new QuestionModel
+                        {
+                            Category = category,
+                            Question = item,
+                            Answer = answer
+                        };
+                        poolList.Add(newQuestion);
+                        Debug.WriteLine(newQuestion);
+                    }
+                }
+            });
+            return poolList;
         }
     }
 }

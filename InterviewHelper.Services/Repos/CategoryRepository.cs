@@ -21,6 +21,12 @@ namespace InterviewHelper.Services.Repos
             await _dbContext.SaveChangesAsync();
         }
 
+        public async Task AddRangeAsync(IEnumerable<Category> entities)
+        {
+           await _dbContext.Categories.AddRangeAsync(entities);
+            await _dbContext.SaveChangesAsync();
+        }
+
         public async Task DeleteAsync(Category entity)
         {
             _dbContext.Categories.Remove(entity);

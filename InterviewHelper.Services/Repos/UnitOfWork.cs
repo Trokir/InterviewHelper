@@ -8,19 +8,16 @@ namespace InterviewHelper.Services.Repos
         public IQuestionRepository QuestionRepository { get; }
 
         public ICategoryRepository CategoryRepository { get; }
-        public IImageEntityRepository ImageEntityRepository { get; }
 
         private readonly QuestionDbContext _dbContext;
 
         public UnitOfWork(QuestionDbContext dbContext,
             IQuestionRepository questionRepository,
-            ICategoryRepository categoryRepository,
-            IImageEntityRepository imageEntityRepository)
+            ICategoryRepository categoryRepository)
         {
             _dbContext = dbContext;
             CategoryRepository = categoryRepository;
             QuestionRepository = questionRepository;
-            ImageEntityRepository = imageEntityRepository;
         }
         public async Task<int> Complete()
         {

@@ -12,7 +12,7 @@ namespace InterviewHelper.Forms
         private IEnumerable<PngImage> _images;
 
 
-        public DiagramForm(ImageService imageService, IMessageService messageService,
+        public DiagramForm(IMessageService messageService,
             IMongoDbService mongoDbService)
         {
             InitializeComponent();
