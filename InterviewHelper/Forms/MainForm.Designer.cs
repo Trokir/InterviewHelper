@@ -578,8 +578,8 @@
             ClientSize = new Size(1431, 845);
             Controls.Add(statusStrip1);
             Controls.Add(mainMenutabControl);
+            DoubleBuffered = true;
             Margin = new Padding(3, 2, 3, 2);
-            MinimizeBox = false;
             Name = "MainForm";
             Text = "Interview helper";
             WindowState = FormWindowState.Maximized;
