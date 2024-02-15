@@ -274,11 +274,11 @@ namespace InterviewHelper.Forms
 
         protected override bool ProcessCmdKey(ref System.Windows.Forms.Message msg, Keys keyData)
         {
-            // Check if the TabControl exists and has more than one tab.
+            // Ensure TabControl exists and has more than one tab.
             if (mainMenutabControl != null && mainMenutabControl.TabCount > 1)
             {
-                // Move to the next tab with the Right arrow key.
-                if (keyData == Keys.Right)
+                // Specifically handle CTRL+Right arrow key combination for next tab.
+                if (keyData == (Keys.Control | Keys.Right))
                 {
                     int nextTabIndex = mainMenutabControl.SelectedIndex + 1;
                     if (nextTabIndex < mainMenutabControl.TabCount)
@@ -287,13 +287,13 @@ namespace InterviewHelper.Forms
                     }
                     else
                     {
-                        // Optional: Wrap around to the first tab.
+                        // Optional: Wrap to the first tab.
                         mainMenutabControl.SelectedIndex = 0;
                     }
-                    return true; // Indicate that the key press has been handled.
+                    return true; // Key press handled.
                 }
-                // Move to the previous tab with the Left arrow key.
-                else if (keyData == Keys.Left)
+                // Specifically handle CTRL+Left arrow key combination for previous tab.
+                else if (keyData == (Keys.Control | Keys.Left))
                 {
                     int prevTabIndex = mainMenutabControl.SelectedIndex - 1;
                     if (prevTabIndex >= 0)
@@ -302,13 +302,17 @@ namespace InterviewHelper.Forms
                     }
                     else
                     {
-                        // Optional: Wrap around to the last tab.
+                        // Optional: Wrap to the last tab.
                         mainMenutabControl.SelectedIndex = mainMenutabControl.TabCount - 1;
                     }
-                    return true; // Indicate that the key press has been handled.
+                    return true; // Key press handled.
                 }
             }
+
+            // For any other keyData conditions, defer to the base class's implementation.
+            // This explicitly excludes handling for simple Left and Right arrow key presses without modifiers.
             return base.ProcessCmdKey(ref msg, keyData);
         }
+
     }
 }
