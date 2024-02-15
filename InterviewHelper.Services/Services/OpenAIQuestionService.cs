@@ -194,7 +194,6 @@ namespace InterviewHelper.Services.Services
                         Answer = answer
                     };
                     Debug.WriteLine(newQuestion);
-                    await Task.Delay(500);
                     yield return newQuestion;
                 }
                 

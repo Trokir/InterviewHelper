@@ -42,6 +42,7 @@
             txtAnswer = new RichTextBox();
             mainMenutabControl = new TabControl();
             tabPage1 = new TabPage();
+            panel3 = new Panel();
             tabPage2 = new TabPage();
             txtQuestion = new RichTextBox();
             pkbPic = new PictureBox();
@@ -74,6 +75,7 @@
             groupBox1.SuspendLayout();
             mainMenutabControl.SuspendLayout();
             tabPage1.SuspendLayout();
+            panel3.SuspendLayout();
             tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pkbPic).BeginInit();
             groupBox2.SuspendLayout();
@@ -91,10 +93,10 @@
             // cmbCategory
             // 
             cmbCategory.FormattingEnabled = true;
-            cmbCategory.Location = new Point(15, 54);
+            cmbCategory.Location = new Point(13, 48);
             cmbCategory.Margin = new Padding(3, 2, 3, 2);
             cmbCategory.Name = "cmbCategory";
-            cmbCategory.Size = new Size(537, 23);
+            cmbCategory.Size = new Size(541, 23);
             cmbCategory.TabIndex = 0;
             cmbCategory.SelectedIndexChanged += cmbCategory_SelectedIndexChanged;
             // 
@@ -149,10 +151,10 @@
             // txtSearch
             // 
             txtSearch.BackColor = SystemColors.InactiveCaption;
-            txtSearch.Location = new Point(15, 18);
+            txtSearch.Location = new Point(13, 12);
             txtSearch.Margin = new Padding(3, 2, 3, 2);
             txtSearch.Name = "txtSearch";
-            txtSearch.Size = new Size(537, 23);
+            txtSearch.Size = new Size(541, 23);
             txtSearch.TabIndex = 9;
             txtSearch.TextChanged += txtSearch_TextChanged;
             txtSearch.KeyDown += txtSearch_KeyDown;
@@ -161,6 +163,7 @@
             // dgvQuestions
             // 
             dgvQuestions.AllowUserToOrderColumns = true;
+            dgvQuestions.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             dgvQuestions.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvQuestions.BorderStyle = BorderStyle.Fixed3D;
             dgvQuestions.CellBorderStyle = DataGridViewCellBorderStyle.Raised;
@@ -173,7 +176,7 @@
             dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
             dgvQuestions.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvQuestions.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvQuestions.Location = new Point(11, 86);
+            dgvQuestions.Location = new Point(13, 75);
             dgvQuestions.Margin = new Padding(3, 2, 3, 2);
             dgvQuestions.Name = "dgvQuestions";
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
@@ -188,19 +191,20 @@
             dataGridViewCellStyle3.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 204);
             dgvQuestions.RowsDefaultCellStyle = dataGridViewCellStyle3;
             dgvQuestions.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvQuestions.Size = new Size(541, 542);
+            dgvQuestions.Size = new Size(541, 557);
             dgvQuestions.TabIndex = 10;
             dgvQuestions.SelectionChanged += dgvQuestions_SelectionChanged;
             dgvQuestions.KeyDown += dgvQuestions_KeyDown;
             // 
             // groupBox1
             // 
+            groupBox1.Anchor = AnchorStyles.Left;
             groupBox1.BackColor = SystemColors.ControlDark;
             groupBox1.Controls.Add(btnAddCategory);
             groupBox1.Controls.Add(btnRefresh);
             groupBox1.Controls.Add(btnUpdate);
             groupBox1.Controls.Add(btnDelete);
-            groupBox1.Location = new Point(11, 644);
+            groupBox1.Location = new Point(13, 645);
             groupBox1.Margin = new Padding(3, 2, 3, 2);
             groupBox1.Name = "groupBox1";
             groupBox1.Padding = new Padding(3, 2, 3, 2);
@@ -213,11 +217,11 @@
             txtAnswer.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             txtAnswer.BackColor = SystemColors.Menu;
             txtAnswer.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 204);
-            txtAnswer.Location = new Point(565, 18);
+            txtAnswer.Location = new Point(563, 12);
             txtAnswer.Margin = new Padding(10);
             txtAnswer.Name = "txtAnswer";
             txtAnswer.ShowSelectionMargin = true;
-            txtAnswer.Size = new Size(724, 745);
+            txtAnswer.Size = new Size(833, 754);
             txtAnswer.TabIndex = 12;
             txtAnswer.Text = "";
             // 
@@ -237,11 +241,7 @@
             // 
             // tabPage1
             // 
-            tabPage1.Controls.Add(txtSearch);
-            tabPage1.Controls.Add(txtAnswer);
-            tabPage1.Controls.Add(cmbCategory);
-            tabPage1.Controls.Add(groupBox1);
-            tabPage1.Controls.Add(dgvQuestions);
+            tabPage1.Controls.Add(panel3);
             tabPage1.Location = new Point(4, 24);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3);
@@ -250,8 +250,23 @@
             tabPage1.Text = "Main";
             tabPage1.UseVisualStyleBackColor = true;
             // 
+            // panel3
+            // 
+            panel3.BackColor = Color.IndianRed;
+            panel3.Controls.Add(txtSearch);
+            panel3.Controls.Add(txtAnswer);
+            panel3.Controls.Add(cmbCategory);
+            panel3.Controls.Add(groupBox1);
+            panel3.Controls.Add(dgvQuestions);
+            panel3.Dock = DockStyle.Fill;
+            panel3.Location = new Point(3, 3);
+            panel3.Name = "panel3";
+            panel3.Size = new Size(1417, 811);
+            panel3.TabIndex = 13;
+            // 
             // tabPage2
             // 
+            tabPage2.BackColor = Color.IndianRed;
             tabPage2.Controls.Add(txtQuestion);
             tabPage2.Controls.Add(pkbPic);
             tabPage2.Controls.Add(groupBox2);
@@ -265,7 +280,6 @@
             tabPage2.Size = new Size(1423, 817);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Clever";
-            tabPage2.UseVisualStyleBackColor = true;
             // 
             // txtQuestion
             // 
@@ -417,6 +431,7 @@
             // 
             // tabPage3
             // 
+            tabPage3.BackColor = Color.IndianRed;
             tabPage3.Controls.Add(panel1);
             tabPage3.Controls.Add(groupBox3);
             tabPage3.Controls.Add(txtInfo);
@@ -425,7 +440,6 @@
             tabPage3.Size = new Size(1423, 817);
             tabPage3.TabIndex = 2;
             tabPage3.Text = "Diagram";
-            tabPage3.UseVisualStyleBackColor = true;
             // 
             // panel1
             // 
@@ -505,6 +519,7 @@
             // 
             // tabPage4
             // 
+            tabPage4.BackColor = Color.IndianRed;
             tabPage4.Controls.Add(panel2);
             tabPage4.Controls.Add(panelHidden);
             tabPage4.Location = new Point(4, 24);
@@ -512,7 +527,6 @@
             tabPage4.Size = new Size(1423, 817);
             tabPage4.TabIndex = 3;
             tabPage4.Text = "Show Diagram";
-            tabPage4.UseVisualStyleBackColor = true;
             // 
             // panel2
             // 
@@ -574,7 +588,8 @@
             groupBox1.ResumeLayout(false);
             mainMenutabControl.ResumeLayout(false);
             tabPage1.ResumeLayout(false);
-            tabPage1.PerformLayout();
+            panel3.ResumeLayout(false);
+            panel3.PerformLayout();
             tabPage2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pkbPic).EndInit();
             groupBox2.ResumeLayout(false);
@@ -635,5 +650,6 @@
         private Microsoft.Web.WebView2.WinForms.WebView2 webViewDiagram;
         private StatusStrip statusStrip1;
         private ToolStripStatusLabel toolStripStatusLabel1;
+        private Panel panel3;
     }
 }
