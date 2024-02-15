@@ -9,14 +9,7 @@ namespace InterviewHelper.Forms
 {
     public partial class MainForm : Form
     {
-        private void InitializeControls()
-        {
-
-            this.Invoke((MethodInvoker)delegate
-            {
-              
-            });
-        }
+       
 
       /// <summary>
       /// 
@@ -177,6 +170,7 @@ namespace InterviewHelper.Forms
         private void btnRec_MouseDown(object sender, MouseEventArgs e)
         {
             btnRec.Text = "Record...";
+            toolStripStatusLabel1.Text = "Recording...";
             _filePath = InitDirectory();
             _audioRecordService.StartRecordMicrofhoneAsync();
         }
@@ -188,17 +182,19 @@ namespace InterviewHelper.Forms
         private async void btnRec_MouseUp(object sender, MouseEventArgs e)
         {
             btnRec.Text = "Saving...";
-
+            toolStripStatusLabel1.Text = "Saving...";
             var responce = await _audioRecordService.StopRecordMicrofhoneAsync(_filePath);
             if (!string.IsNullOrEmpty(responce))
             {
                 Clipboard.SetText(responce);
                 txtQuestion.Text = responce;
                 btnRec.Text = "Rec";
+                toolStripStatusLabel1.Text = "Saved";
             }
             else
             {
                 btnRec.Text = "!!!";
+                toolStripStatusLabel1.Text = "Filed";
             }
             RemoveDirectory();
             btnRec.Text = "Rec";
@@ -211,6 +207,7 @@ namespace InterviewHelper.Forms
         private async void btnSyRecord_MouseDown(object sender, MouseEventArgs e)
         {
             btnSyRecord.Text = "Record..";
+            toolStripStatusLabel1.Text = "Recording...";
             _filePath = InitDirectory();
             await _audioRecordService.StartRecordingSpeakerAsync(_filePath);
         }
@@ -222,14 +219,17 @@ namespace InterviewHelper.Forms
         private async void btnSyRecord_MouseUp(object sender, MouseEventArgs e)
         {
             btnSyRecord.Text = "Saving..";
+            toolStripStatusLabel1.Text = "Saving..";
             var responce = await _audioRecordService.StopRecordingSpeakerAsync(_filePath);
             if (!string.IsNullOrEmpty(responce))
             {
                 Clipboard.SetText(responce);
                 txtQuestion.Text = responce;
+                toolStripStatusLabel1.Text = "Saved";
             }
             RemoveDirectory();
             btnSyRecord.Text = "Rec1";
+            toolStripStatusLabel1.Text = "";
         }
         private void pkbPic_MouseEnter(object sender, EventArgs e)
         {

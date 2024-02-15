@@ -94,7 +94,7 @@
             cmbCategory.Location = new Point(15, 54);
             cmbCategory.Margin = new Padding(3, 2, 3, 2);
             cmbCategory.Name = "cmbCategory";
-            cmbCategory.Size = new Size(225, 23);
+            cmbCategory.Size = new Size(537, 23);
             cmbCategory.TabIndex = 0;
             cmbCategory.SelectedIndexChanged += cmbCategory_SelectedIndexChanged;
             // 
@@ -128,7 +128,7 @@
             btnUpdate.Location = new Point(345, 12);
             btnUpdate.Margin = new Padding(3, 2, 3, 2);
             btnUpdate.Name = "btnUpdate";
-            btnUpdate.Size = new Size(167, 22);
+            btnUpdate.Size = new Size(171, 22);
             btnUpdate.TabIndex = 6;
             btnUpdate.Text = "Update this";
             btnUpdate.UseVisualStyleBackColor = true;
@@ -140,7 +140,7 @@
             btnDelete.Location = new Point(345, 38);
             btnDelete.Margin = new Padding(3, 2, 3, 2);
             btnDelete.Name = "btnDelete";
-            btnDelete.Size = new Size(167, 22);
+            btnDelete.Size = new Size(171, 22);
             btnDelete.TabIndex = 7;
             btnDelete.Text = "Delete this";
             btnDelete.UseVisualStyleBackColor = true;
@@ -152,7 +152,7 @@
             txtSearch.Location = new Point(15, 18);
             txtSearch.Margin = new Padding(3, 2, 3, 2);
             txtSearch.Name = "txtSearch";
-            txtSearch.Size = new Size(225, 23);
+            txtSearch.Size = new Size(537, 23);
             txtSearch.TabIndex = 9;
             txtSearch.TextChanged += txtSearch_TextChanged;
             txtSearch.KeyDown += txtSearch_KeyDown;
@@ -188,7 +188,7 @@
             dataGridViewCellStyle3.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 204);
             dgvQuestions.RowsDefaultCellStyle = dataGridViewCellStyle3;
             dgvQuestions.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvQuestions.Size = new Size(541, 282);
+            dgvQuestions.Size = new Size(541, 542);
             dgvQuestions.TabIndex = 10;
             dgvQuestions.SelectionChanged += dgvQuestions_SelectionChanged;
             dgvQuestions.KeyDown += dgvQuestions_KeyDown;
@@ -200,11 +200,11 @@
             groupBox1.Controls.Add(btnRefresh);
             groupBox1.Controls.Add(btnUpdate);
             groupBox1.Controls.Add(btnDelete);
-            groupBox1.Location = new Point(15, 377);
+            groupBox1.Location = new Point(11, 644);
             groupBox1.Margin = new Padding(3, 2, 3, 2);
             groupBox1.Name = "groupBox1";
             groupBox1.Padding = new Padding(3, 2, 3, 2);
-            groupBox1.Size = new Size(537, 87);
+            groupBox1.Size = new Size(541, 87);
             groupBox1.TabIndex = 11;
             groupBox1.TabStop = false;
             // 
@@ -217,7 +217,7 @@
             txtAnswer.Margin = new Padding(10);
             txtAnswer.Name = "txtAnswer";
             txtAnswer.ShowSelectionMargin = true;
-            txtAnswer.Size = new Size(724, 766);
+            txtAnswer.Size = new Size(724, 745);
             txtAnswer.TabIndex = 12;
             txtAnswer.Text = "";
             // 
@@ -555,8 +555,7 @@
             // toolStripStatusLabel1
             // 
             toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            toolStripStatusLabel1.Size = new Size(118, 17);
-            toolStripStatusLabel1.Text = "toolStripStatusLabel1";
+            toolStripStatusLabel1.Size = new Size(0, 17);
             // 
             // MainForm
             // 
