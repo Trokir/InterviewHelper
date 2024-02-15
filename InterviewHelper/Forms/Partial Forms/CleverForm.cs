@@ -2,6 +2,8 @@
 using InterviewHelper.Core.Models;
 using InterviewHelper.Forms;
 
+using System.Windows.Forms;
+
 using Tesseract;
 namespace InterviewHelper.Forms
 {
@@ -33,12 +35,14 @@ namespace InterviewHelper.Forms
                     Question = txtQuestion.Text,
                     Answer = txtxAnswer.Text
                 };
+                toolStripStatusLabel1.Text = "Saving...";
                 var dialog = _messageService.ShowCustomMessage("Save this question?", "Save", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (dialog == DialogResult.Yes)
                 {
                     await _commandService.QuestionRepository.AddAsync(newQuestion);
                     txtxAnswer.Clear();
                     btnSave.Enabled = false;
+                    toolStripStatusLabel1.Text = "Saved";
                 }
                 else if (dialog == DialogResult.No)
                 {
@@ -55,6 +59,7 @@ namespace InterviewHelper.Forms
         private void cmbxCategory_SelectedIndexChanged(object sender, EventArgs e)
         {
             _category = cmbxCategory.SelectedItem as Category;
+            toolStripStatusLabel1.Text = _category.Name;
         }
         /// <summary>
         /// 
@@ -65,9 +70,11 @@ namespace InterviewHelper.Forms
         {
             if (!string.IsNullOrWhiteSpace(txtQuestion.Text))
             {
+                toolStripStatusLabel1.Text = "Asking gpt";
                 var answer = await _openAIQuestionService.GetGeneratedAnswerAsync(txtQuestion.Text + " " + txtComment.Text, _textEnvironment.BaseAnswer, 0.7F);
                 txtxAnswer.Clear();
                 txtxAnswer.Text = answer;
+                toolStripStatusLabel1.Text = "done";
             }
         }
        /// <summary>
@@ -90,6 +97,7 @@ namespace InterviewHelper.Forms
             {
                 if (!string.IsNullOrWhiteSpace(txtQuestion.Text))
                 {
+                    toolStripStatusLabel1.Text = "Enter pressed";
                     var answer = await _openAIQuestionService.GetGeneratedAnswerAsync(txtQuestion.Text + " " + txtComment.Text, _textEnvironment.BaseAnswer, 0.7F);
                     txtxAnswer.Clear();
                     txtxAnswer.Text = answer;
@@ -97,7 +105,7 @@ namespace InterviewHelper.Forms
             }
             else if (e.KeyChar == '+')
             {
-
+                toolStripStatusLabel1.Text = "Looping questions";
                 var strArr = txtQuestion.Text.Split('\n', StringSplitOptions.RemoveEmptyEntries);
                 var poolList = new HashSet<QuestionModel>();
                 await foreach (var model in _openAIQuestionService.GetPoolOfAnswersAsync(strArr, txtComment.Text, _textEnvironment.BaseAnswer, _category))
@@ -117,6 +125,7 @@ namespace InterviewHelper.Forms
                 }
                 else
                 {
+                    toolStripStatusLabel1.Text = "Cancelled";
                     _messageService.ShowMessage("Save operation has been cancelled", "Abort");
                 }
 
@@ -132,6 +141,7 @@ namespace InterviewHelper.Forms
             var conStr = string.Empty;
             if (e.KeyCode == Keys.NumPad1 && Clipboard.ContainsText())
             {
+                toolStripStatusLabel1.Text = "NumPad1 pressed";
                 conStr = $"{_textEnvironment.CommonAnswer} \n {BaseInfo.ResumeSummary()}";
                 txtQuestion.Clear();
                 txtQuestion.Text = Clipboard.GetText();
@@ -141,6 +151,7 @@ namespace InterviewHelper.Forms
             }
             if (e.KeyCode == Keys.NumPad2 && Clipboard.ContainsText())
             {
+                toolStripStatusLabel1.Text = "NumPad2 pressed";
                 conStr = $"{_textEnvironment.CodingAnswer} {cmbLang.Text}";
                 txtQuestion.Clear();
                 txtQuestion.Text = Clipboard.GetText();

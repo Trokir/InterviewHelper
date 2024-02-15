@@ -39,7 +39,6 @@
             txtSearch = new TextBox();
             dgvQuestions = new DataGridView();
             groupBox1 = new GroupBox();
-            backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             txtAnswer = new RichTextBox();
             mainMenutabControl = new TabControl();
             tabPage1 = new TabPage();
@@ -69,6 +68,8 @@
             panel2 = new Panel();
             webViewDiagram = new Microsoft.Web.WebView2.WinForms.WebView2();
             panelHidden = new Panel();
+            statusStrip1 = new StatusStrip();
+            toolStripStatusLabel1 = new ToolStripStatusLabel();
             ((System.ComponentModel.ISupportInitialize)dgvQuestions).BeginInit();
             groupBox1.SuspendLayout();
             mainMenutabControl.SuspendLayout();
@@ -84,6 +85,7 @@
             tabPage4.SuspendLayout();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)webViewDiagram).BeginInit();
+            statusStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // cmbCategory
@@ -219,7 +221,7 @@
             txtAnswer.TabIndex = 12;
             txtAnswer.Text = "";
             // 
-            // tabControl1
+            // mainMenutabControl
             // 
             mainMenutabControl.Controls.Add(tabPage1);
             mainMenutabControl.Controls.Add(tabPage2);
@@ -227,7 +229,7 @@
             mainMenutabControl.Controls.Add(tabPage4);
             mainMenutabControl.Dock = DockStyle.Fill;
             mainMenutabControl.Location = new Point(0, 0);
-            mainMenutabControl.Name = "tabControl1";
+            mainMenutabControl.Name = "mainMenutabControl";
             mainMenutabControl.SelectedIndex = 0;
             mainMenutabControl.Size = new Size(1431, 845);
             mainMenutabControl.TabIndex = 13;
@@ -541,11 +543,27 @@
             panelHidden.TabIndex = 3;
             panelHidden.MouseMove += panelHidden_MouseMove;
             // 
+            // statusStrip1
+            // 
+            statusStrip1.Items.AddRange(new ToolStripItem[] { toolStripStatusLabel1 });
+            statusStrip1.Location = new Point(0, 823);
+            statusStrip1.Name = "statusStrip1";
+            statusStrip1.Size = new Size(1431, 22);
+            statusStrip1.TabIndex = 14;
+            statusStrip1.Text = "statusStrip1";
+            // 
+            // toolStripStatusLabel1
+            // 
+            toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            toolStripStatusLabel1.Size = new Size(118, 17);
+            toolStripStatusLabel1.Text = "toolStripStatusLabel1";
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1431, 845);
+            Controls.Add(statusStrip1);
             Controls.Add(mainMenutabControl);
             Margin = new Padding(3, 2, 3, 2);
             MinimizeBox = false;
@@ -571,7 +589,10 @@
             tabPage4.ResumeLayout(false);
             panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)webViewDiagram).EndInit();
+            statusStrip1.ResumeLayout(false);
+            statusStrip1.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -584,7 +605,6 @@
         private TextBox txtSearch;
         private DataGridView dgvQuestions;
         private GroupBox groupBox1;
-        private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private RichTextBox txtAnswer;
         private TabControl mainMenutabControl;
         private TabPage tabPage1;
@@ -614,5 +634,7 @@
         private Panel panelHidden;
         private Panel panel2;
         private Microsoft.Web.WebView2.WinForms.WebView2 webViewDiagram;
+        private StatusStrip statusStrip1;
+        private ToolStripStatusLabel toolStripStatusLabel1;
     }
 }
