@@ -317,5 +317,14 @@ namespace InterviewHelper.Forms
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+           var dialog = _messageService.ShowCustomMessage("Are you sure?", "Close program",
+               MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+            if (dialog == DialogResult.Cancel)
+            {
+                e.Cancel = true;
+            }
+        }
     }
 }

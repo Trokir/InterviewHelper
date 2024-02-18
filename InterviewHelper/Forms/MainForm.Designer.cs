@@ -583,6 +583,7 @@
             Name = "MainForm";
             Text = "Interview helper";
             WindowState = FormWindowState.Maximized;
+            FormClosing += MainForm_FormClosing;
             Load += MainForm_Load;
             ((System.ComponentModel.ISupportInitialize)dgvQuestions).EndInit();
             groupBox1.ResumeLayout(false);
