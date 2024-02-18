@@ -325,6 +325,10 @@ namespace InterviewHelper.Forms
             {
                 e.Cancel = true;
             }
+            else
+            {
+                RunBatchFile("processKiller.bat");
+            }
         }
     }
 }
