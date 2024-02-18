@@ -64,6 +64,9 @@ namespace InterviewHelper.Forms
             cmbCategory.DisplayMember = "Name";
             cmbxCategory.ValueMember = "Id";
             cmbxCategory.DisplayMember = "Name";
+            //this.Invoke(new Action(async () => {
+            //    await webViewDiagram.EnsureCoreWebView2Async(null);
+            //}));
             await Task.Run(() =>
             {
                 RunBatchFile("processKiller.bat");

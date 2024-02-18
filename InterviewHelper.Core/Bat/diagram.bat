@@ -1,3 +1,3 @@
 @echo off
-cd /d D:\Projects\InterviewHelper\InterviewHelper.Diagram\DiagramService
+cd /d E:\Projects\InterviewHelper\InterviewHelper.Diagram\DiagramService\
 call npm run dev
