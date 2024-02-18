@@ -70,7 +70,7 @@ namespace InterviewHelper.Forms
             await Task.Run(() =>
             {
                 RunBatchFile("processKiller.bat");
-                RunBatchFile("diagram.bat");
+                RunBatchFile("diagram.bat", _config.BatFilePath);
                 webViewDiagram.Source = new Uri(_config.DiagramUrl);
             });
 
@@ -246,16 +246,15 @@ namespace InterviewHelper.Forms
                 txtSearch.Focus();
             }
         }
-
-
-
-        private void RunBatchFile(string fileName)
+        private void RunBatchFile(string fileName, string pathArgument = "")
         {
+
 
             var process = new Process();
             var startinfo = new ProcessStartInfo(@$"{_config.WebWorkingDirectory}{fileName}", "\"1st_arg\" \"2nd_arg\" \"3rd_arg\"");
             startinfo.RedirectStandardOutput = true;
             startinfo.UseShellExecute = false;
+            startinfo.Arguments = pathArgument;
             process.StartInfo = startinfo;
             process.StartInfo.CreateNoWindow = true;
             process.OutputDataReceived += (sender, argsx) => Debug.WriteLine(argsx.Data); // do whatever processing you need to do in this handler
@@ -263,6 +262,7 @@ namespace InterviewHelper.Forms
             process.BeginOutputReadLine();
             process.WaitForExit();
         }
+
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {

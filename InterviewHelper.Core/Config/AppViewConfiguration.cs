@@ -13,5 +13,6 @@
         public string ConnectionString { get; set; }
         public string DatabaseName { get; set; }
         public string GoogleText { get; set; }
+        public string  BatFilePath { get; set; }
     }
 }
