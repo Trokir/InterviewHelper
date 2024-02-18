@@ -105,7 +105,7 @@ namespace InterviewHelper.Services.Services
             try
             {
                 // Replace "path/to/your/credentials.json" with the path to your JSON key file.
-                Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", "D:\\Projects\\InterviewHelper\\InterviewHelper.Services\\argon-tractor-412805-d87154479e0f.json");
+                Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", _config.GoogleText);
                 var sb = new StringBuilder();
                 var speechClient = SpeechClient.Create();
                 var response = Recognize(audioFilePath, speechClient);

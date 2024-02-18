@@ -244,7 +244,8 @@ namespace InterviewHelper.Forms
 
         private string InitDirectory()
         {
-            var path = Path.Combine(_config.TempFilePath);
+            string tempPath = Path.GetTempPath();
+            var path = Path.Combine(tempPath, "temp");
             var fileName = "rec.mp3";
             var fullPath = Path.Combine(path, fileName);
             if (Directory.Exists(path))
@@ -262,7 +263,8 @@ namespace InterviewHelper.Forms
         }
         private void RemoveDirectory()
         {
-            var path = Path.Combine(_config.TempFilePath);
+            string tempPath = Path.GetTempPath();
+            var path = Path.Combine(tempPath, "temp");
             var fileName = "rec.mp3";
             var fullPath = Path.Combine(path, fileName);
             if (Directory.Exists(path))
@@ -276,14 +278,15 @@ namespace InterviewHelper.Forms
         }
         private void SaveImageToFile(Image image)
         {
-            var path = @"C:\\Users\\troki\\Desktop\\temp";
+            string tempPath = Path.GetTempPath();
+            var path = Path.Combine(tempPath, "temp");
             string filePath = Path.Combine(path, "image.jpg");
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
 
                 image.Save(filePath, System.Drawing.Imaging.ImageFormat.Png);
-                var tessPath = "D:\\Projects\\InterviewHelper\\InterviewHelper.Core\\tessdata\\";
+                var tessPath = "E:\\Projects\\InterviewHelper\\InterviewHelper.Core\\tessdata\\";
                 using var engine = new TesseractEngine(tessPath, "eng", EngineMode.Default);
                 using var img = Pix.LoadFromFile(filePath);
                 using var page = engine.Process(img);
