@@ -35,7 +35,7 @@ namespace InterviewHelper.Services.Services
             //  var fullQuestion = question;
             var modelJson = new
             {
-                model = "gpt-3.5-turbo",
+                model = "gpt-4-0125-preview",
                 messages = new[] {
                 new {
                     role = "system",
