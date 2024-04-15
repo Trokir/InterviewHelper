@@ -9,5 +9,6 @@ namespace InterviewHelper.Services.Services
         Task<string> GetTextFromVoice(string path);
         IAsyncEnumerable<QuestionModel> GetPoolOfAnswersAsync(string[] strArr, string comment, string annotation, Category category);
         Task<HashSet<QuestionModel>> GetPoolOfAnswersAsync1(string[] strArr, string comment, string annotation, Category category);
+        Task<string> GetTranslatedTest(string text, string sourceLang, string targetLang);
     }
 }

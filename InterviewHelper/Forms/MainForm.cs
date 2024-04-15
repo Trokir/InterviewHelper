@@ -319,8 +319,8 @@ namespace InterviewHelper.Forms
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-           var dialog = _messageService.ShowCustomMessage("Are you sure?", "Close program",
-               MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+            var dialog = _messageService.ShowCustomMessage("Are you sure?", "Close program",
+                MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
             if (dialog == DialogResult.Cancel)
             {
                 e.Cancel = true;
@@ -330,5 +330,22 @@ namespace InterviewHelper.Forms
                 RunBatchFile("processKiller.bat");
             }
         }
+
+
+
+        private async void txtAnswer_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (txtAnswer.SelectionLength > 0)
+            {
+                var translation = await _openAIQuestionService.GetTranslatedTest(txtAnswer.SelectedText.Trim(), "en", "ru");
+                toolTipClever.SetToolTip(txtAnswer, translation);
+            }
+            else
+            {
+                toolTipClever.SetToolTip(txtAnswer, "");
+            }
+        }
+
+        
     }
 }

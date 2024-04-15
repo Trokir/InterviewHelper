@@ -2,6 +2,7 @@
 {
     public class AppViewConfiguration
     {
+        public string TranslateApiKey {  get; set; }
         public string ApiKey { get; set; }
         public string DefaultConnection { get; set; }
         public string ChatGptPath { get; set; }

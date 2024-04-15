@@ -28,9 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             cmbCategory = new ComboBox();
             btnRefresh = new Button();
             btnAddCategory = new Button();
@@ -71,6 +73,8 @@
             panelHidden = new Panel();
             statusStrip1 = new StatusStrip();
             toolStripStatusLabel1 = new ToolStripStatusLabel();
+            toolTipClever = new ToolTip(components);
+            toolTipMain = new ToolTip(components);
             ((System.ComponentModel.ISupportInitialize)dgvQuestions).BeginInit();
             groupBox1.SuspendLayout();
             mainMenutabControl.SuspendLayout();
@@ -224,6 +228,7 @@
             txtAnswer.Size = new Size(833, 754);
             txtAnswer.TabIndex = 12;
             txtAnswer.Text = "";
+            txtAnswer.MouseUp += txtAnswer_MouseUp;
             // 
             // mainMenutabControl
             // 
@@ -294,6 +299,7 @@
             txtQuestion.KeyDown += txtQuestion_KeyDown;
             txtQuestion.KeyPress += txtQuestion_KeyPress;
             txtQuestion.MouseEnter += txtQuestion_MouseEnter;
+            txtQuestion.MouseUp += txtQuestion_MouseUp;
             // 
             // pkbPic
             // 
@@ -579,6 +585,7 @@
             Controls.Add(statusStrip1);
             Controls.Add(mainMenutabControl);
             DoubleBuffered = true;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(3, 2, 3, 2);
             Name = "MainForm";
             Text = "Interview helper";
@@ -652,5 +659,7 @@
         private StatusStrip statusStrip1;
         private ToolStripStatusLabel toolStripStatusLabel1;
         private Panel panel3;
+        private ToolTip toolTipClever;
+        private ToolTip toolTipMain;
     }
 }

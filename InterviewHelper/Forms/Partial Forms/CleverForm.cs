@@ -241,7 +241,24 @@ namespace InterviewHelper.Forms
                 SaveImageToFile(image);
             }
         }
+       /// <summary>
+       /// 
+       /// </summary>
+       /// <param name="sender"></param>
+       /// <param name="e"></param>
+        private async void txtQuestion_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (txtQuestion.SelectionLength > 0)
+            {
+                var translation = await _openAIQuestionService.GetTranslatedTest(txtQuestion.SelectedText.Trim(), "en", "ru");
+                toolTipClever.SetToolTip(txtQuestion, translation);
+            }
+            else
+            {
+                toolTipClever.SetToolTip(txtQuestion, "");
 
+            }
+        }
         private string InitDirectory()
         {
             string path, fullPath;

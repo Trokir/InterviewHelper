@@ -1,6 +1,7 @@
 ﻿
 
 using Google.Cloud.Speech.V1;
+using Google.Cloud.Translation.V2;
 
 using InterviewHelper.Core.Config;
 using InterviewHelper.Core.Models;
@@ -15,6 +16,7 @@ using System.Text;
 using System.Text.Json;
 using System.Xml.Linq;
 
+using static System.Net.Mime.MediaTypeNames;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace InterviewHelper.Services.Services
@@ -98,7 +100,15 @@ namespace InterviewHelper.Services.Services
             string responseBody = await response.Content.ReadAsStringAsync();
             return responseBody;
         }
+        public async Task<string> GetTranslatedTest(string text, string sourceLang, string targetLang)
+        {
+            await Task.Delay(10);
+            // Replace YOUR_API_KEY with your actual Google Cloud API key
+            TranslationClient client = TranslationClient.CreateFromApiKey(_config.TranslateApiKey);
+            var response = client.TranslateText(text, targetLang, sourceLang);
+            return response.TranslatedText;
 
+        }
         public async Task<string> GetTextFromVoice(string audioFilePath)
         {
             await Task.Delay(10);
@@ -126,6 +136,8 @@ namespace InterviewHelper.Services.Services
             }
 
         }
+
+
         RecognizeResponse Recognize(string filePath, SpeechClient speechClient)
         {
             var audio = RecognitionAudio.FromFile(filePath);
