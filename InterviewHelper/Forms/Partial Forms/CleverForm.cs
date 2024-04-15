@@ -9,13 +9,13 @@ namespace InterviewHelper.Forms
 {
     public partial class MainForm : Form
     {
-       
 
-      /// <summary>
-      /// 
-      /// </summary>
-      /// <param name="sender"></param>
-      /// <param name="e"></param>
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void btnSave_Click(object sender, EventArgs e)
         {
             if (_category is not null &&
@@ -70,20 +70,20 @@ namespace InterviewHelper.Forms
                 toolStripStatusLabel1.Text = "done";
             }
         }
-       /// <summary>
-       /// 
-       /// </summary>
-       /// <param name="sender"></param>
-       /// <param name="e"></param>
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void txtxAnswer_TextChanged(object sender, EventArgs e)
         {
             btnSave.Enabled = true;
         }
-      /// <summary>
-      /// 
-      /// </summary>
-      /// <param name="sender"></param>
-      /// <param name="e"></param>
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void txtQuestion_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Enter)
@@ -124,11 +124,11 @@ namespace InterviewHelper.Forms
 
             }
         }
-       /// <summary>
-       /// 
-       /// </summary>
-       /// <param name="sender"></param>
-       /// <param name="e"></param>
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void txtQuestion_KeyDown(object sender, KeyEventArgs e)
         {
             var conStr = string.Empty;
@@ -153,20 +153,20 @@ namespace InterviewHelper.Forms
                 txtxAnswer.Text = answer;
             }
         }
-       /// <summary>
-       /// 
-       /// </summary>
-       /// <param name="sender"></param>
-       /// <param name="e"></param>
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void txtQuestion_MouseEnter(object sender, EventArgs e)
         {
             txtQuestion.Focus();
         }
-       /// <summary>
-       /// 
-       /// </summary>
-       /// <param name="sender"></param>
-       /// <param name="e"></param>
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnRec_MouseDown(object sender, MouseEventArgs e)
         {
             btnRec.Text = "Record...";
@@ -174,11 +174,11 @@ namespace InterviewHelper.Forms
             _filePath = InitDirectory();
             _audioRecordService.StartRecordMicrofhoneAsync();
         }
-       /// <summary>
-       /// 
-       /// </summary>
-       /// <param name="sender"></param>
-       /// <param name="e"></param>
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void btnRec_MouseUp(object sender, MouseEventArgs e)
         {
             btnRec.Text = "Saving...";
@@ -199,11 +199,11 @@ namespace InterviewHelper.Forms
             RemoveDirectory();
             btnRec.Text = "Rec";
         }
-      /// <summary>
-      /// 
-      /// </summary>
-      /// <param name="sender"></param>
-      /// <param name="e"></param>
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void btnSyRecord_MouseDown(object sender, MouseEventArgs e)
         {
             btnSyRecord.Text = "Record..";
@@ -211,11 +211,11 @@ namespace InterviewHelper.Forms
             _filePath = InitDirectory();
             await _audioRecordService.StartRecordingSpeakerAsync(_filePath);
         }
-       /// <summary>
-       /// 
-       /// </summary>
-       /// <param name="sender"></param>
-       /// <param name="e"></param>
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void btnSyRecord_MouseUp(object sender, MouseEventArgs e)
         {
             btnSyRecord.Text = "Saving..";
@@ -244,29 +244,20 @@ namespace InterviewHelper.Forms
 
         private string InitDirectory()
         {
-            string tempPath = Path.GetTempPath();
-            var path = Path.Combine(tempPath, "temp");
-            var fileName = "rec.mp3";
-            var fullPath = Path.Combine(path, fileName);
-            if (Directory.Exists(path))
-            {
-                if (File.Exists(fullPath))
-                {
-                    File.Delete(fullPath);
-                }
-                Directory.Delete(path);
-            }
+            string path, fullPath;
+            CleanDirectory(out path, out fullPath);
 
             Directory.CreateDirectory(path);
 
             return fullPath;
         }
-        private void RemoveDirectory()
+
+        private static void CleanDirectory(out string path, out string fullPath)
         {
             string tempPath = Path.GetTempPath();
-            var path = Path.Combine(tempPath, "temp");
+            path = Path.Combine(tempPath, "temp");
             var fileName = "rec.mp3";
-            var fullPath = Path.Combine(path, fileName);
+            fullPath = Path.Combine(path, fileName);
             if (Directory.Exists(path))
             {
                 if (File.Exists(fullPath))
@@ -275,6 +266,12 @@ namespace InterviewHelper.Forms
                 }
                 Directory.Delete(path);
             }
+        }
+
+        private void RemoveDirectory()
+        {
+            string path, fullPath;
+            CleanDirectory(out path, out fullPath);
         }
         private void SaveImageToFile(Image image)
         {

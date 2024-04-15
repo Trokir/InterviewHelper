@@ -7,6 +7,7 @@
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
 	  <ForceDesignerDpiUnaware>true</ForceDesignerDpiUnaware>
+	  <ApplicationIcon>trophy_jewelry_winner_win_treasure_gift_blue_diamond_game_icon_262398.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,6 +17,10 @@
 
   <ItemGroup>
     <EmbeddedResource Remove="Forms\AddNewQuestionForm.resx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="trophy_jewelry_winner_win_treasure_gift_blue_diamond_game_icon_262398.ico" />
   </ItemGroup>
 
   <ItemGroup>
