@@ -17,13 +17,13 @@ namespace InterviewHelper
 {
     static class Program
     {
-        public static IConfiguration Configuration { get; private set; }
+        public static IConfiguration _configuration { get; private set; }
         public static IServiceProvider ServiceProvider { get; private set; }
 
         [STAThread]
         static void Main()
         {
-            Configuration = new ConfigurationBuilder()
+            _configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .Build();
@@ -49,26 +49,26 @@ namespace InterviewHelper
             // Bind settings
             var settings = new AppViewConfiguration();
 
-            Configuration.GetSection("AppViewConfiguration").Bind(settings);
-            _ = services.AddSingleton(Options.Create(settings));
-            services.AddSingleton(settings)
+            _configuration.GetSection("AppViewConfiguration").Bind(settings);
+            
+            _ = services.AddSingleton(Options.Create(settings))
+                .AddSingleton(settings)
                 .AddTransient<IQuestionRepository, QuestionRepository>()
                 .AddTransient<ICategoryRepository, CategoryRepository>()
                 .AddTransient<IUnitOfWork, UnitOfWork>()
-                 .AddScoped<QuestionDbContext>();
-            services.AddDbContext<QuestionDbContext>(opt =>
-            opt.UseSqlServer(settings.DefaultConnection));
-
-            services.AddHttpClient();
+                .AddScoped<QuestionDbContext>()
+                .AddDbContext<QuestionDbContext>(opt =>
+                    opt.UseSqlServer(settings.DefaultConnection))
+                .AddHttpClient();
 
             // Add other services
-            services.AddScoped<MainForm>();
-            services.AddTransient<AddNewCategoryForm>();
-            services.AddTransient<IQuestionFormFactory, QuestionFormFactory>();
-            services.AddTransient<IMessageService, MessageService>();
-            services.AddTransient<IOpenAIQuestionService, OpenAIQuestionService>();
-            services.AddTransient<IMongoDbService, MongoDbService>();
-            services.AddTransient<IAudioRecordService, AudioRecordService>();
+            services.AddScoped<MainForm>()
+            .AddTransient<AddNewCategoryForm>()
+            .AddTransient<IQuestionFormFactory, QuestionFormFactory>()
+            .AddTransient<IMessageService, MessageService>()
+            .AddTransient<IOpenAIQuestionService, OpenAIQuestionService>()
+            .AddTransient<IMongoDbService, MongoDbService>()
+            .AddTransient<IAudioRecordService, AudioRecordService>();
 
 
         }
