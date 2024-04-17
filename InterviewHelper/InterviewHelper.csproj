@@ -44,7 +44,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\InterviewHelper.Core\InterviewHelper.Core.csproj" />
-    <ProjectReference Include="..\InterviewHelper.Diagram\InterviewHelper.Diagram.csproj" />
+    <ProjectReference Include="..\InterviewHelper.Diagram\InterviewHelper.Diagram.csproj">
+      <Private>False</Private>
+      <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
+    </ProjectReference>
     <ProjectReference Include="..\InterviewHelper.Services\InterviewHelper.Services.csproj" />
   </ItemGroup>
 

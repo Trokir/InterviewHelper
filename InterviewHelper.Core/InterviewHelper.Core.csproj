@@ -14,10 +14,10 @@
 
   <ItemGroup>
     <None Update="Bat\diagram.bat">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Bat\processKiller.bat">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="tessdata\.gitmodules">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
