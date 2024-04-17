@@ -1,3 +1,5 @@
+using Google.Api.Gax.ResourceNames;
+
 using InterviewHelper.Core.Config;
 using InterviewHelper.Core.Models;
 using InterviewHelper.Core.Models.DTOs;
@@ -64,9 +66,7 @@ namespace InterviewHelper.Forms
             cmbCategory.DisplayMember = "Name";
             cmbxCategory.ValueMember = "Id";
             cmbxCategory.DisplayMember = "Name";
-            //this.Invoke(new Action(async () => {
-            //    await webViewDiagram.EnsureCoreWebView2Async(null);
-            //}));
+           
             await Task.Run(() =>
             {
                 RunBatchFile("processKiller.bat");
@@ -75,12 +75,14 @@ namespace InterviewHelper.Forms
             });
 
         }
+       
+
         private async Task InitializeControls(IUnitOfWork commandService)
         {
             _categories = await commandService
                 .CategoryRepository.GetAllAsync();
             _questions = _categories.OrderBy(x => x.Name).SelectMany(c => c.Questions);
-            this.Invoke((MethodInvoker)delegate
+            this.Invoke((System.Windows.Forms.MethodInvoker)delegate
             {
 
                 cmbCategory.Items.Clear();
@@ -111,7 +113,7 @@ namespace InterviewHelper.Forms
 
         private void InitDataGrid(IEnumerable<QuestionModel> questions)
         {
-            dgvQuestions.Invoke(new MethodInvoker(() =>
+            dgvQuestions.Invoke(new System.Windows.Forms.MethodInvoker(() =>
             {
                 dgvQuestions.DataSource = null;
                 dgvQuestions.Visible = false;
@@ -246,12 +248,16 @@ namespace InterviewHelper.Forms
                 txtSearch.Focus();
             }
         }
+
+       
+
         private void RunBatchFile(string fileName, string pathArgument = "")
         {
-
-
+            var dirPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            dirPath = Path.GetDirectoryName(dirPath)??string.Empty;
+            var batPath = Path.GetFullPath(Path.Combine(dirPath, "Bat", fileName));
             var process = new Process();
-            var startinfo = new ProcessStartInfo(@$"{_config.WebWorkingDirectory}{fileName}", "\"1st_arg\" \"2nd_arg\" \"3rd_arg\"");
+            var startinfo = new ProcessStartInfo(@batPath, "\"1st_arg\" \"2nd_arg\" \"3rd_arg\"");
             startinfo.RedirectStandardOutput = true;
             startinfo.UseShellExecute = false;
             startinfo.Arguments = pathArgument;
@@ -263,6 +269,7 @@ namespace InterviewHelper.Forms
             process.WaitForExit();
         }
 
+       
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
