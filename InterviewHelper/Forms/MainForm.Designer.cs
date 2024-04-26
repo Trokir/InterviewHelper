@@ -71,10 +71,18 @@
             panel2 = new Panel();
             webViewDiagram = new Microsoft.Web.WebView2.WinForms.WebView2();
             panelHidden = new Panel();
+            tabPage5 = new TabPage();
+            groupBox5 = new GroupBox();
+            rtbPromt = new RichTextBox();
+            groupBox4 = new GroupBox();
+            btnParse = new Button();
+            btnUpdateText = new Button();
+            rtbResume = new RichTextBox();
             statusStrip1 = new StatusStrip();
             toolStripStatusLabel1 = new ToolStripStatusLabel();
             toolTipClever = new ToolTip(components);
             toolTipMain = new ToolTip(components);
+            openFileDialog1 = new OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)dgvQuestions).BeginInit();
             groupBox1.SuspendLayout();
             mainMenutabControl.SuspendLayout();
@@ -91,6 +99,9 @@
             tabPage4.SuspendLayout();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)webViewDiagram).BeginInit();
+            tabPage5.SuspendLayout();
+            groupBox5.SuspendLayout();
+            groupBox4.SuspendLayout();
             statusStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -236,6 +247,7 @@
             mainMenutabControl.Controls.Add(tabPage2);
             mainMenutabControl.Controls.Add(tabPage3);
             mainMenutabControl.Controls.Add(tabPage4);
+            mainMenutabControl.Controls.Add(tabPage5);
             mainMenutabControl.Dock = DockStyle.Fill;
             mainMenutabControl.Location = new Point(0, 0);
             mainMenutabControl.Name = "mainMenutabControl";
@@ -563,6 +575,82 @@
             panelHidden.TabIndex = 3;
             panelHidden.MouseMove += panelHidden_MouseMove;
             // 
+            // tabPage5
+            // 
+            tabPage5.Controls.Add(groupBox5);
+            tabPage5.Location = new Point(4, 24);
+            tabPage5.Name = "tabPage5";
+            tabPage5.Size = new Size(1423, 817);
+            tabPage5.TabIndex = 4;
+            tabPage5.Text = "Resume";
+            tabPage5.UseVisualStyleBackColor = true;
+            // 
+            // groupBox5
+            // 
+            groupBox5.Controls.Add(rtbPromt);
+            groupBox5.Controls.Add(groupBox4);
+            groupBox5.Controls.Add(rtbResume);
+            groupBox5.Dock = DockStyle.Fill;
+            groupBox5.Location = new Point(0, 0);
+            groupBox5.Name = "groupBox5";
+            groupBox5.Size = new Size(1423, 817);
+            groupBox5.TabIndex = 5;
+            groupBox5.TabStop = false;
+            // 
+            // rtbPromt
+            // 
+            rtbPromt.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
+            rtbPromt.BackColor = SystemColors.Info;
+            rtbPromt.Location = new Point(15, 25);
+            rtbPromt.Name = "rtbPromt";
+            rtbPromt.Size = new Size(360, 693);
+            rtbPromt.TabIndex = 4;
+            rtbPromt.Text = "";
+            // 
+            // groupBox4
+            // 
+            groupBox4.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            groupBox4.Controls.Add(btnParse);
+            groupBox4.Controls.Add(btnUpdateText);
+            groupBox4.Location = new Point(1002, 724);
+            groupBox4.Name = "groupBox4";
+            groupBox4.Size = new Size(310, 66);
+            groupBox4.TabIndex = 3;
+            groupBox4.TabStop = false;
+            // 
+            // btnParse
+            // 
+            btnParse.Font = new Font("Segoe UI", 12F);
+            btnParse.Location = new Point(6, 22);
+            btnParse.Name = "btnParse";
+            btnParse.Size = new Size(115, 38);
+            btnParse.TabIndex = 1;
+            btnParse.Text = "Parse";
+            btnParse.UseVisualStyleBackColor = true;
+            btnParse.Click += btnParse_Click;
+            // 
+            // btnUpdateText
+            // 
+            btnUpdateText.Font = new Font("Segoe UI", 12F);
+            btnUpdateText.Location = new Point(165, 22);
+            btnUpdateText.Name = "btnUpdateText";
+            btnUpdateText.Size = new Size(115, 38);
+            btnUpdateText.TabIndex = 2;
+            btnUpdateText.Text = "Update";
+            btnUpdateText.UseVisualStyleBackColor = true;
+            btnUpdateText.Click += btnUpdateText_Click;
+            // 
+            // rtbResume
+            // 
+            rtbResume.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+            rtbResume.BackColor = SystemColors.InactiveCaption;
+            rtbResume.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            rtbResume.Location = new Point(381, 25);
+            rtbResume.Name = "rtbResume";
+            rtbResume.Size = new Size(971, 693);
+            rtbResume.TabIndex = 0;
+            rtbResume.Text = "rdf";
+            // 
             // statusStrip1
             // 
             statusStrip1.Items.AddRange(new ToolStripItem[] { toolStripStatusLabel1 });
@@ -576,6 +664,10 @@
             // 
             toolStripStatusLabel1.Name = "toolStripStatusLabel1";
             toolStripStatusLabel1.Size = new Size(0, 17);
+            // 
+            // openFileDialog1
+            // 
+            openFileDialog1.FileName = "openFileDlg";
             // 
             // MainForm
             // 
@@ -611,6 +703,9 @@
             tabPage4.ResumeLayout(false);
             panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)webViewDiagram).EndInit();
+            tabPage5.ResumeLayout(false);
+            groupBox5.ResumeLayout(false);
+            groupBox4.ResumeLayout(false);
             statusStrip1.ResumeLayout(false);
             statusStrip1.PerformLayout();
             ResumeLayout(false);
@@ -661,5 +756,13 @@
         private Panel panel3;
         private ToolTip toolTipClever;
         private ToolTip toolTipMain;
+        private TabPage tabPage5;
+        private RichTextBox rtbResume;
+        private GroupBox groupBox4;
+        private Button btnParse;
+        private Button btnUpdateText;
+        private RichTextBox rtbPromt;
+        private GroupBox groupBox5;
+        private OpenFileDialog openFileDialog1;
     }
 }

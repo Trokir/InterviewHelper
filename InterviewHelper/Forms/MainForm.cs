@@ -3,6 +3,7 @@ using Google.Api.Gax.ResourceNames;
 using InterviewHelper.Core.Config;
 using InterviewHelper.Core.Models;
 using InterviewHelper.Core.Models.DTOs;
+using InterviewHelper.Core.Pattern;
 using InterviewHelper.FormServices;
 using InterviewHelper.Services.Repos.Interfaces;
 using InterviewHelper.Services.Services;
@@ -66,7 +67,7 @@ namespace InterviewHelper.Forms
             cmbCategory.DisplayMember = "Name";
             cmbxCategory.ValueMember = "Id";
             cmbxCategory.DisplayMember = "Name";
-           
+            rtbResume.Text = Resume.Pattern;
             await Task.Run(() =>
             {
                 RunBatchFile("processKiller.bat");
@@ -75,7 +76,7 @@ namespace InterviewHelper.Forms
             });
 
         }
-       
+
 
         private async Task InitializeControls(IUnitOfWork commandService)
         {
@@ -249,12 +250,12 @@ namespace InterviewHelper.Forms
             }
         }
 
-       
+
 
         private void RunBatchFile(string fileName, string pathArgument = "")
         {
             var dirPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
-            dirPath = Path.GetDirectoryName(dirPath)??string.Empty;
+            dirPath = Path.GetDirectoryName(dirPath) ?? string.Empty;
             var batPath = Path.GetFullPath(Path.Combine(dirPath, "Bat", fileName));
             var process = new Process();
             var startinfo = new ProcessStartInfo(@batPath, "\"1st_arg\" \"2nd_arg\" \"3rd_arg\"");
@@ -269,7 +270,7 @@ namespace InterviewHelper.Forms
             process.WaitForExit();
         }
 
-       
+
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -353,6 +354,6 @@ namespace InterviewHelper.Forms
             }
         }
 
-        
+       
     }
 }
