@@ -11,8 +11,8 @@ namespace InterviewHelper.Core.Pattern
         public static string Pattern=> @"<!DOCTYPE html>
 <html lang=""en"">
 <head>
-    <meta charset=""UTF-8"">
-    <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
+    <meta charset=""UTF-8""/>
+    <meta name=""viewport"" content=""width=device-width, initial-scale=1.0""/>
     <title>Kirill Troshchevskii's Resume</title>
     <style>
         body {
@@ -62,7 +62,7 @@ namespace InterviewHelper.Core.Pattern
             <h3 class=""sub-title"">Full Stack Engineer, Locko Bank (Remote)</h3>
             <p>July 2018 - Feb 2024</p>
             <ul class=""details"">
-                <li>Led the development of scalable web applications using .NET Framework, ASP.NET, C#, and SQL Server, resulting in the successful deployment of three key projects.</li>
+                <li>Developed scalable web applications using .NET Framework, ASP.NET, C#, and SQL Server, resulting in the successful deployment of three key projects.</li>
                 <li>Designed and improved user interfaces and system flows with MVC architecture, significantly enhancing user satisfaction and reducing support inquiries.</li>
                 <li>Showcased expertise in desktop application development with WPF and WinForms, delivering flawless applications with zero post-launch bugs.</li>
                 <li>Upgraded microservices with the latest .NET features, achieving a substantial increase in system performance and user engagement.</li>
