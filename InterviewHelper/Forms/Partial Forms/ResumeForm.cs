@@ -56,12 +56,12 @@ namespace InterviewHelper.Forms
 
             return convertedText;
         }
-       
+
         private async void btnUpdateText_Click(object sender, EventArgs e)
         {
             string content = string.Empty;
-            var htmlText =rtbResume.Text;
-            if(!string.IsNullOrEmpty(htmlText))
+            var htmlText = rtbResume.Text;
+            if (!string.IsNullOrEmpty(htmlText))
             {
                 // Load the HTML string into the HtmlDocument
                 HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
@@ -76,14 +76,16 @@ namespace InterviewHelper.Forms
                     toolStripStatusLabel3.Text = "Updating experience";
                     // Replace the inner text or inner HTML of the section
                     var resp = await _openAIQuestionService
-                        .GetGeneratedAnswerAsync($"Change the content on the HTML page using this information." +
-                        $" All skills and abilities should be added to the" +
-                        $" context in the experience and skills section. all skills from informaton must be included and modified for resume text" +
-                        $" Return the updated HTML as a response. here is html : {Resume.Pattern} \n",
-                        $"here is info:{rtbPromt.Text}");
+                        .GetGeneratedAnswerAsync($"Goal: to update the content in html text so that the recruiters'" +
+                        $" ATS finds a 100% match in terms of the annotation below." +
+                        $"  Result: Bring back the updated html" +
+                        $" text with the content of the resume for the American market," +
+                        $" competently designed. Your answer: HTML text with resume for Senior Full Stack Dotnet developer" +
+                        $"\n here is HTML page :\n {Resume.Pattern} \n",
+                        $"and here is an annotation:{rtbPromt.Text}", 0.8f);
                     toolStripStatusLabel3.Text = "Experience has been updated";
-                   var input = resp.Substring(0, resp.LastIndexOf(">") + 1);
-                    int index = input.IndexOf('<')-1;
+                    var input = resp.Substring(0, resp.LastIndexOf(">") + 1);
+                    int index = input.IndexOf('<') - 1;
                     if (index != -1)
                     {
                         input = input.Substring(index + 1);
@@ -94,20 +96,34 @@ namespace InterviewHelper.Forms
         }
         private void btnSaveResume_Click(object sender, EventArgs e)
         {
-            // Создание документа PDF
-            Document document = new Document();
-            string outputPath = System.IO.Path.Combine(@"C:\Users\troki\Desktop\Resumes", $"Kirill_Troshchevskii_{txtComp.Text}.pdf");
-
-            using (FileStream fs = new FileStream(outputPath, FileMode.Create))
+            try
             {
-                PdfWriter writer = PdfWriter.GetInstance(document, fs);
-                document.Open();
-                using (TextReader reader = new StringReader(rtbResume.Text))
+                using Document document = new Document();
+                string outputPath = System.IO.Path.Combine(@"C:\Users\troki\Desktop\Resumes", $"Kirill_Troshchevskii_{txtComp.Text}.pdf");
+
+                using (FileStream fs = new FileStream(outputPath, FileMode.Create))
                 {
-                    XMLWorkerHelper.GetInstance().ParseXHtml(writer, document, reader);
+                    PdfWriter writer = PdfWriter.GetInstance(document, fs);
+                    document.Open();
+                    using (TextReader reader = new StringReader(rtbResume.Text))
+                    {
+                        XMLWorkerHelper.GetInstance().ParseXHtml(writer, document, reader);
+                    }
+                    document.Close();
                 }
-                document.Close();
+                MessageBox.Show("File has been successfully saved to the output folder", "File saved", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+            catch (Exception ex)
+            {
+
+                throw new Exception(ex.Message);
+            }
+        }
+
+        private void btnRefr_Click(object sender, EventArgs e)
+        {
+            rtbResume.Text = Resume.Pattern;
+            rtbPromt.Text = string.Empty;
         }
     }
 }

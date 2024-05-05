@@ -73,6 +73,7 @@
             panelHidden = new Panel();
             tabPage5 = new TabPage();
             groupBox5 = new GroupBox();
+            txtComp = new TextBox();
             statusStrip2 = new StatusStrip();
             toolStripStatusLabel2 = new ToolStripStatusLabel();
             rtbPromt = new RichTextBox();
@@ -87,7 +88,7 @@
             toolTipClever = new ToolTip(components);
             toolTipMain = new ToolTip(components);
             openFileDialog1 = new OpenFileDialog();
-            txtComp = new TextBox();
+            btnRefr = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvQuestions).BeginInit();
             groupBox1.SuspendLayout();
             mainMenutabControl.SuspendLayout();
@@ -605,6 +606,13 @@
             groupBox5.TabIndex = 5;
             groupBox5.TabStop = false;
             // 
+            // txtComp
+            // 
+            txtComp.Location = new Point(48, 667);
+            txtComp.Name = "txtComp";
+            txtComp.Size = new Size(220, 23);
+            txtComp.TabIndex = 6;
+            // 
             // statusStrip2
             // 
             statusStrip2.Items.AddRange(new ToolStripItem[] { toolStripStatusLabel2 });
@@ -633,19 +641,20 @@
             // groupBox4
             // 
             groupBox4.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            groupBox4.Controls.Add(btnRefr);
             groupBox4.Controls.Add(btnSaveResume);
             groupBox4.Controls.Add(btnParse);
             groupBox4.Controls.Add(btnUpdateText);
-            groupBox4.Location = new Point(703, 675);
+            groupBox4.Location = new Point(528, 675);
             groupBox4.Name = "groupBox4";
-            groupBox4.Size = new Size(426, 66);
+            groupBox4.Size = new Size(601, 66);
             groupBox4.TabIndex = 3;
             groupBox4.TabStop = false;
             // 
             // btnSaveResume
             // 
             btnSaveResume.Font = new Font("Segoe UI", 12F);
-            btnSaveResume.Location = new Point(286, 22);
+            btnSaveResume.Location = new Point(248, 22);
             btnSaveResume.Name = "btnSaveResume";
             btnSaveResume.Size = new Size(115, 38);
             btnSaveResume.TabIndex = 3;
@@ -667,7 +676,7 @@
             // btnUpdateText
             // 
             btnUpdateText.Font = new Font("Segoe UI", 12F);
-            btnUpdateText.Location = new Point(165, 22);
+            btnUpdateText.Location = new Point(127, 22);
             btnUpdateText.Name = "btnUpdateText";
             btnUpdateText.Size = new Size(115, 38);
             btnUpdateText.TabIndex = 2;
@@ -710,12 +719,16 @@
             // 
             openFileDialog1.FileName = "openFileDlg";
             // 
-            // txtComp
+            // btnRefr
             // 
-            txtComp.Location = new Point(48, 667);
-            txtComp.Name = "txtComp";
-            txtComp.Size = new Size(220, 23);
-            txtComp.TabIndex = 6;
+            btnRefr.Font = new Font("Segoe UI", 12F);
+            btnRefr.Location = new Point(369, 22);
+            btnRefr.Name = "btnRefr";
+            btnRefr.Size = new Size(115, 38);
+            btnRefr.TabIndex = 4;
+            btnRefr.Text = "Refresh";
+            btnRefr.UseVisualStyleBackColor = true;
+            btnRefr.Click += btnRefr_Click;
             // 
             // MainForm
             // 
@@ -820,5 +833,6 @@
         private Button btnSaveResume;
         private ToolStripStatusLabel toolStripStatusLabel3;
         private TextBox txtComp;
+        private Button btnRefr;
     }
 }
