@@ -73,8 +73,10 @@ static class Program
             .AddTransient<AddNewCategoryForm>()
             .AddTransient<IQuestionFormFactory, QuestionFormFactory>()
             .AddTransient<IMessageService, MessageService>()
+            .AddTransient<IResumeService, ResumeService>()
             .AddTransient<IOpenAIQuestionService, OpenAIQuestionService>()
             .AddTransient<IMongoDbService, MongoDbService>()
             .AddTransient<IAudioRecordService, AudioRecordService>();
+           
     }
 }

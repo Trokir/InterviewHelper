@@ -11,5 +11,6 @@
         public string DatabaseName { get; init; }
         public string GoogleText { get; init; }
         public string  BatFilePath { get; init; }
+        public string BotApi { get; init; }
     }
 }
