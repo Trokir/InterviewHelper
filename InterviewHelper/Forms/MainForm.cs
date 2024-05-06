@@ -28,7 +28,7 @@ namespace InterviewHelper.Forms
         private readonly IMessageService _messageService;
         private readonly IAudioRecordService _audioRecordService;
         private readonly IMongoDbService _mongoDbService;
-
+        private readonly IResumeService _resumeService;
         private IEnumerable<PngImage> _images;
         private readonly AppViewConfiguration _config;
         private readonly TextEnvironment _textEnvironment;
@@ -43,7 +43,8 @@ namespace InterviewHelper.Forms
             IAudioRecordService audioRecordService,
             IOptions<AppViewConfiguration> options,
             IOptions<TextEnvironment> textEnvironment,
-            IMongoDbService mongoDbService)
+            IMongoDbService mongoDbService,
+            IResumeService resumeService)
         {
             _config = options.Value;
             _commandService = commandService;
@@ -55,6 +56,7 @@ namespace InterviewHelper.Forms
             _audioRecordService = audioRecordService;
             _textEnvironment = textEnvironment.Value;
             _mongoDbService = mongoDbService;
+            _resumeService = resumeService;
         }
 
 
