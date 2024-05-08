@@ -75,11 +75,15 @@ namespace InterviewHelper.Services.Services
                     {
                         // Replace the inner text or inner HTML of the section
                         var resp = await _openAIQuestionService
-                            .GetGeneratedAnswerAsync($"Goal: to update the content in html text so that the recruiters'" +
+                            .GetGeneratedAnswerAsync($"Goal: to update the content in html text so that" +
+                            $" the recruiters'" +
                             $" ATS finds a 100% match in terms of the annotation below." +
                             $"  Result: Bring back the updated html" +
                             $" text with the content of the resume for the American market," +
-                            $" competently designed. Your answer: HTML text with resume for Senior Full Stack Dotnet developer" +
+                            $" competently designed. Your answer: HTML text with resume" +
+                            $" for Senior Full Stack Dotnet developer (not team lead, " +
+                            $"remove all mentionig about leading, in the skiis section set " +
+                            $"just list of skills without any additional details" +
                             $"\n here is HTML page :\n {Resume.Pattern} \n",
                             $"and here is an annotation:{promt}", 0.8f);
                          input = resp.Substring(0, resp.LastIndexOf(">") + 1);
