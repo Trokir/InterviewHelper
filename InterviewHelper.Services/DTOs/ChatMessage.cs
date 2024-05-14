@@ -22,7 +22,7 @@ namespace InterviewHelper.Services.DTOs
                 throw new ArgumentNullException(nameof(update));
             }
             _user = new ChatUser(update);
-            _text = update?.Message?.Text;
+            _text = update?.Message?.Text ?? "";
             _message = update?.Message;
         }
 

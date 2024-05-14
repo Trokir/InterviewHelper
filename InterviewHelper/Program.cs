@@ -76,6 +76,6 @@ static class Program
             .AddTransient<IOpenAIQuestionService, OpenAIQuestionService>()
             .AddTransient<IMongoDbService, MongoDbService>()
             .AddTransient<IAudioRecordService, AudioRecordService>();
-           
+
     }
 }

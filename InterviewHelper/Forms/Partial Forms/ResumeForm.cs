@@ -37,12 +37,12 @@ namespace InterviewHelper.Forms
                 // Do something with the parsed text, like display it in a TextBox or a RichTextBox
             }
         }
-       
+
 
         private async void btnUpdateText_Click(object sender, EventArgs e)
         {
             toolStripStatusLabel3.Text = "Updating experience";
-            var updatedText = await _resumeService.UpdateHTMLContent(rtbPromt.Text,rtbResume.Text);
+            var updatedText = await _resumeService.UpdateHTMLContent(rtbPromt.Text, rtbResume.Text);
             toolStripStatusLabel3.Text = "Experience has been updated";
             rtbResume.Text = updatedText;
             string content = string.Empty;
@@ -51,7 +51,7 @@ namespace InterviewHelper.Forms
         private void btnSaveResume_Click(object sender, EventArgs e)
         {
             var path = System.IO.Path.Combine(@"C:\Users\troki\Desktop\Resumes", $"Kirill_Troshchevskii_{txtComp.Text}.pdf");
-         var result =   _resumeService.SaveFileToLocalFolder(rtbResume.Text, path, txtComp.Text);
+            var result = _resumeService.SaveFileToLocalFolder(rtbResume.Text, path, txtComp.Text);
             if (result)
             {
                 MessageBox.Show("File has been successfully saved to the output folder", "File saved", MessageBoxButtons.OK, MessageBoxIcon.Information);

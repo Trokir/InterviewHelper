@@ -71,7 +71,7 @@ namespace InterviewHelper.Services.Services
             return result;
         }
 
-        public async Task<string> GetGeneratedAnswerAsync(string pattern,string annotation, string content, string skills,  float temperature = 0.3F)
+        public async Task<string> GetGeneratedAnswerAsync(string pattern, string annotation, string content, string skills, float temperature = 0.3F)
         {
             var fullQuestion = $"pattern:{pattern} ;\n annotation:{annotation} ;\n content:{content} ; \n skills{skills}";
             //  var fullQuestion = question;
@@ -197,7 +197,7 @@ namespace InterviewHelper.Services.Services
             return speechClient.Recognize(request);
         }
 
-        public async Task<HashSet<QuestionModel>> GetPoolOfAnswersAsync1(string[] strArr,string comment, string annotation,Category category)
+        public async Task<HashSet<QuestionModel>> GetPoolOfAnswersAsync1(string[] strArr, string comment, string annotation, Category category)
         {
             var poolList = new HashSet<QuestionModel>();
             var options = new ParallelOptions()
@@ -205,7 +205,8 @@ namespace InterviewHelper.Services.Services
                 MaxDegreeOfParallelism = 3
             };
 
-            await Parallel.ForEachAsync(strArr, options, async (item, ct) => {
+            await Parallel.ForEachAsync(strArr, options, async (item, ct) =>
+            {
                 if (!string.IsNullOrWhiteSpace(item))
                 {
                     var answer = await GetGeneratedAnswerAsync(item + " " + comment, annotation, 0.7F);
@@ -236,7 +237,7 @@ namespace InterviewHelper.Services.Services
                 if (category is not null &&
                     !string.IsNullOrWhiteSpace(answer))
                 {
-                   
+
                     var newQuestion = new QuestionModel
                     {
                         Category = category,
@@ -246,7 +247,7 @@ namespace InterviewHelper.Services.Services
                     Debug.WriteLine(newQuestion);
                     yield return newQuestion;
                 }
-                
+
             }
         }
     }

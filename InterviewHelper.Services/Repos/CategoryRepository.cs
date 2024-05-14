@@ -23,7 +23,7 @@ namespace InterviewHelper.Services.Repos
 
         public async Task AddRangeAsync(IEnumerable<Category> entities)
         {
-           await _dbContext.Categories.AddRangeAsync(entities);
+            await _dbContext.Categories.AddRangeAsync(entities);
             await _dbContext.SaveChangesAsync();
         }
 

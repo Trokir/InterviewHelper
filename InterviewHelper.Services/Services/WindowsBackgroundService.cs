@@ -1,22 +1,10 @@
-﻿using Amazon.Runtime.Internal.Util;
-using InterviewHelper.Core.Config;
+﻿using InterviewHelper.Core.Config;
 using InterviewHelper.Core.Pattern;
 using InterviewHelper.Services.DTOs;
 
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-
-using Org.BouncyCastle.Asn1.Pkcs;
-
-using SharpCompress.Common;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 using Telegram.Bot;
 using Telegram.Bot.Exceptions;
@@ -109,7 +97,7 @@ namespace InterviewHelper.Services.Services
             var message = chat_message.GetCurrentMessage();
             var userId = user.UserId;
             var text = chat_message.GetCurrentMessageText();
-            if (userId== 5602891711)
+            if (userId == 5602891711)
             {
                 if (message?.Type != null && message.Type == MessageType.Photo)
                 {
@@ -143,84 +131,70 @@ namespace InterviewHelper.Services.Services
                 if (message?.Type != null && message.Type == MessageType.Text)
                 {
 
-                    if (!flag)
+
+                    if (text.StartsWith("ann:", StringComparison.InvariantCultureIgnoreCase))
                     {
-                        if (text.Equals("z", StringComparison.InvariantCultureIgnoreCase))
+                        int index = text.IndexOf(':');
+                        if (index != -1)
                         {
-                            flag = true;
-                            var result = await botClient.SendTextMessageAsync(message.Chat, $"Registered", cancellationToken: cancellationToken);
-                            await botClient.DeleteMessageAsync(chatId: message.Chat, message.MessageId, cancellationToken);
-                            await Task.Delay(3000, cancellationToken);
-                            await botClient.DeleteMessageAsync(chatId: result.Chat, result.MessageId, cancellationToken);
+                            annotation = (text.Substring(index + 1)).Trim();
                         }
+                        var result = await botClient.SendTextMessageAsync(message.Chat, $"Annotation submitted", cancellationToken: cancellationToken);
+                        await botClient.DeleteMessageAsync(chatId: message.Chat, message.MessageId, cancellationToken);
+                        await Task.Delay(3000, cancellationToken);
+                        await botClient.DeleteMessageAsync(chatId: result.Chat, result.MessageId, cancellationToken);
+                        return;
                     }
-                    else
+                    if (text.StartsWith("file:", StringComparison.InvariantCultureIgnoreCase))
                     {
-                        if (text.StartsWith("ann:", StringComparison.InvariantCultureIgnoreCase))
+                        int index = text.IndexOf(':');
+                        if (index != -1)
                         {
-                            int index = text.IndexOf(':');
-                            if (index != -1)
-                            {
-                                annotation = (text.Substring(index + 1)).Trim();
-                            }
-                            var result = await botClient.SendTextMessageAsync(message.Chat, $"Annotation submitted", cancellationToken: cancellationToken);
-                            await botClient.DeleteMessageAsync(chatId: message.Chat, message.MessageId, cancellationToken);
-                            await Task.Delay(3000, cancellationToken);
-                            await botClient.DeleteMessageAsync(chatId: result.Chat, result.MessageId, cancellationToken);
-                            return;
+                            fileName = (text.Substring(index + 1)).Trim();
                         }
-                        if (text.StartsWith("file:", StringComparison.InvariantCultureIgnoreCase))
+                        var result = await botClient.SendTextMessageAsync(message.Chat, $"File name submitted", cancellationToken: cancellationToken);
+                        await botClient.DeleteMessageAsync(chatId: message.Chat, message.MessageId, cancellationToken);
+                        await Task.Delay(3000, cancellationToken);
+                        await botClient.DeleteMessageAsync(chatId: result.Chat, result.MessageId, cancellationToken);
+                        return;
+                    }
+                    if (text.StartsWith("get", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        string path = Path.Combine(@"C:\Users\troki\Desktop\Resumes", $"Kirill_Troshchevskii_{fileName}.pdf");
+                        if (!string.IsNullOrEmpty(annotation) && !string.IsNullOrEmpty(fileName))
                         {
-                            int index = text.IndexOf(':');
-                            if (index != -1)
+                            var responce = await _resumeService.UpdateHTMLContent(annotation, Resume.Pattern);
+                            if (!string.IsNullOrEmpty(responce))
                             {
-                                fileName = (text.Substring(index + 1)).Trim();
-                            }
-                            var result = await botClient.SendTextMessageAsync(message.Chat, $"File name submitted", cancellationToken: cancellationToken);
-                            await botClient.DeleteMessageAsync(chatId: message.Chat, message.MessageId, cancellationToken);
-                            await Task.Delay(3000, cancellationToken);
-                            await botClient.DeleteMessageAsync(chatId: result.Chat, result.MessageId, cancellationToken);
-                            return;
-                        }
-                        if (text.StartsWith("get", StringComparison.InvariantCultureIgnoreCase))
-                        {
-                            string path = Path.Combine(@"C:\Users\troki\Desktop\Resumes", $"Kirill_Troshchevskii_{fileName}.pdf");
-                            if (!string.IsNullOrEmpty(annotation) && !string.IsNullOrEmpty(fileName))
-                            {
-                                var responce = await _resumeService.UpdateHTMLContent(annotation, Resume.Pattern);
-                                if (!string.IsNullOrEmpty(responce))
+                                var result = await botClient.SendTextMessageAsync(message.Chat, $"Resume Updated", cancellationToken: cancellationToken);
+                                updatedText = responce;
+                                await botClient.DeleteMessageAsync(chatId: message.Chat, message.MessageId, cancellationToken);
+                                await Task.Delay(3000, cancellationToken);
+                                await botClient.DeleteMessageAsync(chatId: result.Chat, result.MessageId, cancellationToken);
+                                if (System.IO.File.Exists(path))
                                 {
-                                    var result = await botClient.SendTextMessageAsync(message.Chat, $"Resume Updated", cancellationToken: cancellationToken);
-                                    updatedText = responce;
-                                    await botClient.DeleteMessageAsync(chatId: message.Chat, message.MessageId, cancellationToken);
-                                    await Task.Delay(3000, cancellationToken);
-                                    await botClient.DeleteMessageAsync(chatId: result.Chat, result.MessageId, cancellationToken);
-                                    if (System.IO.File.Exists(path))
-                                    {
-                                        System.IO.File.Delete(path);
-                                    }
-                                    if (!string.IsNullOrEmpty(updatedText))
-                                    {
-                                        _resumeService.SaveFileToLocalFolder(updatedText, path);
-                                        var result1 = await botClient.SendTextMessageAsync(message.Chat, $"Resume Saved", cancellationToken: cancellationToken);
-                                        // await botClient.DeleteMessageAsync(chatId: message.Chat, message.MessageId, cancellationToken);
-                                        await Task.Delay(3000, cancellationToken);
-                                        await botClient.DeleteMessageAsync(chatId: result1.Chat, result1.MessageId, cancellationToken);
-                                    }
+                                    System.IO.File.Delete(path);
                                 }
-
-                                await using Stream stream = System.IO.File.OpenRead(path);
-                                var fmessage = await botClient.SendDocumentAsync(
-                                    chatId: message.Chat,
-                                    document: InputFile.FromStream(stream: stream, fileName: $"Kirill_Troshchevskii_{fileName}.pdf"),
-                                    caption: $"here is your resume for {fileName}");
-                                annotation = string.Empty;
-                                fileName = string.Empty;
+                                if (!string.IsNullOrEmpty(updatedText))
+                                {
+                                    _resumeService.SaveFileToLocalFolder(updatedText, path);
+                                    var result1 = await botClient.SendTextMessageAsync(message.Chat, $"Resume Saved", cancellationToken: cancellationToken);
+                                    // await botClient.DeleteMessageAsync(chatId: message.Chat, message.MessageId, cancellationToken);
+                                    await Task.Delay(3000, cancellationToken);
+                                    await botClient.DeleteMessageAsync(chatId: result1.Chat, result1.MessageId, cancellationToken);
+                                }
                             }
-                            return;
-                        }
-                    }
 
+                            await using Stream stream = System.IO.File.OpenRead(path);
+                            var fmessage = await botClient.SendDocumentAsync(
+                                chatId: message.Chat,
+                                document: InputFile.FromStream(stream: stream, fileName: $"Kirill_Troshchevskii_{fileName}.pdf"),
+                                caption: $"here is your resume for {fileName}");
+                            annotation = string.Empty;
+                            fileName = string.Empty;
+                        }
+                        return;
+                    }
                 }
             }
             else
@@ -230,7 +204,7 @@ namespace InterviewHelper.Services.Services
                 await Task.Delay(3000, cancellationToken);
                 await botClient.DeleteMessageAsync(chatId: result.Chat, result.MessageId, cancellationToken);
             }
-            
+
         }
 
 

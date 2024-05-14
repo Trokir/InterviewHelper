@@ -241,11 +241,11 @@ namespace InterviewHelper.Forms
                 SaveImageToFile(image);
             }
         }
-       /// <summary>
-       /// 
-       /// </summary>
-       /// <param name="sender"></param>
-       /// <param name="e"></param>
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void txtQuestion_MouseUp(object sender, MouseEventArgs e)
         {
             if (txtQuestion.SelectionLength > 0)

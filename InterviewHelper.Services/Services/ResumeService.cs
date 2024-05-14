@@ -86,7 +86,7 @@ namespace InterviewHelper.Services.Services
                             $"just list of skills without any additional details" +
                             $"\n here is HTML page :\n {Resume.Pattern} \n",
                             $"and here is an annotation:{promt}", 0.8f);
-                         input = resp.Substring(0, resp.LastIndexOf(">") + 1);
+                        input = resp.Substring(0, resp.LastIndexOf(">") + 1);
                         int index = input.IndexOf('<') - 1;
                         if (index != -1)
                         {

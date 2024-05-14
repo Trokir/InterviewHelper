@@ -11,5 +11,5 @@
         public object system_fingerprint { get; set; }
     }
 
-    
+
 }

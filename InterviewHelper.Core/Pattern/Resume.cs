@@ -8,7 +8,7 @@ namespace InterviewHelper.Core.Pattern
 {
     public static class Resume
     {
-        public static string Pattern=> @"<!DOCTYPE html>
+        public static string Pattern => @"<!DOCTYPE html>
 <html lang=""en"">
 <head>
     <meta charset=""UTF-8""/>
