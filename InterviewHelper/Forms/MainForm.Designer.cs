@@ -78,17 +78,16 @@
             toolStripStatusLabel2 = new ToolStripStatusLabel();
             rtbPromt = new RichTextBox();
             groupBox4 = new GroupBox();
+            btnRefr = new Button();
             btnSaveResume = new Button();
             btnParse = new Button();
             btnUpdateText = new Button();
             rtbResume = new RichTextBox();
             statusStrip1 = new StatusStrip();
             toolStripStatusLabel1 = new ToolStripStatusLabel();
-            toolStripStatusLabel3 = new ToolStripStatusLabel();
             toolTipClever = new ToolTip(components);
             toolTipMain = new ToolTip(components);
             openFileDialog1 = new OpenFileDialog();
-            btnRefr = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvQuestions).BeginInit();
             groupBox1.SuspendLayout();
             mainMenutabControl.SuspendLayout();
@@ -651,6 +650,17 @@
             groupBox4.TabIndex = 3;
             groupBox4.TabStop = false;
             // 
+            // btnRefr
+            // 
+            btnRefr.Font = new Font("Segoe UI", 12F);
+            btnRefr.Location = new Point(369, 22);
+            btnRefr.Name = "btnRefr";
+            btnRefr.Size = new Size(115, 38);
+            btnRefr.TabIndex = 4;
+            btnRefr.Text = "Refresh";
+            btnRefr.UseVisualStyleBackColor = true;
+            btnRefr.Click += btnRefr_Click;
+            // 
             // btnSaveResume
             // 
             btnSaveResume.Font = new Font("Segoe UI", 12F);
@@ -697,7 +707,7 @@
             // 
             // statusStrip1
             // 
-            statusStrip1.Items.AddRange(new ToolStripItem[] { toolStripStatusLabel1, toolStripStatusLabel3 });
+            statusStrip1.Items.AddRange(new ToolStripItem[] { toolStripStatusLabel1 });
             statusStrip1.Location = new Point(0, 823);
             statusStrip1.Name = "statusStrip1";
             statusStrip1.Size = new Size(1431, 22);
@@ -709,26 +719,9 @@
             toolStripStatusLabel1.Name = "toolStripStatusLabel1";
             toolStripStatusLabel1.Size = new Size(0, 17);
             // 
-            // toolStripStatusLabel3
-            // 
-            toolStripStatusLabel3.Name = "toolStripStatusLabel3";
-            toolStripStatusLabel3.Size = new Size(118, 17);
-            toolStripStatusLabel3.Text = "toolStripStatusLabel3";
-            // 
             // openFileDialog1
             // 
             openFileDialog1.FileName = "openFileDlg";
-            // 
-            // btnRefr
-            // 
-            btnRefr.Font = new Font("Segoe UI", 12F);
-            btnRefr.Location = new Point(369, 22);
-            btnRefr.Name = "btnRefr";
-            btnRefr.Size = new Size(115, 38);
-            btnRefr.TabIndex = 4;
-            btnRefr.Text = "Refresh";
-            btnRefr.UseVisualStyleBackColor = true;
-            btnRefr.Click += btnRefr_Click;
             // 
             // MainForm
             // 
@@ -831,7 +824,6 @@
         private StatusStrip statusStrip2;
         private ToolStripStatusLabel toolStripStatusLabel2;
         private Button btnSaveResume;
-        private ToolStripStatusLabel toolStripStatusLabel3;
         private TextBox txtComp;
         private Button btnRefr;
     }

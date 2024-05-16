@@ -41,9 +41,9 @@ namespace InterviewHelper.Forms
 
         private async void btnUpdateText_Click(object sender, EventArgs e)
         {
-            toolStripStatusLabel3.Text = "Updating experience";
+            toolStripStatusLabel1.Text = "Updating experience";
             var updatedText = await _resumeService.UpdateHTMLContent(rtbPromt.Text, rtbResume.Text);
-            toolStripStatusLabel3.Text = "Experience has been updated";
+            toolStripStatusLabel1.Text = "Experience has been updated";
             rtbResume.Text = updatedText;
             string content = string.Empty;
         }

@@ -145,7 +145,7 @@ namespace InterviewHelper.Forms
             if (e.KeyCode == Keys.NumPad2 && Clipboard.ContainsText())
             {
                 toolStripStatusLabel1.Text = "NumPad2 pressed";
-                conStr = $"{_textEnvironment.CodingAnswer} {cmbLang.Text}";
+                conStr = $"{_textEnvironment.CodingAnswer} {cmbLang.Text}  programming language";
                 txtQuestion.Clear();
                 txtQuestion.Text = Clipboard.GetText();
                 var answer = await _openAIQuestionService.GetGeneratedAnswerAsync(Clipboard.GetText() + " " + txtComment.Text, conStr);
