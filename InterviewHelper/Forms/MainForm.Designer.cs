@@ -316,6 +316,7 @@
             txtQuestion.Text = "";
             txtQuestion.KeyDown += txtQuestion_KeyDown;
             txtQuestion.KeyPress += txtQuestion_KeyPress;
+            txtQuestion.MouseDown += txtQuestion_MouseDown;
             txtQuestion.MouseEnter += txtQuestion_MouseEnter;
             txtQuestion.MouseUp += txtQuestion_MouseUp;
             // 
@@ -768,6 +769,8 @@
             ResumeLayout(false);
             PerformLayout();
         }
+
+
 
         #endregion
 

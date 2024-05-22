@@ -79,8 +79,27 @@ namespace InterviewHelper.Forms
         {
             btnSave.Enabled = true;
         }
-        /// <summary>
-        /// 
+        private async void txtQuestion_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Middle)
+            {
+                if (!string.IsNullOrWhiteSpace(txtQuestion.Text))
+                {
+                    toolStripStatusLabel1.Text = "Enter pressed";
+                    var answer = await _openAIQuestionService.GetGeneratedAnswerAsync(txtQuestion.Text + " " + txtComment.Text, _textEnvironment.BaseAnswer, 0.7F);
+                    txtxAnswer.Clear();
+                    txtxAnswer.Text = answer;
+                }
+            }
+            if (e.Button == MouseButtons.Right)
+            {
+                if (Clipboard.ContainsText())
+                {
+                    txtQuestion.Text = Clipboard.GetText();
+                }
+            }
+        }
+
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
