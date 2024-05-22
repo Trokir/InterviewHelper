@@ -57,6 +57,8 @@ namespace InterviewHelper.Forms
             _textEnvironment = textEnvironment.Value;
             _mongoDbService = mongoDbService;
             _resumeService = resumeService;
+
+            CreateContextMenu();
         }
 
 
@@ -356,6 +358,38 @@ namespace InterviewHelper.Forms
             }
         }
 
+        private void CreateContextMenu()
+        {
+            var menuStrip = new ContextMenuStrip();
+            var menuItem1 = new ToolStripMenuItem("Code ask");
+            var menuItem11 = new ToolStripMenuItem("Code ask from buffer");
+            var menuItem2 = new ToolStripMenuItem("Creative ask");
+            var menuItem22 = new ToolStripMenuItem("Creative ask from buffer");
+            var menuItem3 = new ToolStripMenuItem("Loop insert");
+            var menuItem4 = new ToolStripMenuItem("Paste");
 
+
+            menuItem1.Click += new EventHandler(menuItem_Click);
+            menuItem2.Click += new EventHandler(menuItem_Click);
+            menuItem11.Click += new EventHandler(menuItem_Click);
+            menuItem22.Click += new EventHandler(menuItem_Click);
+            menuItem3.Click += new EventHandler(menuItem_Click);
+            menuItem4.Click += new EventHandler(menuItem_Click);
+            menuItem1.Name = "CodeA";
+            menuItem2.Name = "CreativeA";
+            menuItem11.Name = "CodeAB";
+            menuItem22.Name = "CreativeAB";
+            menuItem3.Name = "LoopA";
+            menuItem4.Name = "Paste";
+
+            menuStrip.Items.Add(menuItem1);
+            menuStrip.Items.Add(menuItem2);
+            menuStrip.Items.Add(menuItem11);
+            menuStrip.Items.Add(menuItem22);
+            menuStrip.Items.Add(menuItem3);
+            menuStrip.Items.Add(menuItem4);
+            txtQuestion.ContextMenuStrip = menuStrip;
+
+        }
     }
 }

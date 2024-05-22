@@ -58,8 +58,14 @@ static class Program
         // Bind settings
         var settings = new AppViewConfiguration();
         _configuration.GetSection("AppViewConfiguration").Bind(settings);
+
+        var env = new TextEnvironment();
+        _configuration.GetSection("TextEnvironment").Bind(env);
+
         services.AddSingleton(Options.Create(settings))
             .AddSingleton(settings)
+            .AddSingleton(Options.Create(env))
+            .AddSingleton(env)
             .AddTransient<IQuestionRepository, QuestionRepository>()
             .AddTransient<ICategoryRepository, CategoryRepository>()
             .AddTransient<IUnitOfWork, UnitOfWork>()

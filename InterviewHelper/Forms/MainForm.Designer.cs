@@ -58,7 +58,6 @@
             btnRec = new Button();
             txtxAnswer = new RichTextBox();
             btnSave = new Button();
-            btnxGpt = new Button();
             tabPage3 = new TabPage();
             panel1 = new Panel();
             pcbImage = new PictureBox();
@@ -296,7 +295,6 @@
             tabPage2.Controls.Add(groupBoxDevices);
             tabPage2.Controls.Add(txtxAnswer);
             tabPage2.Controls.Add(btnSave);
-            tabPage2.Controls.Add(btnxGpt);
             tabPage2.Location = new Point(4, 24);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
@@ -314,8 +312,6 @@
             txtQuestion.Size = new Size(946, 304);
             txtQuestion.TabIndex = 24;
             txtQuestion.Text = "";
-            txtQuestion.KeyDown += txtQuestion_KeyDown;
-            txtQuestion.KeyPress += txtQuestion_KeyPress;
             txtQuestion.MouseDown += txtQuestion_MouseDown;
             txtQuestion.MouseEnter += txtQuestion_MouseEnter;
             txtQuestion.MouseUp += txtQuestion_MouseUp;
@@ -440,19 +436,6 @@
             btnSave.Text = "Save";
             btnSave.UseVisualStyleBackColor = false;
             btnSave.Click += btnSave_Click;
-            // 
-            // btnxGpt
-            // 
-            btnxGpt.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            btnxGpt.BackColor = Color.Silver;
-            btnxGpt.Location = new Point(142, 762);
-            btnxGpt.Margin = new Padding(3, 2, 3, 2);
-            btnxGpt.Name = "btnxGpt";
-            btnxGpt.Size = new Size(144, 35);
-            btnxGpt.TabIndex = 18;
-            btnxGpt.Text = "Ask Chat GPT";
-            btnxGpt.UseVisualStyleBackColor = false;
-            btnxGpt.Click += btnxGpt_Click;
             // 
             // tabPage3
             // 
@@ -800,7 +783,6 @@
         private Button btnRec;
         private RichTextBox txtxAnswer;
         private Button btnSave;
-        private Button btnxGpt;
         private TextBox txtInfo;
         private Panel panel1;
         private PictureBox pcbImage;

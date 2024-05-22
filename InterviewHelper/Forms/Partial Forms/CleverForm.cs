@@ -54,22 +54,7 @@ namespace InterviewHelper.Forms
             _category = cmbxCategory.SelectedItem as Category;
             toolStripStatusLabel1.Text = _category.Name;
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private async void btnxGpt_Click(object sender, EventArgs e)
-        {
-            if (!string.IsNullOrWhiteSpace(txtQuestion.Text))
-            {
-                toolStripStatusLabel1.Text = "Asking gpt";
-                var answer = await _openAIQuestionService.GetGeneratedAnswerAsync(txtQuestion.Text + " " + txtComment.Text, _textEnvironment.BaseAnswer, 0.7F);
-                txtxAnswer.Clear();
-                txtxAnswer.Text = answer;
-                toolStripStatusLabel1.Text = "done";
-            }
-        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -91,87 +76,14 @@ namespace InterviewHelper.Forms
                     txtxAnswer.Text = answer;
                 }
             }
-            if (e.Button == MouseButtons.Right)
-            {
-                if (Clipboard.ContainsText())
-                {
-                    txtQuestion.Text = Clipboard.GetText();
-                }
-            }
         }
 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void txtQuestion_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == (char)Keys.Enter)
-            {
-                if (!string.IsNullOrWhiteSpace(txtQuestion.Text))
-                {
-                    toolStripStatusLabel1.Text = "Enter pressed";
-                    var answer = await _openAIQuestionService.GetGeneratedAnswerAsync(txtQuestion.Text + " " + txtComment.Text, _textEnvironment.BaseAnswer, 0.7F);
-                    txtxAnswer.Clear();
-                    txtxAnswer.Text = answer;
-                }
-            }
-            else if (e.KeyChar == '+')
-            {
-                toolStripStatusLabel1.Text = "Looping questions";
-                var strArr = txtQuestion.Text.Split('\n', StringSplitOptions.RemoveEmptyEntries);
-                var poolList = new HashSet<QuestionModel>();
-                await foreach (var model in _openAIQuestionService.GetPoolOfAnswersAsync(strArr, txtComment.Text, _textEnvironment.BaseAnswer, _category))
-                {
-                    txtxAnswer.Clear();
-                    txtxAnswer.Text = $"Answer: {model.Answer}";
-                    txtQuestion.Clear();
-                    txtQuestion.Text = $"Question: {model.Question}";
-                    poolList.Add(model);
-                }
-                txtxAnswer.Clear();
-                txtQuestion.Clear();
-                var dialog = _messageService.ShowCustomMessage("All answers are ready to save to DB. \n Continue?", "Sava Data", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
-                if (dialog == DialogResult.OK)
-                {
-                    await _commandService.QuestionRepository.AddRangeAsync(poolList);
-                }
-                else
-                {
-                    toolStripStatusLabel1.Text = "Cancelled";
-                    _messageService.ShowMessage("Save operation has been cancelled", "Abort");
-                }
 
-            }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private async void txtQuestion_KeyDown(object sender, KeyEventArgs e)
-        {
-            var conStr = string.Empty;
-            if (e.KeyCode == Keys.NumPad1 && Clipboard.ContainsText())
-            {
-                toolStripStatusLabel1.Text = "NumPad1 pressed";
-                conStr = $"{_textEnvironment.CommonAnswer} \n {BaseInfo.ResumeSummary()}";
-                txtQuestion.Clear();
-                txtQuestion.Text = Clipboard.GetText();
-                var answer = await _openAIQuestionService.GetGeneratedAnswerAsync(Clipboard.GetText() + " " + txtComment.Text, conStr, 0.7F);
-                txtxAnswer.Clear();
-                txtxAnswer.Text = answer;
-            }
-            if (e.KeyCode == Keys.NumPad2 && Clipboard.ContainsText())
-            {
-                toolStripStatusLabel1.Text = "NumPad2 pressed";
-                conStr = $"{_textEnvironment.CodingAnswer} {cmbLang.Text}  programming language";
-                txtQuestion.Clear();
-                txtQuestion.Text = Clipboard.GetText();
-                var answer = await _openAIQuestionService.GetGeneratedAnswerAsync(Clipboard.GetText() + " " + txtComment.Text, conStr);
-                txtxAnswer.Clear();
-                txtxAnswer.Text = answer;
-            }
-        }
+
+
         /// <summary>
         /// 
         /// </summary>
@@ -343,6 +255,103 @@ namespace InterviewHelper.Forms
                 Directory.Delete(path);
             }
 
+        }
+
+
+
+
+        //"SimpleA";
+        // "CodeA";
+        // "CreativeA";
+        // "LoopA";
+        // "Paste";
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void menuItem_Click(object sender, EventArgs e)
+        {
+            var conStr = string.Empty;
+            var menuItem = (ToolStripItem)sender;
+            var question = string.Empty;
+            switch (menuItem.Name)
+            {
+                case "CreativeA":
+                    toolStripStatusLabel1.Text = "Creative pressed";
+                    conStr = $"{_textEnvironment.CommonAnswer} \n {BaseInfo.ResumeSummary()}";
+                    question = txtQuestion.Text + " " + txtComment.Text;
+                    await GetResultAsync(conStr, question, 0.7F);
+                    return;
+                case "CreativeAB":
+                    toolStripStatusLabel1.Text = "Creative from buffer pressed";
+                    conStr = $"{_textEnvironment.CommonAnswer} \n {BaseInfo.ResumeSummary()}";
+                    txtQuestion.Clear();
+                    txtQuestion.Text = Clipboard.GetText();
+                    question = Clipboard.GetText() + " " + txtComment.Text;
+                    await GetResultAsync(conStr, question, 0.7F);
+                    return;
+                case "LoopA":
+                    toolStripStatusLabel1.Text = "Looping questions";
+                    var strArr = txtQuestion.Text.Split('\n', StringSplitOptions.RemoveEmptyEntries);
+                    var poolList = new HashSet<QuestionModel>();
+                    await foreach (var model in _openAIQuestionService.GetPoolOfAnswersAsync(strArr, txtComment.Text, _textEnvironment.BaseAnswer, _category))
+                    {
+                        txtxAnswer.Clear();
+                        txtxAnswer.Text = $"Answer: {model.Answer}";
+                        txtQuestion.Clear();
+                        txtQuestion.Text = $"Question: {model.Question}";
+                        poolList.Add(model);
+                    }
+                    txtxAnswer.Clear();
+                    txtQuestion.Clear();
+                    var dialog = _messageService.ShowCustomMessage("All answers are ready to save to DB. \n Continue?", "Sava Data", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                    if (dialog == DialogResult.OK)
+                    {
+                        await _commandService.QuestionRepository.AddRangeAsync(poolList);
+                    }
+                    else
+                    {
+                        toolStripStatusLabel1.Text = "Cancelled";
+                        _messageService.ShowMessage("Save operation has been cancelled", "Abort");
+                    }
+                    return;
+                case "CodeA":
+                    toolStripStatusLabel1.Text = "code pressed";
+                    conStr = $"{_textEnvironment.CodingAnswer} {cmbLang.Text}  programming language";
+
+                    question = txtQuestion.Text + " " + txtComment.Text;
+                    await GetResultAsync(conStr, question);
+
+                    return;
+                case "CodeAB":
+                    toolStripStatusLabel1.Text = "code from buffer pressed";
+                    conStr = $"{_textEnvironment.CodingAnswer} {cmbLang.Text}  programming language";
+                    txtQuestion.Clear();
+                    txtQuestion.Text = Clipboard.GetText();
+                    question = txtQuestion.Text + " " + txtComment.Text;
+                    await GetResultAsync(conStr, question);
+
+                    return;
+                case "Paste":
+                    if (Clipboard.ContainsText())
+                    {
+                        txtQuestion.Text = Clipboard.GetText();
+                    }
+                    return;
+                default:
+
+                    break;
+
+            }
+            toolStripStatusLabel1.Text = "";
+        }
+
+        private async Task GetResultAsync(string conStr, string question, float temperature = 0.3F)
+        {
+           var answer = await _openAIQuestionService.GetGeneratedAnswerAsync(question, conStr, temperature);
+            txtxAnswer.Clear();
+            txtxAnswer.Text = answer;
         }
     }
 }
