@@ -49,6 +49,7 @@
             txtQuestion = new RichTextBox();
             pkbPic = new PictureBox();
             groupBox2 = new GroupBox();
+            btnProps = new Button();
             cmbxCategory = new ComboBox();
             cmbLang = new ComboBox();
             txtComment = new TextBox();
@@ -330,16 +331,27 @@
             // groupBox2
             // 
             groupBox2.BackColor = Color.Gainsboro;
+            groupBox2.Controls.Add(btnProps);
             groupBox2.Controls.Add(cmbxCategory);
             groupBox2.Controls.Add(cmbLang);
             groupBox2.Controls.Add(txtComment);
             groupBox2.Controls.Add(label3);
-            groupBox2.Location = new Point(193, 47);
+            groupBox2.Location = new Point(193, 16);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(232, 111);
+            groupBox2.Size = new Size(232, 142);
             groupBox2.TabIndex = 22;
             groupBox2.TabStop = false;
             groupBox2.Text = "input";
+            // 
+            // btnProps
+            // 
+            btnProps.Location = new Point(30, 104);
+            btnProps.Name = "btnProps";
+            btnProps.Size = new Size(143, 32);
+            btnProps.TabIndex = 14;
+            btnProps.Text = "Diag";
+            btnProps.UseVisualStyleBackColor = true;
+            btnProps.Click += btnProps_Click;
             // 
             // cmbxCategory
             // 
@@ -354,7 +366,7 @@
             // cmbLang
             // 
             cmbLang.FormattingEnabled = true;
-            cmbLang.Items.AddRange(new object[] { "Angular", "C", "C#", "C++", "Go", "Java", "JavaScript", "Python", "React", "Swift", "TypeScript", "Visual Basic (VB.NET)" });
+            cmbLang.Items.AddRange(new object[] { "Angular", "C", "C#", "C++", "Go", "Java", "JavaScript", "Python", "React", "Swift", "TypeScript", "Visual Basic (VB.NET)", "TSQL" });
             cmbLang.Location = new Point(89, 48);
             cmbLang.Name = "cmbLang";
             cmbLang.Size = new Size(121, 23);
@@ -385,7 +397,7 @@
             groupBoxDevices.Controls.Add(btnRec);
             groupBoxDevices.Location = new Point(8, 179);
             groupBoxDevices.Name = "groupBoxDevices";
-            groupBoxDevices.Size = new Size(417, 86);
+            groupBoxDevices.Size = new Size(417, 95);
             groupBoxDevices.TabIndex = 21;
             groupBoxDevices.TabStop = false;
             groupBoxDevices.Text = "Audio";
@@ -811,5 +823,6 @@
         private Button btnSaveResume;
         private TextBox txtComp;
         private Button btnRefr;
+        private Button btnProps;
     }
 }

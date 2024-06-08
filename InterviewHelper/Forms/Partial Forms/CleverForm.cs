@@ -10,7 +10,17 @@ namespace InterviewHelper.Forms
     public partial class MainForm : Form
     {
 
-
+        private async void btnProps_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(txtQuestion.Text))
+            {
+                toolStripStatusLabel1.Text = "Diag pressed";
+                var answer = await _openAIQuestionService.GetGeneratedAnswerAsync($"{_textEnvironment.DiagPrompt}{txtQuestion.Text}", 0.7F);
+                txtxAnswer.Clear();
+                txtxAnswer.Text = answer;
+                toolStripStatusLabel1.Text = "Diag Answer reseived";
+            }
+        }
         /// <summary>
         /// 
         /// </summary>
@@ -74,6 +84,7 @@ namespace InterviewHelper.Forms
                     var answer = await _openAIQuestionService.GetGeneratedAnswerAsync(txtQuestion.Text + " " + txtComment.Text, _textEnvironment.BaseAnswer, 0.7F);
                     txtxAnswer.Clear();
                     txtxAnswer.Text = answer;
+                    toolStripStatusLabel1.Text = "Answer reseived";
                 }
             }
         }
@@ -282,6 +293,7 @@ namespace InterviewHelper.Forms
                     conStr = $"{_textEnvironment.CommonAnswer} \n {BaseInfo.ResumeSummary()}";
                     question = txtQuestion.Text + " " + txtComment.Text;
                     await GetResultAsync(conStr, question, 0.7F);
+                    toolStripStatusLabel1.Text = "Creative responce";
                     return;
                 case "CreativeAB":
                     toolStripStatusLabel1.Text = "Creative from buffer pressed";
@@ -290,12 +302,13 @@ namespace InterviewHelper.Forms
                     txtQuestion.Text = Clipboard.GetText();
                     question = Clipboard.GetText() + " " + txtComment.Text;
                     await GetResultAsync(conStr, question, 0.7F);
+                    toolStripStatusLabel1.Text = "Creative from buffer responce";
                     return;
                 case "LoopA":
-                    toolStripStatusLabel1.Text = "Looping questions";
+                    toolStripStatusLabel1.Text = "Looping code questions";
                     var strArr = txtQuestion.Text.Split('\n', StringSplitOptions.RemoveEmptyEntries);
                     var poolList = new HashSet<QuestionModel>();
-                    await foreach (var model in _openAIQuestionService.GetPoolOfAnswersAsync(strArr, txtComment.Text, _textEnvironment.BaseAnswer, _category))
+                    await foreach (var model in _openAIQuestionService.GetPoolOfAnswersAsync(strArr, txtComment.Text, _textEnvironment.BaseAnswer, _category, 0.7F))
                     {
                         txtxAnswer.Clear();
                         txtxAnswer.Text = $"Answer: {model.Answer}";
@@ -305,7 +318,32 @@ namespace InterviewHelper.Forms
                     }
                     txtxAnswer.Clear();
                     txtQuestion.Clear();
-                    var dialog = _messageService.ShowCustomMessage("All answers are ready to save to DB. \n Continue?", "Sava Data", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                    var dialog = _messageService.ShowCustomMessage("All answers are ready to save to DB. \n Continue?", "Save Data", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                    if (dialog == DialogResult.OK)
+                    {
+                        await _commandService.QuestionRepository.AddRangeAsync(poolList);
+                    }
+                    else
+                    {
+                        toolStripStatusLabel1.Text = "Cancelled";
+                        _messageService.ShowMessage("Save operation has been cancelled", "Abort");
+                    }
+                    return;
+                case "LoopCode":
+                    toolStripStatusLabel1.Text = "Looping questions";
+                    strArr = txtQuestion.Text.Split('\n', StringSplitOptions.RemoveEmptyEntries);
+                    poolList = new HashSet<QuestionModel>();
+                    await foreach (var model in _openAIQuestionService.GetPoolOfAnswersAsync(strArr, $" {cmbLang.Text}  programming language", _textEnvironment.CodingAnswer, _category, 0.3F))
+                    {
+                        txtxAnswer.Clear();
+                        txtxAnswer.Text = $"Answer: {model.Answer}";
+                        txtQuestion.Clear();
+                        txtQuestion.Text = $"Question: {model.Question}";
+                        poolList.Add(model);
+                    }
+                    txtxAnswer.Clear();
+                    txtQuestion.Clear();
+                    dialog = _messageService.ShowCustomMessage("All answers are ready to save to DB. \n Continue?", "Save Data", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
                     if (dialog == DialogResult.OK)
                     {
                         await _commandService.QuestionRepository.AddRangeAsync(poolList);
@@ -322,7 +360,7 @@ namespace InterviewHelper.Forms
 
                     question = txtQuestion.Text + " " + txtComment.Text;
                     await GetResultAsync(conStr, question);
-
+                    toolStripStatusLabel1.Text = "code answer";
                     return;
                 case "CodeAB":
                     toolStripStatusLabel1.Text = "code from buffer pressed";
@@ -331,7 +369,7 @@ namespace InterviewHelper.Forms
                     txtQuestion.Text = Clipboard.GetText();
                     question = txtQuestion.Text + " " + txtComment.Text;
                     await GetResultAsync(conStr, question);
-
+                    toolStripStatusLabel1.Text = "code from buffer answer";
                     return;
                 case "Paste":
                     if (Clipboard.ContainsText())
@@ -349,7 +387,7 @@ namespace InterviewHelper.Forms
 
         private async Task GetResultAsync(string conStr, string question, float temperature = 0.3F)
         {
-           var answer = await _openAIQuestionService.GetGeneratedAnswerAsync(question, conStr, temperature);
+            var answer = await _openAIQuestionService.GetGeneratedAnswerAsync(question, conStr, temperature);
             txtxAnswer.Clear();
             txtxAnswer.Text = answer;
         }

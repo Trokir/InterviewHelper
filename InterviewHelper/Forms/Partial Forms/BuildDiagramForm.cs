@@ -21,9 +21,8 @@ namespace InterviewHelper.Forms
                 if (!text.Contains(DiagramHelper.AddInfo))
                 {
                     var sb = new StringBuilder();
-                    sb.AppendLine(text);
-                    sb.AppendLine("  based on this recomendations:\n");
                     sb.AppendLine(DiagramHelper.AddInfo);
+                    sb.AppendLine(text);
                     Clipboard.Clear();
                     Clipboard.SetText(sb.ToString());
                     Debug.Write(sb.ToString());

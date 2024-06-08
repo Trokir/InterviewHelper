@@ -37,7 +37,7 @@ namespace InterviewHelper.Services.Services
             //  var fullQuestion = question;
             var modelJson = new
             {
-                model = "gpt-4-0125-preview",
+                model = "gpt-4o",
                 messages = new[] {
                 new {
                     role = "system",
@@ -70,14 +70,52 @@ namespace InterviewHelper.Services.Services
             var result = answerModel?.choices?.FirstOrDefault()?.message.content ?? string.Empty;
             return result;
         }
+        public async Task<string> GetGeneratedAnswerAsync(string question, float temperature = 0.3F)
+        {
+            var fullQuestion = $"{question} ";
+            //  var fullQuestion = question;
+            var modelJson = new
+            {
+                model = "gpt-4o",
+                messages = new[] {
+                new {
+                    role = "system",
+                    content = fullQuestion
+                }
+            },
+                temperature = temperature,
+                max_tokens = 2000,
+                top_p = 1.0,
+                frequency_penalty = 0.0,
+                presence_penalty = 0.0,
+                stop = new[] { "🍍" }
+            };
+            var json = JsonSerializer.Serialize(modelJson);
+            using var scope = _factory.CreateScope();
+            var httpClient = scope.ServiceProvider
+                                    .GetRequiredService<IHttpClientFactory>();
+            var client = httpClient.CreateClient();
+            var request = new HttpRequestMessage(HttpMethod.Post, _config.ChatGptPath);
 
+            request.Headers.Add("Authorization", "Bearer " + _config.ApiKey);
+
+            request.Content = new StringContent(json);
+            request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+            var response = await client.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+            string responseBody = await response.Content.ReadAsStringAsync();
+            var answerModel = JsonSerializer.Deserialize<CodeGenResponceModel>(responseBody);
+            var result = answerModel?.choices?.FirstOrDefault()?.message.content ?? string.Empty;
+            return result;
+        }
         public async Task<string> GetGeneratedAnswerAsync(string pattern, string annotation, string content, string skills, float temperature = 0.3F)
         {
             var fullQuestion = $"pattern:{pattern} ;\n annotation:{annotation} ;\n content:{content} ; \n skills{skills}";
             //  var fullQuestion = question;
             var modelJson = new
             {
-                model = "gpt-4-0125-preview",
+                model = "gpt-4o",
                 messages = new[] {
                 new {
                     role = "system",
@@ -197,43 +235,13 @@ namespace InterviewHelper.Services.Services
             return speechClient.Recognize(request);
         }
 
-        public async Task<HashSet<QuestionModel>> GetPoolOfAnswersAsync1(string[] strArr, string comment, string annotation, Category category)
-        {
-            var poolList = new HashSet<QuestionModel>();
-            var options = new ParallelOptions()
-            {
-                MaxDegreeOfParallelism = 3
-            };
 
-            await Parallel.ForEachAsync(strArr, options, async (item, ct) =>
-            {
-                if (!string.IsNullOrWhiteSpace(item))
-                {
-                    var answer = await GetGeneratedAnswerAsync(item + " " + comment, annotation, 0.7F);
-                    if (category is not null &&
-                        !string.IsNullOrWhiteSpace(answer))
-                    {
-                        //txtAnswer.Clear();
-                        //txtAnswer.Text = answer;
-                        var newQuestion = new QuestionModel
-                        {
-                            Category = category,
-                            Question = item,
-                            Answer = answer
-                        };
-                        poolList.Add(newQuestion);
-                        Debug.WriteLine(newQuestion);
-                    }
-                }
-            });
-            return poolList;
-        }
 
-        public async IAsyncEnumerable<QuestionModel> GetPoolOfAnswersAsync(string[] strArr, string comment, string annotation, Category category)
+        public async IAsyncEnumerable<QuestionModel> GetPoolOfAnswersAsync(string[] strArr, string comment, string annotation, Category category, float temperature)
         {
             foreach (var item in strArr)
             {
-                var answer = await GetGeneratedAnswerAsync($"{item} {comment}", annotation, 0.7F);
+                var answer = await GetGeneratedAnswerAsync($"{item} {comment}", annotation, temperature);
                 if (category is not null &&
                     !string.IsNullOrWhiteSpace(answer))
                 {
@@ -250,5 +258,6 @@ namespace InterviewHelper.Services.Services
 
             }
         }
+
     }
 }

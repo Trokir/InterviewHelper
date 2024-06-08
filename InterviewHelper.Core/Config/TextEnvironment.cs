@@ -5,5 +5,6 @@
         public string BaseAnswer { get; set; }
         public string CommonAnswer { get; set; }
         public string CodingAnswer { get; set; }
+        public string DiagPrompt { get; set; }
     }
 }

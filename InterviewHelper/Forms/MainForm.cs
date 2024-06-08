@@ -366,7 +366,8 @@ namespace InterviewHelper.Forms
             var menuItem2 = new ToolStripMenuItem("Creative ask");
             var menuItem22 = new ToolStripMenuItem("Creative ask from buffer");
             var menuItem3 = new ToolStripMenuItem("Loop insert");
-            var menuItem4 = new ToolStripMenuItem("Paste");
+            var menuItem4 = new ToolStripMenuItem("Loop code insert");
+            var menuItem5 = new ToolStripMenuItem("Paste");
 
 
             menuItem1.Click += new EventHandler(menuItem_Click);
@@ -375,12 +376,14 @@ namespace InterviewHelper.Forms
             menuItem22.Click += new EventHandler(menuItem_Click);
             menuItem3.Click += new EventHandler(menuItem_Click);
             menuItem4.Click += new EventHandler(menuItem_Click);
+            menuItem5.Click += new EventHandler(menuItem_Click);
             menuItem1.Name = "CodeA";
             menuItem2.Name = "CreativeA";
             menuItem11.Name = "CodeAB";
             menuItem22.Name = "CreativeAB";
             menuItem3.Name = "LoopA";
-            menuItem4.Name = "Paste";
+            menuItem4.Name = "LoopCode";
+            menuItem5.Name = "Paste";
 
             menuStrip.Items.Add(menuItem1);
             menuStrip.Items.Add(menuItem2);
@@ -388,8 +391,11 @@ namespace InterviewHelper.Forms
             menuStrip.Items.Add(menuItem22);
             menuStrip.Items.Add(menuItem3);
             menuStrip.Items.Add(menuItem4);
+            menuStrip.Items.Add(menuItem5);
             txtQuestion.ContextMenuStrip = menuStrip;
 
         }
+
+
     }
 }

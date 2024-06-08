@@ -27,9 +27,7 @@ namespace InterviewHelper.Core.Helper
         //    "for logging and monitoring, with occasional data caching at the API gateway. " +
         //     "Avoid using special characters between brackets in the Graph LR code. ";
 
-        public static string AddInfo => "   Design a cutting-edge system architecture for a high-load application, emphasizing scalability, security, monitoring, and telemetry. " +
-            "Be imaginative and consider trade-offs. Include  components (if needs) like load balancers, microservices, databases, and security layers" +
-            "";
+        public static string AddInfo => "   Make a roadmap to build an Architecture/System based on one or more components of your architecture: database, scalability and performance, data storage and management, security, failover, and redundancy for and  a create completed  graph LR code (wrapped triple square brackets) for this task :";
 
     }
 }

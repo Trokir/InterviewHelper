@@ -48,7 +48,7 @@ namespace InterviewHelper.Services.Repos
 
         public async Task<IEnumerable<QuestionModel>> GetAllAsync()
         {
-            return await _dbContext.QuestionModels.ToListAsync();
+            return await _dbContext.QuestionModels.Include(x => x.Category).ToListAsync();
         }
 
         public async Task<IEnumerable<QuestionModel>> GetAllAsync(Expression<Func<QuestionModel, bool>> predicate)
