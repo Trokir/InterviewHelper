@@ -15,10 +15,10 @@ namespace InterviewHelper.Forms
             if (!string.IsNullOrWhiteSpace(txtQuestion.Text))
             {
                 toolStripStatusLabel1.Text = "Diag pressed";
-                var answer = await _openAIQuestionService.GetGeneratedAnswerAsync($"{_textEnvironment.DiagPrompt}{txtQuestion.Text}", 0.7F);
+                var answer = await _openAIQuestionService.GetGeneratedAnswerAsync($"{_textEnvironment.DiagPrompt}{txtxAnswer.Text}", 0.7F);
                 txtxAnswer.Clear();
                 txtxAnswer.Text = answer;
-                toolStripStatusLabel1.Text = "Diag Answer reseived";
+                toolStripStatusLabel1.Text = "Rewrited Answer reseived";
             }
         }
         /// <summary>
@@ -78,14 +78,7 @@ namespace InterviewHelper.Forms
         {
             if (e.Button == MouseButtons.Middle)
             {
-                if (!string.IsNullOrWhiteSpace(txtQuestion.Text))
-                {
-                    toolStripStatusLabel1.Text = "Enter pressed";
-                    var answer = await _openAIQuestionService.GetGeneratedAnswerAsync(txtQuestion.Text + " " + txtComment.Text, _textEnvironment.BaseAnswer, 0.7F);
-                    txtxAnswer.Clear();
-                    txtxAnswer.Text = answer;
-                    toolStripStatusLabel1.Text = "Answer reseived";
-                }
+
             }
         }
 
@@ -288,6 +281,16 @@ namespace InterviewHelper.Forms
             var question = string.Empty;
             switch (menuItem.Name)
             {
+                case "Simple":
+                    if (!string.IsNullOrWhiteSpace(txtQuestion.Text))
+                    {
+                        toolStripStatusLabel1.Text = "Enter pressed";
+                        var answer = await _openAIQuestionService.GetGeneratedAnswerAsync(txtQuestion.Text + " " + txtComment.Text, _textEnvironment.BaseAnswer, 0.7F);
+                        txtxAnswer.Clear();
+                        txtxAnswer.Text = answer;
+                        toolStripStatusLabel1.Text = "Answer reseived";
+                    }
+                    return;
                 case "CreativeA":
                     toolStripStatusLabel1.Text = "Creative pressed";
                     conStr = $"{_textEnvironment.CommonAnswer} \n {BaseInfo.ResumeSummary()}";

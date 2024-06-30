@@ -368,6 +368,8 @@ namespace InterviewHelper.Forms
             var menuItem3 = new ToolStripMenuItem("Loop insert");
             var menuItem4 = new ToolStripMenuItem("Loop code insert");
             var menuItem5 = new ToolStripMenuItem("Paste");
+            var menuItem6 = new ToolStripMenuItem("Simple");
+
 
 
             menuItem1.Click += new EventHandler(menuItem_Click);
@@ -377,6 +379,8 @@ namespace InterviewHelper.Forms
             menuItem3.Click += new EventHandler(menuItem_Click);
             menuItem4.Click += new EventHandler(menuItem_Click);
             menuItem5.Click += new EventHandler(menuItem_Click);
+            menuItem6.Click += new EventHandler(menuItem_Click);
+
             menuItem1.Name = "CodeA";
             menuItem2.Name = "CreativeA";
             menuItem11.Name = "CodeAB";
@@ -384,7 +388,9 @@ namespace InterviewHelper.Forms
             menuItem3.Name = "LoopA";
             menuItem4.Name = "LoopCode";
             menuItem5.Name = "Paste";
+            menuItem6.Name = "Simple";
 
+            menuStrip.Items.Add(menuItem6);
             menuStrip.Items.Add(menuItem1);
             menuStrip.Items.Add(menuItem2);
             menuStrip.Items.Add(menuItem11);
@@ -396,6 +402,16 @@ namespace InterviewHelper.Forms
 
         }
 
-
+        private async void btnHuman_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(txtAnswer.Text))
+            {
+                toolStripStatusLabel1.Text = "Human pressed";
+                var answer = await _openAIQuestionService.GetGeneratedAnswerAsync($"Make this text simplier: {txtAnswer.Text}", 0.7F);
+                txtAnswer.Clear();
+                txtAnswer.Text = answer;
+                toolStripStatusLabel1.Text = "Humanized Answer reseived";
+            }
+        }
     }
 }

@@ -88,6 +88,7 @@
             toolTipClever = new ToolTip(components);
             toolTipMain = new ToolTip(components);
             openFileDialog1 = new OpenFileDialog();
+            btnHuman = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvQuestions).BeginInit();
             groupBox1.SuspendLayout();
             mainMenutabControl.SuspendLayout();
@@ -124,7 +125,7 @@
             // btnRefresh
             // 
             btnRefresh.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            btnRefresh.Location = new Point(5, 38);
+            btnRefresh.Location = new Point(5, 49);
             btnRefresh.Margin = new Padding(3, 2, 3, 2);
             btnRefresh.Name = "btnRefresh";
             btnRefresh.Size = new Size(142, 22);
@@ -136,7 +137,7 @@
             // btnAddCategory
             // 
             btnAddCategory.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            btnAddCategory.Location = new Point(5, 11);
+            btnAddCategory.Location = new Point(5, 22);
             btnAddCategory.Margin = new Padding(3, 2, 3, 2);
             btnAddCategory.Name = "btnAddCategory";
             btnAddCategory.Size = new Size(142, 22);
@@ -148,7 +149,7 @@
             // btnUpdate
             // 
             btnUpdate.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            btnUpdate.Location = new Point(345, 12);
+            btnUpdate.Location = new Point(345, 23);
             btnUpdate.Margin = new Padding(3, 2, 3, 2);
             btnUpdate.Name = "btnUpdate";
             btnUpdate.Size = new Size(171, 22);
@@ -160,7 +161,7 @@
             // btnDelete
             // 
             btnDelete.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            btnDelete.Location = new Point(345, 38);
+            btnDelete.Location = new Point(345, 49);
             btnDelete.Margin = new Padding(3, 2, 3, 2);
             btnDelete.Name = "btnDelete";
             btnDelete.Size = new Size(171, 22);
@@ -221,6 +222,7 @@
             // 
             groupBox1.Anchor = AnchorStyles.Left;
             groupBox1.BackColor = SystemColors.ControlDark;
+            groupBox1.Controls.Add(btnHuman);
             groupBox1.Controls.Add(btnAddCategory);
             groupBox1.Controls.Add(btnRefresh);
             groupBox1.Controls.Add(btnUpdate);
@@ -229,7 +231,7 @@
             groupBox1.Margin = new Padding(3, 2, 3, 2);
             groupBox1.Name = "groupBox1";
             groupBox1.Padding = new Padding(3, 2, 3, 2);
-            groupBox1.Size = new Size(541, 87);
+            groupBox1.Size = new Size(541, 98);
             groupBox1.TabIndex = 11;
             groupBox1.TabStop = false;
             // 
@@ -349,7 +351,7 @@
             btnProps.Name = "btnProps";
             btnProps.Size = new Size(143, 32);
             btnProps.TabIndex = 14;
-            btnProps.Text = "Diag";
+            btnProps.Text = "Rewrite";
             btnProps.UseVisualStyleBackColor = true;
             btnProps.Click += btnProps_Click;
             // 
@@ -719,6 +721,18 @@
             // 
             openFileDialog1.FileName = "openFileDlg";
             // 
+            // btnHuman
+            // 
+            btnHuman.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            btnHuman.Location = new Point(180, 23);
+            btnHuman.Margin = new Padding(3, 2, 3, 2);
+            btnHuman.Name = "btnHuman";
+            btnHuman.Size = new Size(142, 22);
+            btnHuman.TabIndex = 8;
+            btnHuman.Text = "Human";
+            btnHuman.UseVisualStyleBackColor = true;
+            btnHuman.Click += btnHuman_Click;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -824,5 +838,6 @@
         private TextBox txtComp;
         private Button btnRefr;
         private Button btnProps;
+        private Button btnHuman;
     }
 }
